@@ -5,20 +5,18 @@ provider: MailerLite
 providerId: mailerlite
 created: '2026-05-08'
 modified: '2026-05-08'
-reconciled: false
+reconciled: true
 tags:
 - Email Marketing
-- Newsletter
-- Automation
-- Forms
-- SMB
 - FinOps
 - Cost Management
 - FOCUS
-description: FOCUS-aligned FinOps placeholder for MailerLite. Pipeline will replace with real billing details.
-notes: Initial scaffold — billing model has not yet been reconciled.
+description: FOCUS-aligned FinOps profile for MailerLite's subscriber-tier subscription pricing.
+notes: >-
+  MailerLite charges a monthly subscription that scales with subscriber count. API access
+  is included with all paid and free plans.
 sources:
-- https://www.mailerlite.com/
+- https://www.mailerlite.com/pricing
 - https://focus.finops.org/focus-specification/v1-3/
 alignedWith:
   framework: FinOps Foundation Framework
@@ -29,15 +27,15 @@ alignedWith:
 publisherName: MailerLite
 serviceCategory: Email Marketing
 billingModel:
-  pricingCategory: To Be Reconciled
-  billingFrequency: Monthly
+  pricingCategory: Subscription (tiered by subscriber count)
+  billingFrequency: Monthly or Annual
   billingCurrency: USD
   chargeCategories:
   - Usage
   - Purchase
   - Adjustment
 focusColumns:
-  ServiceName: MailerLite
+  ServiceName: MailerLite Email Marketing
   ServiceCategory: Email Marketing
   ProviderName: MailerLite
   PublisherName: MailerLite
@@ -45,22 +43,33 @@ focusColumns:
   BillingCurrency: USD
   ChargeCategory: Usage
 meters:
-- name: api_usage
-  description: Catch-all meter pending reconciliation.
-  unit: varies
+- name: subscriber_count
+  description: Active subscribers; drives plan-tier breakpoints.
+  unit: subscribers
+  aggregation: max
+  dimensions:
+  - account
+- name: monthly_emails
+  description: Monthly email send volume (capped on Free at 12k).
+  unit: emails
   aggregation: sum
   dimensions:
   - account
-  - resource
+- name: plan_subscription
+  description: Monthly/annual plan fee.
+  unit: months
+  aggregation: sum
+  dimensions:
+  - plan_tier
 principles:
 - name: Visibility
-  description: Pull provider invoices or usage exports until a self-serve usage feed is documented.
+  description: Track subscriber count vs. plan tier and email volume vs. cap.
 - name: Allocation
-  description: Tag invoice line items to consuming business units in your FinOps store.
+  description: Allocate plan cost to the marketing/newsletter cost center.
 - name: Optimization
-  description: Levers depend on the provider's billing model; review at renewal once reconciled.
+  description: Prune unengaged subscribers; consider annual billing for discounts.
 - name: Accountability
-  description: Assign a contract owner to review billing against negotiated terms.
+  description: Quarterly review of plan tier vs. actual subscriber count.
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

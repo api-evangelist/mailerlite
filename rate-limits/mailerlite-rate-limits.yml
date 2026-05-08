@@ -5,31 +5,33 @@ provider: MailerLite
 providerId: mailerlite
 created: '2026-05-08'
 modified: '2026-05-08'
-reconciled: false
+reconciled: true
 tags:
 - Email Marketing
-- Newsletter
-- Automation
-- Forms
-- SMB
 - Rate Limiting
 - Quotas
 - Throttling
-description: Placeholder rate-limit artifact for MailerLite. Replace with real limits once researched.
-notes: Initial scaffold — limits have not yet been reconciled.
+description: MailerLite documents a 120-requests-per-minute API rate limit.
+notes: >-
+  All requests count against the same per-account 120/minute budget. Validation errors
+  return HTTP 422; throttled requests return HTTP 429.
 sources:
-- https://www.mailerlite.com/
+- https://developers.mailerlite.com/docs/
 responseCodes:
   throttled: 429
+  validation: 422
 limits:
-- name: Default
+- name: API Requests
   scope: account
-  metric: varies
-  limit: see provider documentation
-  notes: Pending reconciliation.
+  metric: requests
+  limit: 120
+  window: 1 minute
+  notes: Documented rate limit on connect.mailerlite.com.
 policies:
 - name: Backoff Strategy
-  description: Clients should implement exponential backoff with jitter and honor any Retry-After header.
+  description: Honor Retry-After header and apply exponential backoff with jitter.
+- name: Versioning
+  description: Pin the API version with the X-Version header for predictable behavior.
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

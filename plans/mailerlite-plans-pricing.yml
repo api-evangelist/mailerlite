@@ -5,37 +5,139 @@ provider: MailerLite
 providerId: mailerlite
 created: '2026-05-08'
 modified: '2026-05-08'
-reconciled: false
+reconciled: true
 tags:
 - Email Marketing
-- Newsletter
 - Automation
-- Forms
-- SMB
+- Subscribers
 - Plans
-description: Placeholder plans/pricing artifact for MailerLite. Replace with real published pricing once
-  the pipeline researches the provider's plans page.
-notes: Initial scaffold — plans/pricing have not yet been reconciled against the provider's documentation.
+description: MailerLite subscription plans. API access is included with all tiers.
+notes: >-
+  Pricing scales with subscriber count; entry-tier prices shown. All plans include the
+  REST API. Free plan supports up to 500 subscribers and 12,000 emails/month.
 sources:
-- https://www.mailerlite.com/
+- https://www.mailerlite.com/pricing
+- https://developers.mailerlite.com/docs/
 plans:
-- id: mailerlite-default
-  name: To Be Reconciled
-  type: enterprise
-  description: Initial scaffold; replace with provider plan tiers once pricing is reconciled.
+- id: mailerlite-free
+  name: Free
+  type: free
+  description: Free up to 500 subscribers and 12,000 emails/month.
   entries:
-  - label: API Access
-    name: api_access
-    type: flat
-    metric: varies
-    limit: -1
-    timeFrame: usage
+  - label: Subscribers
+    name: subscribers
+    type: tiered
+    metric: subscribers
+    limit: 500
+    timeFrame: monthly
     geo: global
     unit: 1
-    price: see https://www.mailerlite.com/
+    price: 0
+    userMultiplied: false
+  - label: Monthly Emails
+    name: monthly_emails
+    type: included
+    metric: emails
+    limit: 12000
+    timeFrame: monthly
+    geo: global
+    unit: 1
+    price: 0
+    userMultiplied: false
+  - label: API Access
+    name: api_access
+    type: included
+    metric: api_call
+    limit: -1
+    timeFrame: monthly
+    geo: global
+    unit: 1
+    price: 0
     userMultiplied: false
   elements:
-  - name: Pending Reconciliation
+  - name: Drag and drop editor
+  - name: Automation
+  - name: 1 website, 10 landing pages
+- id: mailerlite-growing-business
+  name: Growing Business
+  type: paid
+  description: Entry paid tier with unlimited monthly emails.
+  entries:
+  - label: Plan Fee (entry tier)
+    name: plan_fee
+    type: tiered
+    metric: month
+    limit: 1
+    timeFrame: monthly
+    geo: global
+    unit: 1
+    price: 10
+    currency: USD
+    userMultiplied: false
+  - label: API Access
+    name: api_access
+    type: included
+    metric: api_call
+    limit: -1
+    timeFrame: monthly
+    geo: global
+    unit: 1
+    price: 0
+    userMultiplied: false
+  elements:
+  - name: Unlimited monthly emails
+  - name: 3 user seats
+  - name: Unlimited templates, websites, landing pages
+- id: mailerlite-advanced
+  name: Advanced
+  type: paid
+  description: Mid-to-high tier with unlimited seats.
+  entries:
+  - label: Plan Fee (entry tier)
+    name: plan_fee
+    type: tiered
+    metric: month
+    limit: 1
+    timeFrame: monthly
+    geo: global
+    unit: 1
+    price: 20
+    currency: USD
+    userMultiplied: false
+  - label: API Access
+    name: api_access
+    type: included
+    metric: api_call
+    limit: -1
+    timeFrame: monthly
+    geo: global
+    unit: 1
+    price: 0
+    userMultiplied: false
+  elements:
+  - name: Unlimited user seats
+  - name: Custom HTML editor
+  - name: Smart sending
+  - name: Facebook integration, preference center
+- id: mailerlite-enterprise
+  name: Enterprise
+  type: enterprise
+  description: Custom pricing for 100K+ subscribers; dedicated success manager.
+  entries:
+  - label: Plan Fee
+    name: plan_fee
+    type: custom
+    metric: month
+    limit: -1
+    timeFrame: monthly
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: 24/7 live chat and email support
+  - name: Dedicated IP and deliverability consultation
+  - name: Dedicated success manager
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

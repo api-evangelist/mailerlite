@@ -3,21 +3,78 @@ url: https://raw.githubusercontent.com/api-evangelist/mailerlite/refs/heads/main
 name: MailerLite
 x-type: company
 description: >-
-  MailerLite is an email marketing and automation platform for SMBs and creators. Offers campaigns, automations, websites, forms, paid newsletters, and e-commerce integrations.
+  MailerLite is an email marketing and automation platform. The current REST API exposes
+  subscribers, groups, segments, fields, campaigns, automations, forms, webhooks, and
+  more, with a deprecated Classic API still serving legacy accounts.
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
   - Email Marketing
-  - Newsletter
   - Automation
-  - Forms
-  - SMB
+  - Newsletters
+  - Subscribers
 created: '2026-05-08'
 modified: '2026-05-08'
 specificationVersion: '0.19'
-apis: []
+apis:
+  - aid: mailerlite:mailerlite-api
+    name: MailerLite API
+    humanURL: https://developers.mailerlite.com/docs/
+    baseURL: https://connect.mailerlite.com/api
+    tags:
+      - Email Marketing
+      - Subscribers
+      - Campaigns
+      - Automations
+      - Forms
+      - Webhooks
+    description: >-
+      The MailerLite REST API supports Bearer-token authentication using account-issued
+      API keys. It exposes subscribers, groups, segments, fields, campaigns, automations,
+      forms, webhooks, batched requests, and more. Versioning is controlled with the
+      X-Version header.
+    properties:
+      - type: Documentation
+        url: https://developers.mailerlite.com/docs/
+      - type: Authentication
+        url: https://developers.mailerlite.com/docs/#authentication
+      - type: SDK
+        title: PHP SDK
+        url: https://github.com/mailerlite/mailerlite-php
+      - type: SDK
+        title: Node.js SDK
+        url: https://github.com/mailerlite/mailerlite-nodejs
+      - type: SDK
+        title: Python SDK
+        url: https://github.com/mailerlite/mailerlite-python
+      - type: SDK
+        title: Go SDK
+        url: https://github.com/mailerlite/mailerlite-go
+      - type: SDK
+        title: Ruby SDK
+        url: https://github.com/mailerlite/mailerlite-ruby
+  - aid: mailerlite:mailerlite-classic-api
+    name: MailerLite Classic API (Legacy)
+    humanURL: https://classic.developers.mailerlite.com/
+    baseURL: https://api.mailerlite.com/api/v2
+    tags:
+      - Email Marketing
+      - Legacy
+      - Deprecated
+    description: >-
+      The MailerLite Classic API serves legacy MailerLite Classic accounts. New integrations
+      should target the current API at connect.mailerlite.com.
+    properties:
+      - type: Documentation
+        url: https://classic.developers.mailerlite.com/
 common:
   - type: Website
     url: https://www.mailerlite.com/
+  - type: Portal
+    url: https://developers.mailerlite.com/
+  - type: GitHubOrganization
+    url: https://github.com/mailerlite
+  - type: Pricing
+    url: https://www.mailerlite.com/pricing
   - type: Plans
     url: plans/mailerlite-plans-pricing.yml
   - type: RateLimits
