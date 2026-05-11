@@ -81,6 +81,16 @@ common:
     url: rate-limits/mailerlite-rate-limits.yml
   - type: FinOps
     url: finops/mailerlite-finops.yml
+  - type: Integrations
+    url: https://www.mailerlite.com/integrations
+integrations:
+  - name: Stripe
+  - name: Zapier
+  - name: Shopify
+  - name: WordPress
+  - name: WooCommerce
+  - name: Tidio All-in-one customer experience platform. Partner
+  - name: 500apps App Integration Software 3-rd party
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
