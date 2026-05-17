@@ -1,7 +1,7 @@
 aid: mailerlite
 url: https://raw.githubusercontent.com/api-evangelist/mailerlite/refs/heads/main/apis.yml
 name: MailerLite
-x-type: company
+kind: company
 description: >-
   MailerLite is an email marketing and automation platform. The current REST API exposes
   subscribers, groups, segments, fields, campaigns, automations, forms, webhooks, and
