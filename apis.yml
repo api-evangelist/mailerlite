@@ -13,7 +13,7 @@ tags:
   - Newsletters
   - Subscribers
 created: '2026-05-08'
-modified: '2026-05-08'
+modified: '2026-05-19'
 specificationVersion: '0.19'
 apis:
   - aid: mailerlite:mailerlite-api
@@ -83,6 +83,12 @@ common:
     url: finops/mailerlite-finops.yml
   - type: Integrations
     url: https://www.mailerlite.com/integrations
+  - name: MCP Server
+    url: https://github.com/mailerlite/canny-mcp-server
+    type: MCPServer
+  - name: Agent Skills
+    url: https://github.com/mailerlite/mailerlite-skills
+    type: AgentSkill
 integrations:
   - name: Stripe
   - name: Zapier
