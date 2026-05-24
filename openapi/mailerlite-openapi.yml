@@ -1,0 +1,335 @@
+openapi: 3.1.0
+info:
+  title: MailerLite API
+  description: >-
+    The MailerLite REST API provides endpoints for managing subscribers,
+    groups, segments, fields, campaigns, automations, forms, and webhooks.
+    Authentication uses a Bearer token generated in the dashboard under
+    Integrations > MailerLite API. All requests use JSON; rate-limited to
+    120 requests per minute per account.
+  version: "1.0.0"
+  contact:
+    name: MailerLite
+    url: https://developers.mailerlite.com/docs/
+servers:
+  - url: https://connect.mailerlite.com
+    description: Production
+security:
+  - BearerAuth: []
+tags:
+  - name: Subscribers
+  - name: Groups
+  - name: Segments
+  - name: Fields
+  - name: Campaigns
+  - name: Automations
+  - name: Forms
+  - name: Webhooks
+paths:
+  /api/subscribers:
+    get:
+      tags: [Subscribers]
+      summary: List subscribers
+      operationId: listSubscribers
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+        - name: cursor
+          in: query
+          schema:
+            type: string
+        - name: filter[status]
+          in: query
+          schema:
+            type: string
+            enum: [active, unsubscribed, unconfirmed, bounced, junk]
+      responses:
+        '200':
+          description: Subscribers
+    post:
+      tags: [Subscribers]
+      summary: Create or update a subscriber
+      operationId: upsertSubscriber
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email:
+                  type: string
+                  format: email
+                fields:
+                  type: object
+                groups:
+                  type: array
+                  items:
+                    type: string
+                status:
+                  type: string
+      responses:
+        '200':
+          description: Subscriber
+  /api/subscribers/{subscriber}:
+    get:
+      tags: [Subscribers]
+      summary: Get subscriber by ID or email
+      operationId: getSubscriber
+      parameters:
+        - name: subscriber
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Subscriber
+    put:
+      tags: [Subscribers]
+      summary: Update an existing subscriber
+      operationId: updateSubscriber
+      parameters:
+        - name: subscriber
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Updated
+    delete:
+      tags: [Subscribers]
+      summary: Delete subscriber
+      operationId: deleteSubscriber
+      parameters:
+        - name: subscriber
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Deleted
+  /api/subscribers/{id}/forget:
+    post:
+      tags: [Subscribers]
+      summary: Forget subscriber (GDPR delete)
+      operationId: forgetSubscriber
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Forget request accepted
+  /api/subscribers/{id}/activity-log:
+    get:
+      tags: [Subscribers]
+      summary: Get subscriber activity log
+      operationId: getSubscriberActivity
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Activity events
+  /api/groups:
+    get:
+      tags: [Groups]
+      summary: List groups
+      operationId: listGroups
+      responses:
+        '200':
+          description: Groups
+    post:
+      tags: [Groups]
+      summary: Create a group
+      operationId: createGroup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name:
+                  type: string
+      responses:
+        '201':
+          description: Group
+  /api/groups/{group_id}:
+    delete:
+      tags: [Groups]
+      summary: Delete a group
+      operationId: deleteGroup
+      parameters:
+        - name: group_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Deleted
+  /api/segments:
+    get:
+      tags: [Segments]
+      summary: List segments
+      operationId: listSegments
+      responses:
+        '200':
+          description: Segments
+  /api/fields:
+    get:
+      tags: [Fields]
+      summary: List custom fields
+      operationId: listFields
+      responses:
+        '200':
+          description: Fields
+    post:
+      tags: [Fields]
+      summary: Create a custom field
+      operationId: createField
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, type]
+              properties:
+                name:
+                  type: string
+                type:
+                  type: string
+                  enum: [text, number, date]
+      responses:
+        '201':
+          description: Field
+  /api/campaigns:
+    get:
+      tags: [Campaigns]
+      summary: List campaigns
+      operationId: listCampaigns
+      responses:
+        '200':
+          description: Campaigns
+    post:
+      tags: [Campaigns]
+      summary: Create a campaign
+      operationId: createCampaign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Campaign
+  /api/campaigns/{campaign_id}:
+    get:
+      tags: [Campaigns]
+      summary: Get a campaign
+      operationId: getCampaign
+      parameters:
+        - name: campaign_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Campaign
+  /api/automations:
+    get:
+      tags: [Automations]
+      summary: List automations
+      operationId: listAutomations
+      responses:
+        '200':
+          description: Automations
+  /api/forms/{type}:
+    get:
+      tags: [Forms]
+      summary: List forms by type (popup, embedded, promotion)
+      operationId: listForms
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [popup, embedded, promotion]
+      responses:
+        '200':
+          description: Forms
+  /api/webhooks:
+    get:
+      tags: [Webhooks]
+      summary: List webhooks
+      operationId: listWebhooks
+      responses:
+        '200':
+          description: Webhooks
+    post:
+      tags: [Webhooks]
+      summary: Create a webhook
+      operationId: createWebhook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [url, events]
+              properties:
+                url:
+                  type: string
+                  format: uri
+                events:
+                  type: array
+                  items:
+                    type: string
+                name:
+                  type: string
+      responses:
+        '201':
+          description: Webhook
+  /api/webhooks/{webhook_id}:
+    delete:
+      tags: [Webhooks]
+      summary: Delete a webhook
+      operationId: deleteWebhook
+      parameters:
+        - name: webhook_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Deleted
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token generated under Integrations > MailerLite API in the dashboard.
