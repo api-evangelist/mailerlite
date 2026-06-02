@@ -13,7 +13,7 @@ tags:
   - Newsletters
   - Subscribers
 created: '2026-05-08'
-modified: '2026-05-19'
+modified: '2026-05-30'
 specificationVersion: '0.19'
 apis:
   - aid: mailerlite:mailerlite-api
@@ -37,6 +37,10 @@ apis:
         url: https://developers.mailerlite.com/docs/
       - type: Authentication
         url: https://developers.mailerlite.com/docs/#authentication
+      - type: OpenAPI
+        url: openapi/mailerlite-openapi.yml
+      - type: AsyncAPI
+        url: asyncapi/mailerlite-webhooks-asyncapi.yml
       - type: SDK
         title: PHP SDK
         url: https://github.com/mailerlite/mailerlite-php

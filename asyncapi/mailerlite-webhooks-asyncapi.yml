@@ -1,0 +1,609 @@
+asyncapi: 2.6.0
+info:
+  title: MailerLite Webhooks
+  version: '1.0.0'
+  description: |-
+    AsyncAPI 2.6 description of MailerLite's outbound webhook surface. MailerLite
+    delivers event notifications by issuing HTTP POST requests with a JSON body to
+    a callback URL the customer registers through the Webhooks API
+    (`POST /api/webhooks`). Each delivery carries a `Signature` header whose value
+    is the HMAC-SHA256 of the raw JSON payload, computed with the webhook's
+    secret.
+
+    Source documentation:
+      - Webhooks overview: https://developers.mailerlite.com/docs/webhooks.html
+
+    Delivery and retry behavior (per the official docs):
+      - Endpoint must respond with a 2XX status within 3 seconds.
+      - On non-2XX (or timeout) responses, MailerLite retries the same delivery up
+        to three additional times at 10, 100, and 1000-second intervals.
+
+    Event-type coverage:
+      Only the event types explicitly listed in the official MailerLite webhooks
+      documentation are modelled here. The originally requested events
+      `subscriber.complained` and `subscriber.added_through_webform` are NOT
+      published by MailerLite and have been omitted to avoid fabrication. The
+      closest documented equivalent to "complained" is `subscriber.spam_reported`,
+      which is included.
+  contact:
+    name: MailerLite Developers
+    url: https://developers.mailerlite.com/docs/
+  license:
+    name: Proprietary
+    url: https://www.mailerlite.com/legal/terms-of-service
+
+defaultContentType: application/json
+
+servers:
+  customer-endpoint:
+    url: '{webhookUrl}'
+    protocol: https
+    description: |-
+      The subscriber-supplied HTTPS endpoint registered with MailerLite via
+      `POST /api/webhooks` (field `url`). MailerLite POSTs each event payload to
+      this URL.
+    variables:
+      webhookUrl:
+        description: Fully-qualified HTTPS URL configured by the integrator.
+        default: https://example.com/webhooks/mailerlite
+
+channels:
+  /:
+    description: |-
+      The customer-configured callback endpoint. MailerLite invokes it with HTTP
+      POST and a JSON body. The shape of the body depends on the event `type` /
+      `event` field, and on whether the webhook was registered with
+      `batchable: true` (in which case events are wrapped in a `BatchedEnvelope`).
+    bindings:
+      http:
+        type: request
+        method: POST
+        bindingVersion: 0.3.0
+    publish:
+      operationId: receiveMailerLiteEvent
+      summary: Receive a MailerLite webhook event
+      description: |-
+        Inbound HTTP POST from MailerLite carrying one of the documented event
+        payloads, or a batched envelope wrapping multiple events when the webhook
+        is registered with `batchable: true`.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SubscriberCreated'
+          - $ref: '#/components/messages/SubscriberUpdated'
+          - $ref: '#/components/messages/SubscriberUnsubscribed'
+          - $ref: '#/components/messages/SubscriberBounced'
+          - $ref: '#/components/messages/SubscriberSpamReported'
+          - $ref: '#/components/messages/SubscriberAddedToGroup'
+          - $ref: '#/components/messages/SubscriberRemovedFromGroup'
+          - $ref: '#/components/messages/SubscriberAutomationTriggered'
+          - $ref: '#/components/messages/SubscriberAutomationCompleted'
+          - $ref: '#/components/messages/CampaignSent'
+          - $ref: '#/components/messages/BatchedEvents'
+
+components:
+  securitySchemes:
+    SignatureHeader:
+      type: httpApiKey
+      in: header
+      name: Signature
+      description: |-
+        HMAC-SHA256 of the raw JSON request body, computed using the webhook's
+        secret (returned when the webhook is created via `POST /api/webhooks`).
+        Receivers MUST recompute the digest over the exact bytes received and
+        compare in constant time before trusting the payload.
+
+  messages:
+    SubscriberCreated:
+      name: subscriber.created
+      title: Subscriber created
+      summary: A new subscriber was added to the account.
+      contentType: application/json
+      bindings:
+        http:
+          headers:
+            type: object
+            properties:
+              Signature:
+                type: string
+                description: HMAC-SHA256 of the JSON payload using the webhook secret.
+          bindingVersion: 0.3.0
+      payload:
+        $ref: '#/components/schemas/SubscriberEventFlat'
+      examples:
+        - name: subscriberCreatedExample
+          payload:
+            id: '100000000000000000'
+            email: john.doe@example.com
+            status: active
+            source: ecommerce
+            fields:
+              name: ''
+              last_name: ''
+              company: ''
+              country: ''
+            event: subscriber.created
+            account_id: 0
+
+    SubscriberUpdated:
+      name: subscriber.updated
+      title: Subscriber updated
+      summary: A subscriber's custom fields were updated or subscription was confirmed.
+      contentType: application/json
+      bindings:
+        http:
+          headers:
+            type: object
+            properties:
+              Signature:
+                type: string
+          bindingVersion: 0.3.0
+      payload:
+        $ref: '#/components/schemas/SubscriberEventFlat'
+
+    SubscriberUnsubscribed:
+      name: subscriber.unsubscribed
+      title: Subscriber unsubscribed
+      summary: A subscriber unsubscribed from the account.
+      contentType: application/json
+      bindings:
+        http:
+          headers:
+            type: object
+            properties:
+              Signature:
+                type: string
+          bindingVersion: 0.3.0
+      payload:
+        $ref: '#/components/schemas/SubscriberEventFlat'
+      examples:
+        - name: subscriberUnsubscribedExample
+          payload:
+            id: '100000000000000000'
+            email: john.doe@example.com
+            status: unsubscribed
+            event: subscriber.unsubscribed
+            account_id: 0
+
+    SubscriberBounced:
+      name: subscriber.bounced
+      title: Subscriber bounced
+      summary: A subscriber's email address bounced.
+      contentType: application/json
+      bindings:
+        http:
+          headers:
+            type: object
+            properties:
+              Signature:
+                type: string
+          bindingVersion: 0.3.0
+      payload:
+        $ref: '#/components/schemas/SubscriberEventFlat'
+      examples:
+        - name: subscriberBouncedExample
+          payload:
+            id: '100000000000000000'
+            email: john.doe@example.com
+            status: bounced
+            event: subscriber.bounced
+            account_id: 0
+
+    SubscriberSpamReported:
+      name: subscriber.spam_reported
+      title: Subscriber reported spam
+      summary: |-
+        A subscriber marked a campaign as spam. This is the closest documented
+        equivalent to a "complaint" event in the MailerLite webhook catalog.
+      contentType: application/json
+      bindings:
+        http:
+          headers:
+            type: object
+            properties:
+              Signature:
+                type: string
+          bindingVersion: 0.3.0
+      payload:
+        $ref: '#/components/schemas/SubscriberEventFlat'
+
+    SubscriberAddedToGroup:
+      name: subscriber.added_to_group
+      title: Subscriber added to group
+      summary: A subscriber was added to a group.
+      contentType: application/json
+      bindings:
+        http:
+          headers:
+            type: object
+            properties:
+              Signature:
+                type: string
+          bindingVersion: 0.3.0
+      payload:
+        $ref: '#/components/schemas/SubscriberGroupEvent'
+      examples:
+        - name: subscriberAddedToGroupExample
+          payload:
+            type: subscriber.added_to_group
+            subscriber:
+              id: '100000000000000000'
+              email: john.doe@example.com
+              status: active
+            group:
+              id: '100000000000000000'
+              name: Group Example
+            account_id: 0
+
+    SubscriberRemovedFromGroup:
+      name: subscriber.removed_from_group
+      title: Subscriber removed from group
+      summary: A subscriber was removed from a group.
+      contentType: application/json
+      bindings:
+        http:
+          headers:
+            type: object
+            properties:
+              Signature:
+                type: string
+          bindingVersion: 0.3.0
+      payload:
+        $ref: '#/components/schemas/SubscriberGroupEvent'
+      examples:
+        - name: subscriberRemovedFromGroupExample
+          payload:
+            type: subscriber.removed_from_group
+            subscriber:
+              id: '100000000000000000'
+              email: john.doe@example.com
+              status: active
+            group:
+              id: '100000000000000000'
+              name: Group Example
+            account_id: 0
+
+    SubscriberAutomationTriggered:
+      name: subscriber.automation_triggered
+      title: Subscriber automation triggered
+      summary: A subscriber entered an automation workflow.
+      contentType: application/json
+      bindings:
+        http:
+          headers:
+            type: object
+            properties:
+              Signature:
+                type: string
+          bindingVersion: 0.3.0
+      payload:
+        $ref: '#/components/schemas/SubscriberAutomationEvent'
+      examples:
+        - name: subscriberAutomationTriggeredExample
+          payload:
+            type: subscriber.automation_triggered
+            subscriber:
+              id: '100000000000000000'
+              email: john.doe@example.com
+              status: active
+            automation:
+              id: '100000000000000000'
+              name: Automation Example
+            account_id: 0
+
+    SubscriberAutomationCompleted:
+      name: subscriber.automation_completed
+      title: Subscriber automation completed
+      summary: A subscriber completed an automation workflow.
+      contentType: application/json
+      bindings:
+        http:
+          headers:
+            type: object
+            properties:
+              Signature:
+                type: string
+          bindingVersion: 0.3.0
+      payload:
+        $ref: '#/components/schemas/SubscriberAutomationEvent'
+      examples:
+        - name: subscriberAutomationCompletedExample
+          payload:
+            type: subscriber.automation_completed
+            subscriber:
+              id: '100000000000000000'
+              email: john.doe@example.com
+              status: active
+            automation:
+              id: '100000000000000000'
+              name: Automation Example
+            account_id: 0
+
+    CampaignSent:
+      name: campaign.sent
+      title: Campaign sent
+      summary: A campaign finished sending to all recipients.
+      contentType: application/json
+      bindings:
+        http:
+          headers:
+            type: object
+            properties:
+              Signature:
+                type: string
+          bindingVersion: 0.3.0
+      payload:
+        $ref: '#/components/schemas/CampaignSentPayload'
+      examples:
+        - name: campaignSentExample
+          payload:
+            id: '100000000000000000'
+            name: Campaign name
+            total_recipients: 1000
+            preview_url: https://dashboard.mailerlite.com/preview/1/emails/100000000000000000
+            date: '2024-07-01T01:01:01.000000Z'
+            event: campaign.sent
+            account_id: 0
+
+    BatchedEvents:
+      name: batched.events
+      title: Batched events envelope
+      summary: |-
+        When a webhook is registered with `batchable: true`, MailerLite may
+        deliver multiple events in a single HTTP POST wrapped in a batched
+        envelope. Each element of the `events` array retains its standard
+        per-event structure.
+      contentType: application/json
+      bindings:
+        http:
+          headers:
+            type: object
+            properties:
+              Signature:
+                type: string
+          bindingVersion: 0.3.0
+      payload:
+        $ref: '#/components/schemas/BatchedEnvelope'
+
+  schemas:
+    Subscriber:
+      type: object
+      description: |-
+        MailerLite subscriber object as embedded inside nested webhook payloads
+        (e.g. `subscriber.added_to_group`). Field set mirrors the subscriber
+        resource exposed by the REST API; only fields documented in the webhooks
+        and subscribers reference are listed here.
+      properties:
+        id:
+          type: string
+          description: Snowflake-style subscriber identifier.
+          example: '100000000000000000'
+        email:
+          type: string
+          format: email
+        status:
+          type: string
+          description: Subscriber status as published by MailerLite.
+          enum:
+            - active
+            - unsubscribed
+            - unconfirmed
+            - bounced
+            - junk
+        source:
+          type: string
+          description: Channel that created the subscriber (e.g. `api`, `ecommerce`).
+        sent:
+          type: integer
+        opens_count:
+          type: integer
+        clicks_count:
+          type: integer
+        open_rate:
+          type: number
+        click_rate:
+          type: number
+        ip_address:
+          type: string
+          nullable: true
+        subscribed_at:
+          type: string
+          format: date-time
+          nullable: true
+        unsubscribed_at:
+          type: string
+          format: date-time
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+          nullable: true
+        forget_at:
+          type: string
+          format: date-time
+          nullable: true
+        opted_in_at:
+          type: string
+          format: date-time
+          nullable: true
+        optin_ip:
+          type: string
+          nullable: true
+        fields:
+          type: object
+          description: |-
+            Custom field map. The keys below are the system fields MailerLite
+            documents by default; tenants may extend this object with their own
+            custom fields.
+          properties:
+            name:
+              type: string
+            last_name:
+              type: string
+            company:
+              type: string
+            country:
+              type: string
+            city:
+              type: string
+            phone:
+              type: string
+            state:
+              type: string
+            zip:
+              type: string
+          additionalProperties: true
+
+    Group:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '100000000000000000'
+        name:
+          type: string
+          example: Group Example
+
+    Automation:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '100000000000000000'
+        name:
+          type: string
+          example: Automation Example
+
+    SubscriberEventFlat:
+      description: |-
+        Payload shape for the flat subscriber events
+        (`subscriber.created`, `subscriber.updated`, `subscriber.unsubscribed`,
+        `subscriber.bounced`, `subscriber.spam_reported`). The subscriber fields
+        appear at the top level alongside an `event` discriminator and
+        `account_id`.
+      allOf:
+        - $ref: '#/components/schemas/Subscriber'
+        - type: object
+          required:
+            - event
+            - account_id
+          properties:
+            event:
+              type: string
+              description: Event-type discriminator.
+              enum:
+                - subscriber.created
+                - subscriber.updated
+                - subscriber.unsubscribed
+                - subscriber.bounced
+                - subscriber.spam_reported
+            account_id:
+              type: integer
+              description: MailerLite account identifier the event belongs to.
+
+    SubscriberGroupEvent:
+      type: object
+      description: Payload shape for group membership webhook events.
+      required:
+        - type
+        - subscriber
+        - group
+        - account_id
+      properties:
+        type:
+          type: string
+          description: Event-type discriminator.
+          enum:
+            - subscriber.added_to_group
+            - subscriber.removed_from_group
+        subscriber:
+          $ref: '#/components/schemas/Subscriber'
+        group:
+          $ref: '#/components/schemas/Group'
+        account_id:
+          type: integer
+
+    SubscriberAutomationEvent:
+      type: object
+      description: Payload shape for automation lifecycle webhook events.
+      required:
+        - type
+        - subscriber
+        - automation
+        - account_id
+      properties:
+        type:
+          type: string
+          description: Event-type discriminator.
+          enum:
+            - subscriber.automation_triggered
+            - subscriber.automation_completed
+        subscriber:
+          $ref: '#/components/schemas/Subscriber'
+        automation:
+          $ref: '#/components/schemas/Automation'
+        account_id:
+          type: integer
+
+    CampaignSentPayload:
+      type: object
+      description: Payload shape for `campaign.sent`.
+      required:
+        - id
+        - name
+        - total_recipients
+        - preview_url
+        - date
+        - event
+        - account_id
+      properties:
+        id:
+          type: string
+          example: '100000000000000000'
+        name:
+          type: string
+          example: Campaign name
+        total_recipients:
+          type: integer
+          example: 1000
+        preview_url:
+          type: string
+          format: uri
+          example: https://dashboard.mailerlite.com/preview/1/emails/100000000000000000
+        date:
+          type: string
+          format: date-time
+          example: '2024-07-01T01:01:01.000000Z'
+        event:
+          type: string
+          enum:
+            - campaign.sent
+        account_id:
+          type: integer
+
+    BatchedEnvelope:
+      type: object
+      description: |-
+        Wrapper delivered when the webhook is registered with `batchable: true`.
+        Carries an array of standard per-event payloads plus a `total` count.
+      required:
+        - events
+        - total
+      properties:
+        events:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/SubscriberEventFlat'
+              - $ref: '#/components/schemas/SubscriberGroupEvent'
+              - $ref: '#/components/schemas/SubscriberAutomationEvent'
+              - $ref: '#/components/schemas/CampaignSentPayload'
+        total:
+          type: integer
+          description: Number of events contained in `events`.
+          example: 2
