@@ -1,0 +1,415 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MailerLite API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Subscribers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List subscribers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://connect.mailerlite.com/api/subscribers",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[status]",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List subscribers"
+        },
+        {
+          "info": {
+            "name": "Create or update a subscriber",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://connect.mailerlite.com/api/subscribers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a subscriber"
+        },
+        {
+          "info": {
+            "name": "Get subscriber by ID or email",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://connect.mailerlite.com/api/subscribers/:subscriber",
+            "params": [
+              {
+                "name": "subscriber",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get subscriber by ID or email"
+        },
+        {
+          "info": {
+            "name": "Update an existing subscriber",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://connect.mailerlite.com/api/subscribers/:subscriber",
+            "params": [
+              {
+                "name": "subscriber",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing subscriber"
+        },
+        {
+          "info": {
+            "name": "Delete subscriber",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://connect.mailerlite.com/api/subscribers/:subscriber",
+            "params": [
+              {
+                "name": "subscriber",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete subscriber"
+        },
+        {
+          "info": {
+            "name": "Forget subscriber (GDPR delete)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://connect.mailerlite.com/api/subscribers/:id/forget",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Forget subscriber (GDPR delete)"
+        },
+        {
+          "info": {
+            "name": "Get subscriber activity log",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://connect.mailerlite.com/api/subscribers/:id/activity-log",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get subscriber activity log"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Groups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://connect.mailerlite.com/api/groups"
+          },
+          "docs": "List groups"
+        },
+        {
+          "info": {
+            "name": "Create a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://connect.mailerlite.com/api/groups",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a group"
+        },
+        {
+          "info": {
+            "name": "Delete a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://connect.mailerlite.com/api/groups/:group_id",
+            "params": [
+              {
+                "name": "group_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a group"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Segments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List segments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://connect.mailerlite.com/api/segments"
+          },
+          "docs": "List segments"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Fields",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List custom fields",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://connect.mailerlite.com/api/fields"
+          },
+          "docs": "List custom fields"
+        },
+        {
+          "info": {
+            "name": "Create a custom field",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://connect.mailerlite.com/api/fields",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a custom field"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Campaigns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List campaigns",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://connect.mailerlite.com/api/campaigns"
+          },
+          "docs": "List campaigns"
+        },
+        {
+          "info": {
+            "name": "Create a campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://connect.mailerlite.com/api/campaigns",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a campaign"
+        },
+        {
+          "info": {
+            "name": "Get a campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://connect.mailerlite.com/api/campaigns/:campaign_id",
+            "params": [
+              {
+                "name": "campaign_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a campaign"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Automations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List automations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://connect.mailerlite.com/api/automations"
+          },
+          "docs": "List automations"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Forms",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List forms by type (popup, embedded, promotion)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://connect.mailerlite.com/api/forms/:type",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List forms by type (popup, embedded, promotion)"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List webhooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://connect.mailerlite.com/api/webhooks"
+          },
+          "docs": "List webhooks"
+        },
+        {
+          "info": {
+            "name": "Create a webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://connect.mailerlite.com/api/webhooks",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a webhook"
+        },
+        {
+          "info": {
+            "name": "Delete a webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://connect.mailerlite.com/api/webhooks/:webhook_id",
+            "params": [
+              {
+                "name": "webhook_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a webhook"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
