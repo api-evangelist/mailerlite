@@ -6,7 +6,7 @@ description: >-
   MailerLite is an email marketing and automation platform. The current REST API exposes
   subscribers, groups, segments, fields, campaigns, automations, forms, webhooks, and
   more, with a deprecated Classic API still serving legacy accounts.
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - Email Marketing
   - Automation
