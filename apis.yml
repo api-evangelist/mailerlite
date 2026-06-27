@@ -41,19 +41,19 @@ apis:
         url: openapi/mailerlite-openapi.yml
       - type: AsyncAPI
         url: asyncapi/mailerlite-webhooks-asyncapi.yml
-      - type: SDK
+      - type: SDKs
         title: PHP SDK
         url: https://github.com/mailerlite/mailerlite-php
-      - type: SDK
+      - type: SDKs
         title: Node.js SDK
         url: https://github.com/mailerlite/mailerlite-nodejs
-      - type: SDK
+      - type: SDKs
         title: Python SDK
         url: https://github.com/mailerlite/mailerlite-python
-      - type: SDK
+      - type: SDKs
         title: Go SDK
         url: https://github.com/mailerlite/mailerlite-go
-      - type: SDK
+      - type: SDKs
         title: Ruby SDK
         url: https://github.com/mailerlite/mailerlite-ruby
   - aid: mailerlite:mailerlite-classic-api
@@ -94,7 +94,7 @@ common:
     type: MCPServer
   - name: Agent Skills
     url: https://github.com/mailerlite/mailerlite-skills
-    type: AgentSkill
+    type: AgentSkills
 integrations:
   - name: Stripe
   - name: Zapier
