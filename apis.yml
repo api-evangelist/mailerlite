@@ -71,6 +71,10 @@ apis:
       - type: Documentation
         url: https://classic.developers.mailerlite.com/
 common:
+  - type: DomainSecurity
+    url: security/mailerlite-domain-security.yml
+  - type: Authentication
+    url: authentication/mailerlite-authentication.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/mailerlite-international
   - type: Website

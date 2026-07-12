@@ -1,0 +1,13 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/mailerlite-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  description: Bearer token generated under Integrations > MailerLite API in the dashboard.
+  sources:
+  - openapi/mailerlite-openapi.yml
