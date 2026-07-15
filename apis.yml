@@ -71,6 +71,8 @@ apis:
       - type: Documentation
         url: https://classic.developers.mailerlite.com/
 common:
+  - type: AgenticAccess
+    url: agentic-access/mailerlite-agentic-access.yml
   - type: DomainSecurity
     url: security/mailerlite-domain-security.yml
   - type: Authentication
