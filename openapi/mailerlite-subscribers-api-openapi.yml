@@ -1,0 +1,157 @@
+openapi: 3.1.0
+info:
+  title: MailerLite Automations Subscribers API
+  description: The MailerLite REST API provides endpoints for managing subscribers, groups, segments, fields, campaigns, automations, forms, and webhooks. Authentication uses a Bearer token generated in the dashboard under Integrations > MailerLite API. All requests use JSON; rate-limited to 120 requests per minute per account.
+  version: 1.0.0
+  contact:
+    name: MailerLite
+    url: https://developers.mailerlite.com/docs/
+servers:
+- url: https://connect.mailerlite.com
+  description: Production
+security:
+- BearerAuth: []
+tags:
+- name: Subscribers
+paths:
+  /api/subscribers:
+    get:
+      tags:
+      - Subscribers
+      summary: List subscribers
+      operationId: listSubscribers
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+      - name: cursor
+        in: query
+        schema:
+          type: string
+      - name: filter[status]
+        in: query
+        schema:
+          type: string
+          enum:
+          - active
+          - unsubscribed
+          - unconfirmed
+          - bounced
+          - junk
+      responses:
+        '200':
+          description: Subscribers
+    post:
+      tags:
+      - Subscribers
+      summary: Create or update a subscriber
+      operationId: upsertSubscriber
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - email
+              properties:
+                email:
+                  type: string
+                  format: email
+                fields:
+                  type: object
+                groups:
+                  type: array
+                  items:
+                    type: string
+                status:
+                  type: string
+      responses:
+        '200':
+          description: Subscriber
+  /api/subscribers/{subscriber}:
+    get:
+      tags:
+      - Subscribers
+      summary: Get subscriber by ID or email
+      operationId: getSubscriber
+      parameters:
+      - name: subscriber
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Subscriber
+    put:
+      tags:
+      - Subscribers
+      summary: Update an existing subscriber
+      operationId: updateSubscriber
+      parameters:
+      - name: subscriber
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Updated
+    delete:
+      tags:
+      - Subscribers
+      summary: Delete subscriber
+      operationId: deleteSubscriber
+      parameters:
+      - name: subscriber
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Deleted
+  /api/subscribers/{id}/forget:
+    post:
+      tags:
+      - Subscribers
+      summary: Forget subscriber (GDPR delete)
+      operationId: forgetSubscriber
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Forget request accepted
+  /api/subscribers/{id}/activity-log:
+    get:
+      tags:
+      - Subscribers
+      summary: Get subscriber activity log
+      operationId: getSubscriberActivity
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Activity events
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token generated under Integrations > MailerLite API in the dashboard.

@@ -1,0 +1,60 @@
+openapi: 3.1.0
+info:
+  title: MailerLite Automations Campaigns API
+  description: The MailerLite REST API provides endpoints for managing subscribers, groups, segments, fields, campaigns, automations, forms, and webhooks. Authentication uses a Bearer token generated in the dashboard under Integrations > MailerLite API. All requests use JSON; rate-limited to 120 requests per minute per account.
+  version: 1.0.0
+  contact:
+    name: MailerLite
+    url: https://developers.mailerlite.com/docs/
+servers:
+- url: https://connect.mailerlite.com
+  description: Production
+security:
+- BearerAuth: []
+tags:
+- name: Campaigns
+paths:
+  /api/campaigns:
+    get:
+      tags:
+      - Campaigns
+      summary: List campaigns
+      operationId: listCampaigns
+      responses:
+        '200':
+          description: Campaigns
+    post:
+      tags:
+      - Campaigns
+      summary: Create a campaign
+      operationId: createCampaign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Campaign
+  /api/campaigns/{campaign_id}:
+    get:
+      tags:
+      - Campaigns
+      summary: Get a campaign
+      operationId: getCampaign
+      parameters:
+      - name: campaign_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Campaign
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token generated under Integrations > MailerLite API in the dashboard.

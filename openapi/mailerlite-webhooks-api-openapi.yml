@@ -1,0 +1,73 @@
+openapi: 3.1.0
+info:
+  title: MailerLite Automations Webhooks API
+  description: The MailerLite REST API provides endpoints for managing subscribers, groups, segments, fields, campaigns, automations, forms, and webhooks. Authentication uses a Bearer token generated in the dashboard under Integrations > MailerLite API. All requests use JSON; rate-limited to 120 requests per minute per account.
+  version: 1.0.0
+  contact:
+    name: MailerLite
+    url: https://developers.mailerlite.com/docs/
+servers:
+- url: https://connect.mailerlite.com
+  description: Production
+security:
+- BearerAuth: []
+tags:
+- name: Webhooks
+paths:
+  /api/webhooks:
+    get:
+      tags:
+      - Webhooks
+      summary: List webhooks
+      operationId: listWebhooks
+      responses:
+        '200':
+          description: Webhooks
+    post:
+      tags:
+      - Webhooks
+      summary: Create a webhook
+      operationId: createWebhook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - url
+              - events
+              properties:
+                url:
+                  type: string
+                  format: uri
+                events:
+                  type: array
+                  items:
+                    type: string
+                name:
+                  type: string
+      responses:
+        '201':
+          description: Webhook
+  /api/webhooks/{webhook_id}:
+    delete:
+      tags:
+      - Webhooks
+      summary: Delete a webhook
+      operationId: deleteWebhook
+      parameters:
+      - name: webhook_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Deleted
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token generated under Integrations > MailerLite API in the dashboard.

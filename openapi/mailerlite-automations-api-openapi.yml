@@ -1,0 +1,31 @@
+openapi: 3.1.0
+info:
+  title: MailerLite Automations API
+  description: The MailerLite REST API provides endpoints for managing subscribers, groups, segments, fields, campaigns, automations, forms, and webhooks. Authentication uses a Bearer token generated in the dashboard under Integrations > MailerLite API. All requests use JSON; rate-limited to 120 requests per minute per account.
+  version: 1.0.0
+  contact:
+    name: MailerLite
+    url: https://developers.mailerlite.com/docs/
+servers:
+- url: https://connect.mailerlite.com
+  description: Production
+security:
+- BearerAuth: []
+tags:
+- name: Automations
+paths:
+  /api/automations:
+    get:
+      tags:
+      - Automations
+      summary: List automations
+      operationId: listAutomations
+      responses:
+        '200':
+          description: Automations
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token generated under Integrations > MailerLite API in the dashboard.

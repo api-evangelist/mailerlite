@@ -1,0 +1,57 @@
+openapi: 3.1.0
+info:
+  title: MailerLite Automations Fields API
+  description: The MailerLite REST API provides endpoints for managing subscribers, groups, segments, fields, campaigns, automations, forms, and webhooks. Authentication uses a Bearer token generated in the dashboard under Integrations > MailerLite API. All requests use JSON; rate-limited to 120 requests per minute per account.
+  version: 1.0.0
+  contact:
+    name: MailerLite
+    url: https://developers.mailerlite.com/docs/
+servers:
+- url: https://connect.mailerlite.com
+  description: Production
+security:
+- BearerAuth: []
+tags:
+- name: Fields
+paths:
+  /api/fields:
+    get:
+      tags:
+      - Fields
+      summary: List custom fields
+      operationId: listFields
+      responses:
+        '200':
+          description: Fields
+    post:
+      tags:
+      - Fields
+      summary: Create a custom field
+      operationId: createField
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - type
+              properties:
+                name:
+                  type: string
+                type:
+                  type: string
+                  enum:
+                  - text
+                  - number
+                  - date
+      responses:
+        '201':
+          description: Field
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token generated under Integrations > MailerLite API in the dashboard.
