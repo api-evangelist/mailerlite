@@ -6,7 +6,20 @@ description: >-
   MailerLite is an email marketing and automation platform. The current REST API exposes
   subscribers, groups, segments, fields, campaigns, automations, forms, webhooks, and
   more, with a deprecated Classic API still serving legacy accounts.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/mailerlite.png
 tags:
   - Email Marketing
   - Automation
@@ -16,60 +29,228 @@ created: '2026-05-08'
 modified: '2026-05-30'
 specificationVersion: '0.19'
 apis:
-  - aid: mailerlite:mailerlite-api
-    name: MailerLite API
-    humanURL: https://developers.mailerlite.com/docs/
-    baseURL: https://connect.mailerlite.com/api
-    tags:
-      - Email Marketing
-      - Subscribers
-      - Campaigns
-      - Automations
-      - Forms
-      - Webhooks
-    description: >-
-      The MailerLite REST API supports Bearer-token authentication using account-issued
-      API keys. It exposes subscribers, groups, segments, fields, campaigns, automations,
-      forms, webhooks, batched requests, and more. Versioning is controlled with the
-      X-Version header.
-    properties:
-      - type: Documentation
-        url: https://developers.mailerlite.com/docs/
-      - type: Authentication
-        url: https://developers.mailerlite.com/docs/#authentication
-      - type: OpenAPI
-        url: openapi/mailerlite-openapi.yml
-      - type: AsyncAPI
-        url: asyncapi/mailerlite-webhooks-asyncapi.yml
-      - type: SDKs
-        title: PHP SDK
-        url: https://github.com/mailerlite/mailerlite-php
-      - type: SDKs
-        title: Node.js SDK
-        url: https://github.com/mailerlite/mailerlite-nodejs
-      - type: SDKs
-        title: Python SDK
-        url: https://github.com/mailerlite/mailerlite-python
-      - type: SDKs
-        title: Go SDK
-        url: https://github.com/mailerlite/mailerlite-go
-      - type: SDKs
-        title: Ruby SDK
-        url: https://github.com/mailerlite/mailerlite-ruby
-  - aid: mailerlite:mailerlite-classic-api
-    name: MailerLite Classic API (Legacy)
-    humanURL: https://classic.developers.mailerlite.com/
-    baseURL: https://api.mailerlite.com/api/v2
-    tags:
-      - Email Marketing
-      - Legacy
-      - Deprecated
-    description: >-
-      The MailerLite Classic API serves legacy MailerLite Classic accounts. New integrations
-      should target the current API at connect.mailerlite.com.
-    properties:
-      - type: Documentation
-        url: https://classic.developers.mailerlite.com/
+- aid: mailerlite:mailerlite-classic-api
+  name: MailerLite Classic API (Legacy)
+  humanURL: https://classic.developers.mailerlite.com/
+  baseURL: https://api.mailerlite.com/api/v2
+  tags:
+  - Email Marketing
+  - Legacy
+  - Deprecated
+  description: >-
+    The MailerLite Classic API serves legacy MailerLite Classic accounts. New integrations should target
+    the current API at connect.mailerlite.com.
+  properties:
+  - type: Documentation
+    url: https://classic.developers.mailerlite.com/
+- aid: mailerlite:mailerlite-automations-api
+  name: MailerLite Automations API
+  description: The Automations API from MailerLite — 1 operation(s) for automations.
+  humanURL: https://developers.mailerlite.com/docs/
+  baseURL: https://connect.mailerlite.com/api
+  tags:
+  - Automations
+  properties:
+  - type: OpenAPI
+    url: openapi/mailerlite-automations-api-openapi.yml
+  - type: Documentation
+    url: https://developers.mailerlite.com/docs/
+  - type: Authentication
+    url: https://developers.mailerlite.com/docs/#authentication
+  - type: AsyncAPI
+    url: asyncapi/mailerlite-webhooks-asyncapi.yml
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-php
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-nodejs
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-python
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-go
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-ruby
+- aid: mailerlite:mailerlite-campaigns-api
+  name: MailerLite Campaigns API
+  description: The Campaigns API from MailerLite — 2 operation(s) for campaigns.
+  humanURL: https://developers.mailerlite.com/docs/
+  baseURL: https://connect.mailerlite.com/api
+  tags:
+  - Campaigns
+  properties:
+  - type: OpenAPI
+    url: openapi/mailerlite-campaigns-api-openapi.yml
+  - type: Documentation
+    url: https://developers.mailerlite.com/docs/
+  - type: Authentication
+    url: https://developers.mailerlite.com/docs/#authentication
+  - type: AsyncAPI
+    url: asyncapi/mailerlite-webhooks-asyncapi.yml
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-php
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-nodejs
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-python
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-go
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-ruby
+- aid: mailerlite:mailerlite-fields-api
+  name: MailerLite Fields API
+  description: The Fields API from MailerLite — 1 operation(s) for fields.
+  humanURL: https://developers.mailerlite.com/docs/
+  baseURL: https://connect.mailerlite.com/api
+  tags:
+  - Fields
+  properties:
+  - type: OpenAPI
+    url: openapi/mailerlite-fields-api-openapi.yml
+  - type: Documentation
+    url: https://developers.mailerlite.com/docs/
+  - type: Authentication
+    url: https://developers.mailerlite.com/docs/#authentication
+  - type: AsyncAPI
+    url: asyncapi/mailerlite-webhooks-asyncapi.yml
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-php
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-nodejs
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-python
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-go
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-ruby
+- aid: mailerlite:mailerlite-forms-api
+  name: MailerLite Forms API
+  description: The Forms API from MailerLite — 1 operation(s) for forms.
+  humanURL: https://developers.mailerlite.com/docs/
+  baseURL: https://connect.mailerlite.com/api
+  tags:
+  - Forms
+  properties:
+  - type: OpenAPI
+    url: openapi/mailerlite-forms-api-openapi.yml
+  - type: Documentation
+    url: https://developers.mailerlite.com/docs/
+  - type: Authentication
+    url: https://developers.mailerlite.com/docs/#authentication
+  - type: AsyncAPI
+    url: asyncapi/mailerlite-webhooks-asyncapi.yml
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-php
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-nodejs
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-python
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-go
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-ruby
+- aid: mailerlite:mailerlite-groups-api
+  name: MailerLite Groups API
+  description: The Groups API from MailerLite — 2 operation(s) for groups.
+  humanURL: https://developers.mailerlite.com/docs/
+  baseURL: https://connect.mailerlite.com/api
+  tags:
+  - Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/mailerlite-groups-api-openapi.yml
+  - type: Documentation
+    url: https://developers.mailerlite.com/docs/
+  - type: Authentication
+    url: https://developers.mailerlite.com/docs/#authentication
+  - type: AsyncAPI
+    url: asyncapi/mailerlite-webhooks-asyncapi.yml
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-php
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-nodejs
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-python
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-go
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-ruby
+- aid: mailerlite:mailerlite-segments-api
+  name: MailerLite Segments API
+  description: The Segments API from MailerLite — 1 operation(s) for segments.
+  humanURL: https://developers.mailerlite.com/docs/
+  baseURL: https://connect.mailerlite.com/api
+  tags:
+  - Segments
+  properties:
+  - type: OpenAPI
+    url: openapi/mailerlite-segments-api-openapi.yml
+  - type: Documentation
+    url: https://developers.mailerlite.com/docs/
+  - type: Authentication
+    url: https://developers.mailerlite.com/docs/#authentication
+  - type: AsyncAPI
+    url: asyncapi/mailerlite-webhooks-asyncapi.yml
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-php
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-nodejs
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-python
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-go
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-ruby
+- aid: mailerlite:mailerlite-subscribers-api
+  name: MailerLite Subscribers API
+  description: The Subscribers API from MailerLite — 4 operation(s) for subscribers.
+  humanURL: https://developers.mailerlite.com/docs/
+  baseURL: https://connect.mailerlite.com/api
+  tags:
+  - Subscribers
+  properties:
+  - type: OpenAPI
+    url: openapi/mailerlite-subscribers-api-openapi.yml
+  - type: Documentation
+    url: https://developers.mailerlite.com/docs/
+  - type: Authentication
+    url: https://developers.mailerlite.com/docs/#authentication
+  - type: AsyncAPI
+    url: asyncapi/mailerlite-webhooks-asyncapi.yml
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-php
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-nodejs
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-python
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-go
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-ruby
+- aid: mailerlite:mailerlite-webhooks-api
+  name: MailerLite Webhooks API
+  description: The Webhooks API from MailerLite — 2 operation(s) for webhooks.
+  humanURL: https://developers.mailerlite.com/docs/
+  baseURL: https://connect.mailerlite.com/api
+  tags:
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/mailerlite-webhooks-api-openapi.yml
+  - type: Documentation
+    url: https://developers.mailerlite.com/docs/
+  - type: Authentication
+    url: https://developers.mailerlite.com/docs/#authentication
+  - type: AsyncAPI
+    url: asyncapi/mailerlite-webhooks-asyncapi.yml
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-php
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-nodejs
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-python
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-go
+  - type: SDKs
+    url: https://github.com/mailerlite/mailerlite-ruby
 common:
   - type: AgenticAccess
     url: agentic-access/mailerlite-agentic-access.yml
