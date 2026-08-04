@@ -1,0 +1,28 @@
+{
+  "provider": "mailerlite",
+  "sources": [
+    "mailerlite-automations-api-openapi.yml",
+    "mailerlite-campaigns-api-openapi.yml",
+    "mailerlite-fields-api-openapi.yml",
+    "mailerlite-forms-api-openapi.yml",
+    "mailerlite-groups-api-openapi.yml",
+    "mailerlite-segments-api-openapi.yml",
+    "mailerlite-subscribers-api-openapi.yml",
+    "mailerlite-webhooks-api-openapi.yml"
+  ],
+  "outputs": [
+    "mailerlite-automations-api-openapi.yml",
+    "mailerlite-campaigns-api-openapi.yml",
+    "mailerlite-fields-api-openapi.yml",
+    "mailerlite-forms-api-openapi.yml",
+    "mailerlite-groups-api-openapi.yml",
+    "mailerlite-segments-api-openapi.yml",
+    "mailerlite-subscribers-api-openapi.yml",
+    "mailerlite-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
