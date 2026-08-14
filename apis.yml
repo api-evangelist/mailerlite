@@ -3,9 +3,17 @@ url: https://raw.githubusercontent.com/api-evangelist/mailerlite/refs/heads/main
 name: MailerLite
 kind: company
 description: >-
-  MailerLite is an email marketing and automation platform. The current REST API exposes
-  subscribers, groups, segments, fields, campaigns, automations, forms, webhooks, and
-  more, with a deprecated Classic API still serving legacy accounts.
+  MailerLite is an email marketing and automation platform used by creators, e-commerce
+  sellers and small businesses to build lists, send campaigns and run behavioural
+  automations. The current REST API at connect.mailerlite.com exposes subscribers,
+  groups, segments, custom fields, campaigns, automations, forms, webhooks, batching,
+  and a full e-commerce surface (shops, products, categories, customers, orders, carts)
+  that drives abandoned-cart and post-purchase automations. Authentication is a bearer
+  API key minted in the dashboard; responses are cursor-paginated and the API version
+  can be pinned with an X-Version date header. Alongside the REST API, MailerLite ships
+  six official SDKs, a first-party Go CLI with an interactive TUI, a published Agent
+  Skill, and a hosted OAuth-protected MCP server at mcp.mailerlite.com exposing roughly
+  76 tools to AI assistants. A legacy Classic API v2 still serves older accounts.
 accessModel:
   pricing: freemium
   onboarding: self-serve
@@ -25,13 +33,19 @@ tags:
   - Automation
   - Newsletters
   - Subscribers
+  - Campaigns
+  - Webhooks
+  - E-commerce
+  - Segmentation
+  - Transactional Email
+  - MCP
 created: '2026-05-08'
-modified: '2026-05-30'
+modified: '2026-08-13'
 specificationVersion: '0.19'
 apis:
 - aid: mailerlite:mailerlite-classic-api
   name: MailerLite Classic API (Legacy)
-  humanURL: https://classic.developers.mailerlite.com/
+  humanURL: https://developers-classic.mailerlite.com/
   baseURL: https://api.mailerlite.com/api/v2
   tags:
   - Email Marketing
@@ -39,10 +53,12 @@ apis:
   - Deprecated
   description: >-
     The MailerLite Classic API serves legacy MailerLite Classic accounts. New integrations should target
-    the current API at connect.mailerlite.com.
+    the current API at connect.mailerlite.com. Corrected 2026-08-13: the Classic documentation host is
+    developers-classic.mailerlite.com (per the Classic API link in the current developer portal nav);
+    the previously recorded classic.developers.mailerlite.com does not resolve.
   properties:
   - type: Documentation
-    url: https://classic.developers.mailerlite.com/
+    url: https://developers-classic.mailerlite.com/
 - aid: mailerlite:mailerlite-automations-api
   name: MailerLite Automations API
   description: The Automations API from MailerLite — 1 operation(s) for automations.
@@ -276,12 +292,119 @@ common:
     url: finops/mailerlite-finops.yml
   - type: Integrations
     url: https://www.mailerlite.com/integrations
-  - name: MCP Server
-    url: https://github.com/mailerlite/canny-mcp-server
+  # --- Agent surfaces -------------------------------------------------------
+  # Corrected 2026-08-13: the previous MCPServer pointer targeted
+  # github.com/mailerlite/canny-mcp-server, which is a server for Canny.io
+  # (MailerLite's feedback vendor), NOT for the MailerLite API. The real,
+  # first-party remote MCP server is https://mcp.mailerlite.com/mcp.
+  - name: MailerLite MCP Server
     type: MCPServer
-  - name: Agent Skills
+    url: https://mcp.mailerlite.com/mcp
+  - name: MCP Server Manifest
+    type: MCPServer
+    url: mcp/mailerlite-mcp.yml
+  - name: MCP to REST Tool Crosswalk
+    type: ToolCrosswalk
+    url: mcp/mailerlite-tool-crosswalk.yml
+  - name: Agent Skills (published by MailerLite)
+    type: AgentSkill
     url: https://github.com/mailerlite/mailerlite-skills
-    type: AgentSkills
+  - name: Agent Skills Index
+    type: AgentSkill
+    url: skills/_index.yml
+  - type: LLMsTxt
+    url: llms/mailerlite-llms.txt
+  # --- Packages / SDKs ------------------------------------------------------
+  - type: Packages
+    url: packages/mailerlite-packages.yml
+  - type: SDKs
+    url: packages/mailerlite-packages.yml
+  - type: CLI
+    url: cli/mailerlite-cli.yml
+  # --- Runtime semantics ----------------------------------------------------
+  - type: Conventions
+    url: conventions/mailerlite-conventions.yml
+  - type: ErrorCatalog
+    url: errors/mailerlite-problem-types.yml
+  - type: DataModel
+    url: data-model/mailerlite-data-model.yml
+  - type: Lifecycle
+    url: lifecycle/mailerlite-lifecycle.yml
+  - name: MailerLite Status
+    type: StatusPage
+    url: https://status.mailerlite.com/
+  # --- Events ---------------------------------------------------------------
+  - type: AsyncAPI
+    url: asyncapi/mailerlite-webhooks-asyncapi.yml
+  - name: Webhooks
+    type: Webhooks
+    url: https://developers.mailerlite.com/api/webhooks
+  # --- Discovery / well-known ----------------------------------------------
+  - type: WellKnown
+    url: well-known/mailerlite-well-known.yml
+  - name: Content Signals Policy (robots.txt)
+    type: ContentSignal
+    url: https://www.mailerlite.com/robots.txt
+  # --- Security / compliance ------------------------------------------------
+  - type: VulnerabilityDisclosure
+    url: security/mailerlite-vulnerability-disclosure.yml
+  - name: Responsible Disclosure Program
+    type: Security
+    url: https://www.mailerlite.com/legal/responsible-disclosure-program
+  - type: TrustCenter
+    url: security/mailerlite-trust-center.yml
+  - name: Security and Compliance
+    type: Compliance
+    url: https://www.mailerlite.com/trust-page
+  - type: Conformance
+    url: conformance/mailerlite-conformance.yml
+  # --- Overlays -------------------------------------------------------------
+  - name: Subscribers API Overlay
+    type: Overlay
+    url: overlays/mailerlite-subscribers-api-overlay.yaml
+  - name: Groups API Overlay
+    type: Overlay
+    url: overlays/mailerlite-groups-api-overlay.yaml
+  - name: Segments API Overlay
+    type: Overlay
+    url: overlays/mailerlite-segments-api-overlay.yaml
+  - name: Fields API Overlay
+    type: Overlay
+    url: overlays/mailerlite-fields-api-overlay.yaml
+  - name: Campaigns API Overlay
+    type: Overlay
+    url: overlays/mailerlite-campaigns-api-overlay.yaml
+  - name: Automations API Overlay
+    type: Overlay
+    url: overlays/mailerlite-automations-api-overlay.yaml
+  - name: Forms API Overlay
+    type: Overlay
+    url: overlays/mailerlite-forms-api-overlay.yaml
+  - name: Webhooks API Overlay
+    type: Overlay
+    url: overlays/mailerlite-webhooks-api-overlay.yaml
+  # --- Developer surface links ---------------------------------------------
+  - type: DeveloperPortal
+    url: https://developers.mailerlite.com/
+  - type: Documentation
+    url: https://developers.mailerlite.com/
+  - type: APIReference
+    url: https://developers.mailerlite.com/api/subscribers
+  - type: GettingStarted
+    url: https://developers.mailerlite.com/getting-started
+  - type: Support
+    url: https://www.mailerlite.com/help
+  - type: Blog
+    url: https://www.mailerlite.com/blog
+  # --- Commercial -----------------------------------------------------------
+  - type: SignUp
+    url: https://www.mailerlite.com/signup
+  - type: Login
+    url: https://dashboard.mailerlite.com/login
+  - type: TermsOfService
+    url: https://www.mailerlite.com/legal/terms-of-service
+  - type: PrivacyPolicy
+    url: https://www.mailerlite.com/legal/privacy-policy
 integrations:
   - name: Stripe
   - name: Zapier
@@ -293,3 +416,8 @@ integrations:
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 25
+  pass: local-v1
