@@ -1,0 +1,161 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MailerLite Automations Subscribers API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Subscribers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List subscribers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://connect.mailerlite.com/api/subscribers",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[status]",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List subscribers"
+        },
+        {
+          "info": {
+            "name": "Create or update a subscriber",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://connect.mailerlite.com/api/subscribers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a subscriber"
+        },
+        {
+          "info": {
+            "name": "Get subscriber by ID or email",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://connect.mailerlite.com/api/subscribers/:subscriber",
+            "params": [
+              {
+                "name": "subscriber",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get subscriber by ID or email"
+        },
+        {
+          "info": {
+            "name": "Update an existing subscriber",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://connect.mailerlite.com/api/subscribers/:subscriber",
+            "params": [
+              {
+                "name": "subscriber",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing subscriber"
+        },
+        {
+          "info": {
+            "name": "Delete subscriber",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://connect.mailerlite.com/api/subscribers/:subscriber",
+            "params": [
+              {
+                "name": "subscriber",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete subscriber"
+        },
+        {
+          "info": {
+            "name": "Forget subscriber (GDPR delete)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://connect.mailerlite.com/api/subscribers/:id/forget",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Forget subscriber (GDPR delete)"
+        },
+        {
+          "info": {
+            "name": "Get subscriber activity log",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://connect.mailerlite.com/api/subscribers/:id/activity-log",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get subscriber activity log"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

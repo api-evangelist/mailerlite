@@ -1,0 +1,99 @@
+generated: '2026-08-13'
+method: searched
+source: https://github.com/mailerlite/mailerlite-skills
+notes: >-
+  MailerLite PUBLISHES ITS OWN Agent Skill. This index does not describe skills
+  API Evangelist authored — it records the provider's skill repository, which is
+  vendored verbatim under skills/mailerlite-skills/ (cloned from
+  github.com/mailerlite/mailerlite-skills, last pushed 2026-07-28).
+  The skill teaches an agent to drive the MailerLite CLI rather than the REST
+  API directly, which is a deliberate design choice: the CLI already carries
+  OAuth, profiles, account switching and JSON output, so the skill inherits all
+  of it instead of re-teaching HTTP.
+  Nothing in this index was generated on the provider's behalf.
+
+publisher:
+  name: MailerLite
+  url: https://www.mailerlite.com/
+  repository: https://github.com/mailerlite/mailerlite-skills
+  vendored_at: skills/mailerlite-skills/
+
+specification:
+  name: Agent Skills
+  url: https://agentskills.io/specification
+  compatible_agents: [Claude Code, Codex CLI]
+
+distribution:
+  marketplace:
+    manifest: skills/mailerlite-skills/.claude-plugin/marketplace.json
+    name: mailerlite-skills
+    install:
+      - "/plugin marketplace add mailerlite/mailerlite-skills"
+      - "/plugin install mailerlite@mailerlite-skills"
+  plugin:
+    manifest: skills/mailerlite-skills/.claude-plugin/plugin.json
+    name: MailerLite
+    version: '1.0.0'
+    description: >-
+      Teaches Claude how to use the MailerLite CLI for managing subscribers,
+      campaigns, automations, e-commerce, and more.
+  manual:
+    claude_code: "Copy the repo contents into a /.claude folder at the project root."
+    codex_cli: "Copy skills/ into ~/.codex/skills"
+
+skills:
+  - file: mailerlite-skills/skills/mailerlite-cli/SKILL.md
+    name: MailerLite
+    slug: mailerlite-cli
+    method: searched
+    source: https://github.com/mailerlite/mailerlite-skills/blob/main/skills/mailerlite-cli/SKILL.md
+    description: >-
+      Manage subscribers, campaigns, automations, groups, forms, segments,
+      fields, webhooks, timezones and the full e-commerce surface (shops,
+      products, categories, customers, orders, carts, cart items) through the
+      `mailerlite` CLI, including account/profile configuration and the TUI
+      dashboard.
+    grounds_on: cli
+    api: null
+    api_note: >-
+      This skill is grounded in the CLI command surface
+      (cli/mailerlite-cli.yml), not in operationIds — MailerLite publishes no
+      OpenAPI, so there are no vendor operation ids for a skill to cite.
+    references:
+      - mailerlite-skills/skills/mailerlite-cli/references/command-reference.md
+    triggers:
+      - manage subscribers
+      - create a campaign
+      - list automations
+      - manage groups
+      - manage forms
+      - manage segments
+      - manage fields
+      - manage webhooks
+      - list timezones
+      - manage e-commerce shops
+      - manage products
+      - manage categories
+      - manage customers
+      - manage orders
+      - manage carts
+      - manage cart items
+      - import e-commerce data
+      - switch mailerlite account
+      - configure mailerlite
+      - set up mailerlite profile
+      - launch the mailerlite dashboard
+
+related_agent_surfaces:
+  mcp: mcp/mailerlite-mcp.yml
+  cli: cli/mailerlite-cli.yml
+  crosswalk: mcp/mailerlite-tool-crosswalk.yml
+
+summary:
+  skill_count: 1
+  provider_published: true
+  api_evangelist_generated: 0
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

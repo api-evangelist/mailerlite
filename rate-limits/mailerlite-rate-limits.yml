@@ -4,34 +4,112 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: MailerLite
 providerId: mailerlite
 created: '2026-05-08'
-modified: '2026-05-08'
+modified: '2026-08-13'
+generated: '2026-08-13'
+method: searched
+source: https://developers.mailerlite.com/getting-started
 reconciled: true
-tags:
-- Email Marketing
-- Rate Limiting
-- Quotas
-- Throttling
-description: MailerLite documents a 120-requests-per-minute API rate limit.
 notes: >-
-  All requests count against the same per-account 120/minute budget. Validation errors
-  return HTTP 422; throttled requests return HTTP 429.
+  Upgraded from a 2026-05-08 bulk-sweep `generated` file to a `searched` one on
+  2026-08-13, read directly from MailerLite's Getting started and Batching
+  pages. Two things the earlier version missed: the SECOND, separate
+  import-creation limit of 5 requests/minute, and the actual response HEADERS
+  the API returns on exhaustion. The headers are the part an agent needs — a
+  client that only knows "120/minute" cannot self-pace, but one reading
+  X-RateLimit-Remaining and Retry-After can.
+tags:
+  - Email Marketing
+  - Rate Limiting
+  - Quotas
+  - Throttling
+description: >-
+  MailerLite enforces a global 120 requests-per-minute limit per account, plus a
+  separate 5 requests-per-minute limit on import-creation endpoints. Exhaustion
+  returns HTTP 429 with Retry-After.
 sources:
-- https://developers.mailerlite.com/docs/
+  - https://developers.mailerlite.com/getting-started
+  - https://developers.mailerlite.com/api/batching
+
+responseHeaders:
+  - name: X-RateLimit-Limit
+    description: The ceiling for the current window (observed value 120 in the documented example).
+  - name: X-RateLimit-Remaining
+    description: Requests left in the current window (0 in the documented 429 example).
+  - name: Retry-After
+    description: >-
+      Seconds until the window resets (119 in the documented global example,
+      60 in the import example). This is the authoritative backoff signal.
+
 responseCodes:
   throttled: 429
   validation: 422
+
 limits:
-- name: API Requests
-  scope: account
-  metric: requests
-  limit: 120
-  window: 1 minute
-  notes: Documented rate limit on connect.mailerlite.com.
+  - name: Global API requests
+    scope: account
+    metric: requests
+    limit: 120
+    window: 1 minute
+    burst: null
+    status_on_exhaustion: 429
+    body_on_exhaustion: '{"message": "Too Many Attempts."}'
+    headers: [X-RateLimit-Limit, X-RateLimit-Remaining, Retry-After]
+    applies_to: all endpoints on connect.mailerlite.com/api
+    source: https://developers.mailerlite.com/getting-started
+
+  - name: Import creation
+    scope: account
+    metric: requests
+    limit: 5
+    window: 1 minute
+    burst: null
+    status_on_exhaustion: 429
+    body_on_exhaustion: '{"message": "You''re being rate limited on import creation."}'
+    headers: [Retry-After]
+    applies_to:
+      - POST /api/subscribers/import
+      - POST /api/groups/{group_id}/import-subscribers
+      - "POST /api/batch where every item is POST api/subscribers (subscriber upserts)"
+    note: >-
+      This limit is IN ADDITION to the global 120/min budget, has its own
+      distinct 429 message, and — critically — is triggered implicitly: a batch
+      composed entirely of subscriber upserts is silently reclassified as a bulk
+      import and charged against it. A client batching upserts to stay under the
+      global limit walks straight into this one.
+    source: https://developers.mailerlite.com/api/batching
+
+batching:
+  endpoint: POST /api/batch
+  max_requests_per_call: 50
+  purpose: >-
+    MailerLite's own documented mitigation for the global limit — bundle up to
+    50 calls into one request.
+  caveat: Webhooks are not supported in batch requests.
+
 policies:
-- name: Backoff Strategy
-  description: Honor Retry-After header and apply exponential backoff with jitter.
-- name: Versioning
-  description: Pin the API version with the X-Version header for predictable behavior.
+  - name: Honour Retry-After
+    description: >-
+      Both 429 variants publish Retry-After; use it rather than a fixed sleep.
+      Documented example values are 119s (global) and 60s (import).
+  - name: Backoff strategy
+    description: >-
+      MailerLite explicitly recommends "batch endpoint and/or implement backoff
+      strategy that would even out the requests over time".
+  - name: Version pinning
+    description: Pin the API version with the X-Version header for predictable behavior.
+
+undocumented:
+  items:
+    - per-endpoint limits
+    - burst allowances
+    - concurrency limits
+    - plan-tier differences in the rate limit
+  note: >-
+    MailerLite publishes one global number and one import number, with no
+    plan-tier variation stated. Free-plan API access is separately described on
+    the pricing page as "limited and doesn't include sending", which is a
+    capability gate rather than a rate limit.
+
 maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
+  - FN: Kin Lane
+    email: kin@apievangelist.com

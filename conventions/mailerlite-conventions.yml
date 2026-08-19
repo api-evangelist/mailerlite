@@ -1,0 +1,200 @@
+generated: '2026-08-13'
+method: searched
+source: https://developers.mailerlite.com/getting-started
+also:
+  - https://developers.mailerlite.com/api/batching
+  - https://developers.mailerlite.com/api/subscribers
+  - https://developers.mailerlite.com/api/webhooks
+  - openapi/*.yml
+notes: >-
+  Cross-cutting request/response semantics for the current MailerLite REST API
+  (connect.mailerlite.com). Everything below is quoted or paraphrased from the
+  provider's own Getting started and reference pages, fetched 2026-08-13.
+
+base_url: https://connect.mailerlite.com/api
+media_type:
+  request: application/json
+  response: application/json
+  required_headers:
+    - "Content-Type: application/json"
+    - "Accept: application/json"
+  note: MailerLite requires BOTH headers on every request, not just on writes.
+
+authentication:
+  style: bearer-token
+  header: "Authorization: Bearer <API key>"
+  issuance: MailerLite dashboard > Integrations > MailerLite API > Generate new token
+  storage: >-
+    Keys are shown once and not stored in plaintext by MailerLite; a lost key
+    must be replaced.
+  lifecycle_gotcha: >-
+    API keys are permanently bound to the USER who created them. If that user is
+    removed from the account or their account is deleted, the key stops
+    authenticating. This is an availability risk agents and integrators
+    routinely miss.
+  failure: "401 Unauthorized with body {\"message\": \"Unauthenticated.\"}"
+  oauth: >-
+    OAuth is available but only on the agent/CLI surfaces, not for direct REST
+    calls: the hosted MCP server at mcp.mailerlite.com is OAuth-protected with
+    open Dynamic Client Registration, and `mailerlite auth login` in the CLI
+    uses OAuth by default. See authentication/mailerlite-authentication.yml.
+  see: authentication/mailerlite-authentication.yml
+
+versioning:
+  scheme: date-header
+  header: X-Version
+  example: "X-Version: 2038-01-19"
+  default: latest
+  semantics: >-
+    All requests run against the latest version unless the caller pins a date
+    with X-Version. There is no version segment in the URL path — /api/ is
+    unversioned — so pinning the header is the ONLY way to freeze behaviour.
+  note: >-
+    MailerLite publishes no dated changelog of what each X-Version date changes,
+    so a caller can pin a version but cannot diff versions.
+  see: lifecycle/mailerlite-lifecycle.yml
+
+idempotency:
+  idempotency_key_header: null
+  supported: false
+  mechanism: natural-key-upsert
+  detail: >-
+    MailerLite documents NO Idempotency-Key header and no request-replay
+    contract. What it does document is natural-key upsert semantics on the
+    subscriber surface: POST /api/subscribers creates or updates keyed on
+    `email`, and the docs state it explicitly — "If a subscriber already exists,
+    it will be updated with new values. This is non-destructive operation, so
+    omitting fields or groups will not remove them from subscriber." The same
+    non-destructive rule applies to `update_subscriber` on MCP.
+    That makes subscriber writes safe to retry, but it is a property of that one
+    resource, not a transport-level idempotency contract: retrying
+    POST /api/campaigns, POST /api/groups or
+    POST /api/campaigns/{id}/schedule has no replay protection.
+  safe_to_retry:
+    - upsertSubscriber
+    - updateSubscriber
+  unsafe_to_retry:
+    - createCampaign
+    - createGroup
+    - createField
+    - createWebhook
+    - "POST /api/campaigns/{campaign_id}/schedule"
+  recommendation: >-
+    Agents should treat every non-subscriber write as at-most-once and
+    reconcile by listing before creating.
+
+pagination:
+  style: cursor
+  request_params:
+    - {name: limit, type: integer, default: 25, note: Page size.}
+    - {name: cursor, type: string, default: first page, note: Opaque base64 cursor taken from the previous response.}
+  response_fields:
+    links: [first, last, prev, next]
+    meta: [path, per_page, next_cursor, prev_cursor]
+  example_response_shape: |
+    {
+      "data": [ ... ],
+      "links": { "first": null, "last": null, "prev": "...", "next": "..." },
+      "meta": { "path": "...", "per_page": 25, "next_cursor": "...", "prev_cursor": "..." }
+    }
+  note: >-
+    Cursors are opaque base64 blobs encoding an id plus a direction flag; they
+    are not offsets and must not be constructed by the client.
+
+filtering:
+  style: bracketed-filter
+  example: "filter[status]=active"
+  documented_filters:
+    - {resource: subscribers, param: "filter[status]", values: [active, unsubscribed, unconfirmed, bounced, junk]}
+
+expansion:
+  style: include
+  param: include
+  supported_values:
+    - {resource: subscribers, value: groups}
+  note: >-
+    Very narrow — the docs state that on subscribers "Currently, only `groups`
+    is supported". There is no general sparse-fieldset or field-selection
+    mechanism.
+
+envelope:
+  success:
+    single: "{ \"data\": { ... } }"
+    collection: "{ \"data\": [ ... ], \"links\": { ... }, \"meta\": { ... } }"
+  error:
+    shape: "{ \"message\": \"<human message>\", \"errors\": { \"<field>\": [\"<message>\", ...] } }"
+    format: laravel-validation
+    rfc9457: false
+    note: >-
+      Errors are a Laravel-style validation envelope, NOT RFC 9457
+      application/problem+json. There is no `type` URI, no machine-readable
+      error code, and no problem registry — the only machine-readable part is
+      the HTTP status and the per-field `errors` map on 422.
+  see: errors/mailerlite-problem-types.yml
+
+rate_limiting:
+  global: {limit: 120, window: 1 minute, scope: account}
+  import: {limit: 5, window: 1 minute, scope: account, applies_to: ["POST /api/subscribers/import", "POST /api/groups/{group_id}/import-subscribers", "batch requests consisting entirely of POST api/subscribers"]}
+  response_headers: [X-RateLimit-Limit, X-RateLimit-Remaining, Retry-After]
+  exhausted_status: 429
+  exhausted_body: "{\"message\": \"Too Many Attempts.\"}"
+  import_exhausted_body: "{\"message\": \"You're being rate limited on import creation.\"}"
+  mitigation: >-
+    MailerLite's own documented mitigation is the batch endpoint plus a backoff
+    strategy honouring Retry-After.
+  see: rate-limits/mailerlite-rate-limits.yml
+
+batching:
+  endpoint: POST /api/batch
+  max_requests: 50
+  request_shape: "{\"requests\": [{\"method\": \"POST\", \"path\": \"api/...\", \"body\": {...}}]}"
+  path_rule: "Each requests[].path must start with `api/`."
+  ordering: Response objects are returned in the order the requests were sent.
+  partial_failure: >-
+    A failed sub-request does NOT abort the batch — the whole batch is processed
+    and the failing entry carries its own code + error body. The envelope
+    reports total / successful / failed counts.
+  restrictions:
+    - Webhooks are not supported in batch requests.
+    - A batch made entirely of subscriber upserts is processed as a bulk import and inherits the 5 req/min import limit.
+
+request_tracing:
+  request_id_header: null
+  note: >-
+    MailerLite documents no request-id / correlation-id response header. There
+    is no published way to reference a specific API call when contacting
+    support, which is a real gap for agent debugging.
+
+metadata:
+  custom_fields: >-
+    Arbitrary key/value metadata attaches to subscribers through custom
+    `fields` (text, number or date), created via POST /api/fields. Field keys
+    are slugified from the field name (e.g. "ZIP" becomes `z_i_p`), which is a
+    documented footgun when writing fields by key.
+  no_generic_metadata_object: true
+
+webhook_conventions:
+  transport: HTTP POST, application/json, to a customer-registered HTTPS URL
+  signature_header: Signature
+  signature_algorithm: HMAC-SHA256 over the raw JSON payload using the webhook secret
+  success_condition: Any 2XX response
+  retries: 3 additional attempts at 10s, 100s and 1000s
+  batchable_flag: >-
+    `batchable: true` is REQUIRED for campaign.open, campaign.click and
+    subscriber.deleted; those events arrive wrapped in a batched envelope.
+  see: asyncapi/mailerlite-webhooks-asyncapi.yml
+
+conventions_summary:
+  auth: bearer-api-key
+  pagination: cursor
+  versioning: date-header
+  errors: laravel-validation-envelope
+  idempotency: false
+  request_id: false
+  batching: true
+  expansion: minimal
+  rfc9457: false
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

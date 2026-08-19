@@ -18,7 +18,13 @@ info:
       - On non-2XX (or timeout) responses, MailerLite retries the same delivery up
         to three additional times at 10, 100, and 1000-second intervals.
 
-    Event-type coverage:
+    Event-type coverage (refreshed 2026-08-13):
+      All 14 event types listed in the official MailerLite webhooks reference
+      are modelled here. Four were added on 2026-08-13 —
+      `subscriber.deleted`, `subscriber.active`, `campaign.open` and
+      `campaign.click`. Three of those four (`subscriber.deleted`,
+      `campaign.open`, `campaign.click`) REQUIRE `batchable: true` at
+      registration and are therefore delivered only inside a `BatchedEnvelope`.
       Only the event types explicitly listed in the official MailerLite webhooks
       documentation are modelled here. The originally requested events
       `subscriber.complained` and `subscriber.added_through_webform` are NOT
@@ -77,7 +83,11 @@ channels:
           - $ref: '#/components/messages/SubscriberRemovedFromGroup'
           - $ref: '#/components/messages/SubscriberAutomationTriggered'
           - $ref: '#/components/messages/SubscriberAutomationCompleted'
+          - $ref: '#/components/messages/SubscriberDeleted'
+          - $ref: '#/components/messages/SubscriberActive'
           - $ref: '#/components/messages/CampaignSent'
+          - $ref: '#/components/messages/CampaignOpen'
+          - $ref: '#/components/messages/CampaignClick'
           - $ref: '#/components/messages/BatchedEvents'
 
 components:
@@ -343,6 +353,80 @@ components:
             date: '2024-07-01T01:01:01.000000Z'
             event: campaign.sent
             account_id: 0
+
+    SubscriberDeleted:
+      name: subscriber.deleted
+      title: Subscriber deleted
+      summary: |-
+        A subscriber was set as deleted or forgotten (e.g. via
+        `POST /api/subscribers/{id}/forget`). MailerLite REQUIRES this webhook to
+        be registered with `batchable: true`, so deliveries arrive wrapped in a
+        `BatchedEnvelope` rather than as a bare event payload.
+      contentType: application/json
+      bindings:
+        http:
+          headers:
+            type: object
+            properties:
+              Signature:
+                type: string
+          bindingVersion: 0.3.0
+      payload:
+        $ref: '#/components/schemas/BatchedEnvelope'
+
+    SubscriberActive:
+      name: subscriber.active
+      title: Subscriber set active
+      summary: A subscriber's status was set to active.
+      contentType: application/json
+      bindings:
+        http:
+          headers:
+            type: object
+            properties:
+              Signature:
+                type: string
+          bindingVersion: 0.3.0
+      payload:
+        $ref: '#/components/schemas/SubscriberEventFlat'
+
+    CampaignOpen:
+      name: campaign.open
+      title: Campaign opened
+      summary: |-
+        A subscriber opened a campaign. MailerLite REQUIRES this webhook to be
+        registered with `batchable: true` — open events are high volume and are
+        delivered wrapped in a `BatchedEnvelope`.
+      contentType: application/json
+      bindings:
+        http:
+          headers:
+            type: object
+            properties:
+              Signature:
+                type: string
+          bindingVersion: 0.3.0
+      payload:
+        $ref: '#/components/schemas/BatchedEnvelope'
+
+    CampaignClick:
+      name: campaign.click
+      title: Campaign link clicked
+      summary: |-
+        A subscriber clicked a link in a campaign. MailerLite REQUIRES this
+        webhook to be registered with `batchable: true` — click events are high
+        volume and are delivered wrapped in a `BatchedEnvelope`.
+      contentType: application/json
+      bindings:
+        http:
+          headers:
+            type: object
+            properties:
+              Signature:
+                type: string
+          bindingVersion: 0.3.0
+      payload:
+        $ref: '#/components/schemas/BatchedEnvelope'
 
     BatchedEvents:
       name: batched.events

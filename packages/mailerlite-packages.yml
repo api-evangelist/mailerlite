@@ -1,0 +1,156 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://developers.mailerlite.com/getting-started (official SDK list),
+  https://developers.mailerlite.com/cli, https://github.com/mailerlite, and the
+  npm / Packagist / PyPI / Go module proxy / RubyGems / crates.io / Maven Central
+  registry metadata endpoints (queried 2026-08-13).
+notes: >-
+  MailerLite names six official SDKs on its Getting started page (PHP, Go,
+  Node.js, Python, Ruby, Rust) and ships a first-party CLI written in Go. Every
+  `version` / `published` pair below was read from the registry metadata
+  endpoint on 2026-08-13, not from a README. The currency spread is the finding:
+  the Node.js SDK shipped eight days before this pass while the Rust SDK and the
+  Java library have not shipped since 2023, and the Ruby SDK has not shipped
+  since 2024 — three of the eight official libraries predate the e-commerce and
+  batching surface MailerLite documents today.
+
+packages:
+  - language: javascript
+    registry: npm
+    name: "@mailerlite/mailerlite-nodejs"
+    url: https://www.npmjs.com/package/@mailerlite/mailerlite-nodejs
+    repository: https://github.com/mailerlite/mailerlite-nodejs
+    install: npm install @mailerlite/mailerlite-nodejs
+    official: true
+    version: 1.7.0
+    published: '2026-08-05'
+    note: Most current of the official SDKs; registry.npmjs.org dist-tags.latest.
+
+  - language: php
+    registry: packagist
+    name: mailerlite/mailerlite-php
+    url: https://packagist.org/packages/mailerlite/mailerlite-php
+    repository: https://github.com/mailerlite/mailerlite-php
+    install: composer require mailerlite/mailerlite-php
+    official: true
+    version: v1.0.5
+    published: '2025-11-12'
+    note: >-
+      composer.json declares author remigijus.rekerta@mailerlite.com — first
+      party. Version read from repo.packagist.org/p2.
+
+  - language: python
+    registry: pypi
+    name: mailerlite
+    url: https://pypi.org/project/mailerlite/
+    repository: https://github.com/mailerlite/mailerlite-python
+    install: pip install mailerlite
+    official: true
+    version: 0.2.0
+    published: '2026-07-06'
+    note: >-
+      PyPI 0.2.0 upload timestamp matches the mailerlite/mailerlite-python
+      GitHub release v0.2.0, confirming the PyPI name maps to the official repo.
+
+  - language: go
+    registry: go
+    name: github.com/mailerlite/mailerlite-go
+    url: https://pkg.go.dev/github.com/mailerlite/mailerlite-go
+    repository: https://github.com/mailerlite/mailerlite-go
+    install: go get github.com/mailerlite/mailerlite-go
+    official: true
+    version: v1.2.0
+    published: '2026-03-20'
+    note: Read from proxy.golang.org/@latest.
+
+  - language: ruby
+    registry: rubygems
+    name: mailerlite-ruby
+    url: https://rubygems.org/gems/mailerlite-ruby
+    repository: https://github.com/mailerlite/mailerlite-ruby
+    install: gem install mailerlite-ruby
+    official: true
+    version: 2.0.0
+    published: '2024-12-11'
+    note: >-
+      The unhyphenated `mailerlite` gem (1.17.0, 2026-02-26) is a THIRD-PARTY
+      gem — its source_code_uri is github.com/jpalumickas/mailerlite-ruby, not
+      the MailerLite org. Only `mailerlite-ruby` is first party.
+
+  - language: rust
+    registry: crates.io
+    name: mailerlite-rs
+    url: https://crates.io/crates/mailerlite-rs
+    repository: https://github.com/mailerlite/mailerlite-rust
+    install: cargo add mailerlite-rs
+    official: true
+    version: 1.0.0
+    published: '2023-12-21'
+    note: >-
+      Listed as an official SDK on the Getting started page but has not shipped
+      a release since December 2023.
+
+  - language: java
+    registry: maven
+    name: com.mailerlite:mailerlite-java
+    url: https://central.sonatype.com/artifact/com.mailerlite/mailerlite-java
+    repository: https://github.com/mailerlite/mailerlite-java
+    install: "implementation 'com.mailerlite:mailerlite-java:0.0.2'"
+    official: true
+    version: 0.0.2
+    published: '2023-12-27'
+    note: >-
+      Published under the com.mailerlite group by MailerLite, but NOT listed on
+      the Getting started SDK page and still at 0.0.x. Treat as unmaintained.
+
+  - language: go
+    registry: go
+    name: github.com/mailerlite/mailerlite-cli
+    url: https://github.com/mailerlite/mailerlite-cli
+    repository: https://github.com/mailerlite/mailerlite-cli
+    install: go install github.com/mailerlite/mailerlite-cli@latest
+    official: true
+    kind: cli
+    version: v1.0.2
+    published: '2026-02-19'
+    note: >-
+      The `mailerlite` CLI binary. Also distributed as a Homebrew cask
+      (`brew install --cask mailerlite/tap/mailerlite`) from
+      github.com/mailerlite/homebrew-tap, and as a Nix flake. Command surface is
+      captured in cli/mailerlite-cli.yml.
+
+  - language: php
+    registry: packagist
+    name: mailerlite/mailerlite-api-v2-php-sdk
+    url: https://packagist.org/packages/mailerlite/mailerlite-api-v2-php-sdk
+    repository: https://github.com/mailerlite/mailerlite-api-v2-php-sdk
+    install: composer require mailerlite/mailerlite-api-v2-php-sdk
+    official: true
+    status: legacy
+    version: 0.3.2
+    published: '2021-08-11'
+    note: >-
+      Wraps the deprecated MailerLite Classic HTTP API v2
+      (api.mailerlite.com/api/v2). Kept for legacy accounts only; new
+      integrations use mailerlite/mailerlite-php.
+
+summary:
+  official_count: 8
+  legacy_count: 1
+  languages: [javascript, php, python, go, ruby, rust, java]
+  newest_release: '2026-08-05'
+  oldest_release: '2023-12-21'
+  cdn_distribution: none
+  registries_queried:
+    - registry.npmjs.org
+    - repo.packagist.org
+    - pypi.org
+    - proxy.golang.org
+    - rubygems.org
+    - crates.io
+    - search.maven.org
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

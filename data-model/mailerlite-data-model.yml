@@ -1,0 +1,185 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  openapi/*.yml (schemas, $ref links and id-reference fields) enriched from the
+  object reference at https://developers.mailerlite.com/api/* and
+  https://developers.mailerlite.com/ecommerce/*
+notes: >-
+  Entity-relationship graph for the MailerLite API. Derived from the specs in
+  this repo and reconciled against the published reference; nothing here is
+  asserted that the docs do not show. Two things characterise the model: every
+  identifier is a numeric SNOWFLAKE-STYLE STRING (e.g. "31986843064993537") with
+  no type prefix, so ids are not self-describing and an agent cannot tell a
+  group id from a subscriber id by inspection; and the e-commerce entities are
+  all scoped UNDER a shop, which is the only real hierarchy in the model.
+
+id_convention:
+  format: numeric string
+  example: "31986843064993537"
+  prefixed: false
+  note: >-
+    Contrast with providers that use typed prefixes (cus_, evt_). MailerLite ids
+    carry no type information, so callers must track which id belongs to which
+    resource themselves. Subscribers are the exception: most subscriber
+    endpoints accept EITHER the numeric id OR the email address in the path.
+
+entities:
+  - name: Subscriber
+    path: /api/subscribers
+    primary_key: id
+    natural_key: email
+    fields: [id, email, status, source, sent, opens_count, clicks_count, open_rate, click_rate, ip_address, subscribed_at, unsubscribed_at, created_at, updated_at, fields, opted_in_at, optin_ip]
+    enums:
+      status: [active, unsubscribed, unconfirmed, bounced, junk]
+    note: >-
+      The hub entity. Created via upsert on `email`, so it is the one resource
+      with safe-to-retry writes. `fields` is an open key/value map whose keys
+      are the slugified names of Field entities.
+
+  - name: Group
+    path: /api/groups
+    primary_key: id
+    fields: [id, name, active_count, sent_count, opens_count, clicks_count, created_at]
+    note: Static list membership, assigned explicitly.
+
+  - name: Segment
+    path: /api/segments
+    primary_key: id
+    fields: [id, name, total, open_rate, click_rate, created_at]
+    note: >-
+      Dynamic membership computed from filter rules. Read/update/delete over
+      REST — there is no documented POST /api/segments, so segments are created
+      in the app (or through the MCP `create_segment` tool).
+
+  - name: Field
+    path: /api/fields
+    primary_key: id
+    fields: [id, name, key, type]
+    enums:
+      type: [text, number, date]
+    note: >-
+      Defines the schema of Subscriber.fields. `key` is slugified from `name`
+      ("ZIP" -> `z_i_p`), and it is `key` — not `name` — that appears in a
+      subscriber payload.
+
+  - name: Campaign
+    path: /api/campaigns
+    primary_key: id
+    fields: [id, account_id, name, type, status, settings, filter, delivery_schedule, created_at, scheduled_for, queued_at, started_at, finished_at]
+    enums:
+      type: [regular, ab, resend]
+      status: [draft, ready, sent]
+
+  - name: Automation
+    path: /api/automations
+    primary_key: id
+    fields: [id, name, enabled, trigger_data, steps, stats, created_at]
+
+  - name: Form
+    path: /api/forms/{type}
+    primary_key: id
+    fields: [id, type, name, created_at, conversions_count, opens_count, conversion_rate, settings]
+    enums:
+      type: [popup, embedded, promotion]
+
+  - name: Webhook
+    path: /api/webhooks
+    primary_key: id
+    fields: [id, name, url, events, enabled, secret, batchable, created_at, updated_at]
+    note: >-
+      `secret` is returned on create and is the HMAC-SHA256 key for the
+      Signature header on every delivery.
+
+  - name: Import
+    path: /api/subscribers/import/{import_id}
+    primary_key: id
+    note: Async bulk-import job; created under the separate 5 req/min import limit.
+
+  - name: Shop
+    path: /api/ecommerce/shops
+    primary_key: id
+    surface: ecommerce
+    note: The root of the e-commerce hierarchy — every other e-commerce entity is nested under a shop.
+
+  - name: Product
+    path: /api/ecommerce/shops/{shop_id}/products
+    primary_key: id
+    surface: ecommerce
+
+  - name: ProductCategory
+    path: /api/ecommerce/shops/{shop_id}/categories
+    primary_key: id
+    surface: ecommerce
+
+  - name: EcommerceCustomer
+    path: /api/ecommerce/shops/{shop_id}/customers
+    primary_key: id
+    surface: ecommerce
+    note: Distinct from Subscriber; links to a Subscriber by email.
+
+  - name: Order
+    path: /api/ecommerce/shops/{shop_id}/orders
+    primary_key: id
+    surface: ecommerce
+
+  - name: Cart
+    path: /api/ecommerce/shops/{shop_id}/carts
+    primary_key: id
+    surface: ecommerce
+    note: Drives abandoned-cart automations.
+
+  - name: CartItem
+    path: /api/ecommerce/shops/{shop_id}/carts/{cart_id}/items
+    primary_key: id
+    surface: ecommerce
+
+  - name: Timezone
+    path: /api/timezones
+    primary_key: id
+    kind: reference-data
+
+  - name: CampaignLanguage
+    path: /api/campaigns/languages
+    primary_key: id
+    kind: reference-data
+
+relationships:
+  - {from: Subscriber, to: Group, kind: has_many, via: groups, join: "POST/DELETE /api/subscribers/{subscriber_id}/groups/{group_id}"}
+  - {from: Group, to: Subscriber, kind: has_many, via: "GET /api/groups/{group_id}/subscribers"}
+  - {from: Segment, to: Subscriber, kind: has_many, via: "GET /api/segments/{segment_id}/subscribers", computed: true}
+  - {from: Subscriber, to: Field, kind: has_many, via: "fields (keyed by Field.key)"}
+  - {from: Form, to: Subscriber, kind: has_many, via: "GET /api/forms/{form_id}/subscribers"}
+  - {from: Campaign, to: Group, kind: has_many, via: "settings/filter (audience targeting)"}
+  - {from: Campaign, to: Subscriber, kind: has_many, via: "GET /api/campaigns/{campaign_id}/reports/subscriber-activity", computed: true}
+  - {from: Campaign, to: CampaignLanguage, kind: belongs_to, via: language_id}
+  - {from: Automation, to: Group, kind: has_many, via: trigger_data}
+  - {from: Automation, to: Subscriber, kind: has_many, via: "GET /api/automations/{automation_id}/activity", computed: true}
+  - {from: Subscriber, to: Timezone, kind: belongs_to, via: timezone_id}
+  - {from: Webhook, to: Event, kind: has_many, via: events}
+  - {from: Shop, to: Product, kind: has_many, via: path nesting}
+  - {from: Shop, to: ProductCategory, kind: has_many, via: path nesting}
+  - {from: Shop, to: EcommerceCustomer, kind: has_many, via: path nesting}
+  - {from: Shop, to: Order, kind: has_many, via: path nesting}
+  - {from: Shop, to: Cart, kind: has_many, via: path nesting}
+  - {from: Cart, to: CartItem, kind: has_many, via: path nesting}
+  - {from: CartItem, to: Product, kind: belongs_to, via: product_id}
+  - {from: Order, to: EcommerceCustomer, kind: belongs_to, via: customer_id}
+  - {from: Order, to: Product, kind: has_many, via: "items[].product_id"}
+  - {from: ProductCategory, to: Product, kind: has_many, via: "categories/{category_id}/products (many-to-many)"}
+  - {from: EcommerceCustomer, to: Subscriber, kind: has_one, via: email, note: "The bridge between the shop graph and the marketing graph — this join is what makes e-commerce automations fire."}
+
+hubs:
+  - {entity: Subscriber, inbound_relationships: 6, note: "Everything in the marketing graph terminates at a subscriber."}
+  - {entity: Shop, inbound_relationships: 5, note: "Root of the entire e-commerce subtree."}
+
+summary:
+  entity_count: 19
+  relationship_count: 23
+  ecommerce_entities: 7
+  reference_data_entities: 2
+  typed_id_prefixes: false
+  subway_render: null
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

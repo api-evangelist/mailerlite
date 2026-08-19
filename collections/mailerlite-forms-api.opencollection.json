@@ -1,0 +1,42 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MailerLite Automations Forms API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Forms",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List forms by type (popup, embedded, promotion)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://connect.mailerlite.com/api/forms/:type",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List forms by type (popup, embedded, promotion)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

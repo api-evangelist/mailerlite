@@ -1,0 +1,71 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for MailerLite Automations Campaigns API
+  version: 1.0.0
+extends: openapi/mailerlite-campaigns-api-openapi.yml
+x-generated: '2026-08-13'
+x-method: generated
+x-source: https://developers.mailerlite.com/ + the API Evangelist artifacts in this repo
+x-note: 'MailerLite publishes no OpenAPI of its own, so the document this overlay extends is an API Evangelist
+  derivation from the published reference. This overlay carries ONLY the API Evangelist enhancements —
+  the runtime semantics MailerLite documents in prose but that no machine-readable contract states: cursor
+  pagination, the X-Version pin, the two rate limits and their headers, the Laravel-style error envelope,
+  and the absence of an idempotency-key contract. It never mutates the source document.'
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: mailerlite
+    x-apievangelist-artifacts:
+      conventions: conventions/mailerlite-conventions.yml
+      errors: errors/mailerlite-problem-types.yml
+      rate-limits: rate-limits/mailerlite-rate-limits.yml
+      authentication: authentication/mailerlite-authentication.yml
+      lifecycle: lifecycle/mailerlite-lifecycle.yml
+      data-model: data-model/mailerlite-data-model.yml
+      mcp: mcp/mailerlite-mcp.yml
+      tool-crosswalk: mcp/mailerlite-tool-crosswalk.yml
+    x-docs: https://developers.mailerlite.com/getting-started
+    x-rate-limit:
+      global: 120 requests per minute per account
+      import: 5 requests per minute on import-creation endpoints
+      headers:
+      - X-RateLimit-Limit
+      - X-RateLimit-Remaining
+      - Retry-After
+      status: 429
+    x-versioning:
+      scheme: date-header
+      header: X-Version
+      example: '2038-01-19'
+      default: latest
+    x-idempotency:
+      header: null
+      supported: false
+      note: No Idempotency-Key contract. POST /api/subscribers is a natural-key upsert on email and is
+        safe to retry; every other write is not.
+    x-error-envelope:
+      rfc9457: false
+      shape: '{"message": string, "errors": {field: [string]}}'
+      note: Laravel-style validation envelope served as application/json.
+    x-pagination:
+      style: cursor
+      params:
+      - limit
+      - cursor
+      response:
+      - links.next
+      - links.prev
+      - meta.next_cursor
+      - meta.prev_cursor
+    x-batching:
+      endpoint: POST /api/batch
+      max_requests: 50
+      note: Webhooks are not supported in batch requests.
+- target: $.servers
+  update:
+  - url: https://connect.mailerlite.com
+    description: Production
+- target: $.paths['/api/campaigns'].post
+  update:
+    x-agentic-class: write
+    x-apievangelist-note: No idempotency key — retrying creates a duplicate campaign.

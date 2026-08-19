@@ -1,0 +1,36 @@
+# Documentation
+
+- [Welcome to MailerLite API docs](/): Learn how to build, integrate, and grow with MailerLite.
+- [Getting started](/getting-started): Conventions, authentication, errors, and rate limits for integrating with the MailerLite REST API.
+- MailerLite API
+  - [Subscribers](/api/subscribers): List, create, update, and delete subscribers, manage their groups, and inspect engagement stats via the MailerLite API.
+  - [Groups](/api/groups): Create groups, assign or unassign subscribers, and fetch the subscribers belonging to each group.
+  - [Segments](/api/segments): List dynamic subscriber segments and fetch the subscribers that match each segment's filter rules.
+  - [Fields](/api/fields): Create, update, list, and delete the custom fields you can attach to subscribers.
+  - [Automations](/api/automations): List automations, view triggered activity, and inspect the subscribers flowing through each automation.
+  - [Campaigns](/api/campaigns): Draft, schedule, send, and cancel email campaigns, plus retrieve campaign reports and link clicks.
+  - [Forms](/api/forms): List, fetch, update, and delete popup, embedded, and promotion forms, and read the subscribers that signed up through them.
+  - [Batching](/api/batching): Bundle up to 50 API calls into a single batch request to stay within MailerLite's rate limits.
+  - [Webhooks](/api/webhooks): Subscribe to MailerLite events such as subscriber and campaign changes, manage webhook URLs, and inspect deliveries.
+  - [Timezones](/api/timezones): Fetch the list of timezone IDs you can assign to subscribers and account settings.
+  - [Campaign languages](/api/campaign-languages): Fetch the list of language codes supported when localising campaigns.
+- E-commerce API
+  - [E-commerce API](/ecommerce/shops): Connect external shops to MailerLite, list connected shops, and inspect each shop's e-commerce sync state.
+  - [E-commerce Cart API](/ecommerce/cart): Create, update, and delete shopping carts and trigger abandoned-cart automations.
+  - [E-commerce Cart Items API](/ecommerce/cart-items): Add, update, and remove the line items attached to an e-commerce cart.
+  - [E-commerce Categories API](/ecommerce/categories): Sync product categories from your shop into MailerLite for use in e-commerce blocks and segments.
+  - [E-commerce Categories Products API](/ecommerce/categories-products): Attach products to categories and manage the many-to-many relationship between them.
+  - [E-commerce Customers API](/ecommerce/customers): Sync shop customers into MailerLite, link them to subscribers, and track their order history.
+  - [E-commerce Import API](/ecommerce/import): Bulk-import shop data — customers, products, categories, and orders — into MailerLite in a single request.
+  - [E-commerce Orders API](/ecommerce/orders): Create, update, and complete orders so MailerLite can trigger purchase and abandoned-cart automations.
+  - [E-commerce Products API](/ecommerce/products): Sync products from your shop into MailerLite so they can be added to campaigns and product blocks.
+- [MailerLite CLI](/cli): Install and use the MailerLite CLI to manage subscribers, campaigns, automations, and more from your terminal.
+- MCP Server
+  - [MailerLite MCP Server](/mcp): Connect AI assistants like Claude, Cursor, and VS Code to MailerLite over the Model Context Protocol.
+  - [Examples](/mcp/examples): Example prompts that show how AI assistants can manage campaigns, subscribers, automations, e-commerce, and more through the MailerLite MCP server.
+
+- **Separator**
+- Guides
+  - [Introduction](/guides): Integrate your product with MailerLite using the REST API when an official integration isn't available.
+  - [Basic integrations](/guides/basic): A walkthrough for syncing customers from your app into MailerLite groups via the API.
+  - [E-commerce integrations](/guides/ecommerce): A walkthrough for syncing a webshop's products, categories, orders, and customers with MailerLite for e-commerce automations.

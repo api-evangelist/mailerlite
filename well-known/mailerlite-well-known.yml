@@ -1,0 +1,133 @@
+generated: '2026-08-13'
+method: probed
+source: live GET of each /.well-known/ path on every MailerLite host in apis.yml and openapi servers[]
+notes: >-
+  Five hosts were probed against seven /.well-known/ paths each (35 requests,
+  2026-08-13). Only mcp.mailerlite.com serves anything: the OAuth
+  authorization-server metadata (RFC 8414) and the protected-resource metadata
+  (RFC 9728) that back the hosted MCP server. Both are saved verbatim below.
+  The REST API hosts (connect.mailerlite.com, api.mailerlite.com) answer 403 to
+  every /.well-known/ path — the edge blocks the prefix outright — and the docs
+  host answers a Next.js 404. No security.txt, no api-catalog, no ai-plugin.json
+  and NO AGENT CARD is served anywhere on mailerlite.com.
+  Separately, https://www.mailerlite.com/robots.txt carries a Cloudflare
+  Content Signals Policy directive (`Content-Signal: search=yes, ai-input=yes,
+  ai-train=no`) — a real, provider-published AI-consent signal — saved as
+  mailerlite-robots.txt.
+
+hosts:
+  - host: https://mcp.mailerlite.com
+    role: MCP server
+    documents:
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        content_type: application/json
+        file: mailerlite-oauth-authorization-server.json
+        spec: RFC 8414
+      - path: /.well-known/oauth-protected-resource
+        status: 200
+        content_type: application/json
+        spec: RFC 9728
+        note: >-
+          Root-level resource metadata (resource https://mcp.mailerlite.com).
+          The per-endpoint document at /.well-known/oauth-protected-resource/mcp
+          is the one the 401 WWW-Authenticate challenge points at and is the
+          copy saved here.
+      - path: /.well-known/oauth-protected-resource/mcp
+        status: 200
+        content_type: application/json
+        file: mailerlite-oauth-protected-resource.json
+        spec: RFC 9728
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+
+  - host: https://connect.mailerlite.com
+    role: REST API (production base)
+    documents:
+      - {path: /.well-known/security.txt, status: 403}
+      - {path: /.well-known/openid-configuration, status: 403}
+      - {path: /.well-known/oauth-authorization-server, status: 403}
+      - {path: /.well-known/api-catalog, status: 403}
+      - {path: /.well-known/ai-plugin.json, status: 403}
+      - {path: /.well-known/agent-card.json, status: 403}
+      - {path: /.well-known/agent.json, status: 403}
+    note: The edge returns an nginx 403 for the entire /.well-known/ prefix.
+
+  - host: https://api.mailerlite.com
+    role: Classic API (legacy v2 base)
+    documents:
+      - {path: /.well-known/security.txt, status: 403}
+      - {path: /.well-known/openid-configuration, status: 403}
+      - {path: /.well-known/oauth-authorization-server, status: 403}
+      - {path: /.well-known/api-catalog, status: 403}
+      - {path: /.well-known/ai-plugin.json, status: 403}
+      - {path: /.well-known/agent-card.json, status: 403}
+      - {path: /.well-known/agent.json, status: 403}
+
+  - host: https://developers.mailerlite.com
+    role: developer portal / API reference
+    documents:
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/openid-configuration, status: 404}
+      - {path: /.well-known/oauth-authorization-server, status: 404}
+      - {path: /.well-known/api-catalog, status: 404}
+      - {path: /.well-known/ai-plugin.json, status: 404}
+      - {path: /.well-known/agent-card.json, status: 404}
+      - {path: /.well-known/agent.json, status: 404}
+    note: >-
+      Next.js docs app; every miss returns the framework 404 shell, so none of
+      these is a soft-200 false positive.
+
+  - host: https://www.mailerlite.com
+    role: marketing site
+    documents:
+      - {path: /.well-known/security.txt, status: 429}
+      - {path: /.well-known/openid-configuration, status: 429}
+      - {path: /.well-known/oauth-authorization-server, status: 429}
+      - {path: /.well-known/api-catalog, status: 429}
+      - {path: /.well-known/ai-plugin.json, status: 429}
+      - {path: /.well-known/agent-card.json, status: 429}
+      - {path: /.well-known/agent.json, status: 429}
+    note: >-
+      The www edge rate-limited this probe run (HTTP 429 on every path,
+      including paths that would otherwise 404). Static assets on the same host
+      DID answer 200 in the same run (/robots.txt, /sitemap.xml), so the 429 is
+      a throttle on HTML routes, not an absence claim. Treat these seven rows as
+      UNKNOWN rather than as a recorded absence.
+
+other_signals:
+  - path: /robots.txt
+    host: https://www.mailerlite.com
+    status: 200
+    file: mailerlite-robots.txt
+    spec: Cloudflare Content Signals Policy
+    directive: "Content-Signal: search=yes, ai-input=yes, ai-train=no"
+    interpretation: >-
+      MailerLite permits search indexing and AI input (retrieval/grounding at
+      inference time) but withholds consent for AI training on its content.
+      Crawling itself is unrestricted (`Disallow:` with an empty value).
+
+summary:
+  hosts_probed: 5
+  paths_probed_per_host: 7
+  documents_found: 3
+  security_txt: false
+  api_catalog: false
+  agent_card: false
+  openid_configuration: false
+  oauth_metadata: true
+  content_signal: true
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

@@ -1,0 +1,205 @@
+generated: '2026-08-13'
+method: searched
+source: https://developers.mailerlite.com/getting-started
+also:
+  - https://developers.mailerlite.com/api/batching
+  - openapi/*.yml
+format: custom
+format_note: >-
+  MailerLite does NOT implement RFC 9457 problem+json. Errors are a Laravel-style
+  envelope served as application/json. There is no `type` URI, no stable
+  machine-readable error code, and no per-error documentation anchor — the
+  status code plus the `errors` field map is the entire machine-readable
+  contract. Recorded here as the provider publishes it; nothing is invented.
+
+envelope:
+  content_type: application/json
+  fields:
+    message:
+      type: string
+      description: Human-readable summary. Not a stable identifier — do not branch on it.
+      required: true
+    errors:
+      type: object
+      description: >-
+        Present on 422 only. Maps a request field path to an array of
+        human-readable validation messages. For batch requests the keys are
+        indexed paths such as `requests.0.method`.
+      required: false
+  example_422: |
+    {
+      "message": "The given data was invalid.",
+      "errors": {
+        "email": ["The email must be a valid email address."]
+      }
+    }
+  example_401: |
+    {
+      "message": "Unauthenticated."
+    }
+  example_429: |
+    {
+      "message": "Too Many Attempts."
+    }
+
+problems:
+  - status: 400
+    name: Bad Request
+    title: Bad Request
+    description: >-
+      There was an error when processing your request. Adjust the request to the
+      endpoint requirements and try again.
+    retryable: false
+    source: https://developers.mailerlite.com/getting-started
+
+  - status: 401
+    name: Unauthorized
+    title: Unauthorized
+    description: The provided API token is invalid.
+    body: '{"message": "Unauthenticated."}'
+    retryable: false
+    remediation: >-
+      Re-issue the token in the dashboard under Integrations > MailerLite API.
+      Note that a token dies with the user who created it — if the token was
+      working and suddenly 401s, check whether that user was removed from the
+      account.
+    source: https://developers.mailerlite.com/getting-started
+
+  - status: 403
+    name: Forbidden
+    title: Forbidden
+    description: The action is denied for that account or for that particular API token.
+    retryable: false
+    remediation: >-
+      Plan-gated capability. The Free plan's API access is "limited and doesn't
+      include sending", so send-adjacent operations can 403 on a valid token.
+    source: https://developers.mailerlite.com/getting-started
+
+  - status: 404
+    name: Not Found
+    title: Resource not found
+    description: The requested resource does not exist on the system.
+    retryable: false
+    source: https://developers.mailerlite.com/getting-started
+
+  - status: 405
+    name: Method Not Allowed
+    title: Method not allowed
+    description: The HTTP method is not supported by the requested endpoint.
+    retryable: false
+    source: https://developers.mailerlite.com/getting-started
+
+  - status: 408
+    name: Request Timeout
+    title: Request timeout
+    description: There is an error on our system. Contact support.
+    retryable: true
+    note: >-
+      MailerLite classifies 408 as a SERVER-side fault ("There is an error on
+      our system"), not as a client timeout — unusual, and worth encoding in
+      retry logic.
+    source: https://developers.mailerlite.com/getting-started
+
+  - status: 422
+    name: Unprocessable Entity
+    title: Validation failed
+    description: >-
+      A validation error was found while processing the request. The `errors`
+      object carries per-field messages.
+    body: '{"message": "The given data was invalid.", "errors": {"<field>": ["..."]}}'
+    retryable: false
+    remediation: Correct the named fields and resubmit.
+    source: https://developers.mailerlite.com/getting-started
+
+  - status: 429
+    name: Too Many Requests
+    title: Rate limit exceeded
+    description: Too many requests were made to the API.
+    body: '{"message": "Too Many Attempts."}'
+    response_headers: [X-RateLimit-Limit, X-RateLimit-Remaining, Retry-After]
+    retryable: true
+    remediation: >-
+      Honour Retry-After (observed value 119 in the documented example), back
+      off with jitter, and move bulk work to POST /api/batch.
+    source: https://developers.mailerlite.com/getting-started
+
+  - status: 429
+    name: Import rate limit exceeded
+    title: Import creation rate limit exceeded
+    description: >-
+      A separate 5 requests/minute limit on import-creation endpoints was
+      exceeded.
+    body: "{\"message\": \"You're being rate limited on import creation.\"}"
+    response_headers: [Retry-After]
+    applies_to:
+      - POST /api/subscribers/import
+      - POST /api/groups/{group_id}/import-subscribers
+      - "POST /api/batch where every item is POST api/subscribers"
+    retryable: true
+    note: >-
+      A distinct 429 from the global one, with a distinct message and its own
+      budget. Clients that only handle the global 429 will retry into this wall.
+    source: https://developers.mailerlite.com/api/batching
+
+  - status: 500
+    name: Internal Server Error
+    title: Internal server error
+    description: There was an error on our system. Contact support.
+    retryable: true
+    source: https://developers.mailerlite.com/getting-started
+
+  - status: 502
+    name: Bad Gateway
+    title: Bad gateway
+    description: There was an error on our system. Contact support.
+    retryable: true
+    source: https://developers.mailerlite.com/getting-started
+
+  - status: 503
+    name: Service Unavailable
+    title: Service unavailable
+    description: There was an error on our system. Contact support.
+    retryable: true
+    source: https://developers.mailerlite.com/getting-started
+
+  - status: 504
+    name: Gateway Timeout
+    title: Gateway timeout
+    description: There was an error on our system. Contact support.
+    retryable: true
+    source: https://developers.mailerlite.com/getting-started
+
+success_codes:
+  - {status: 200, name: OK, description: The request was accepted.}
+  - {status: 201, name: Created, description: Resource was created.}
+  - {status: 202, name: Accepted, description: The request was accepted and further actions are taken in the background.}
+  - {status: 204, name: No Content, description: The request was accepted and there is nothing to return.}
+
+batch_semantics:
+  note: >-
+    POST /api/batch returns 200 even when sub-requests fail. Each entry in
+    `responses[]` carries its own `code` and `body`, and the envelope reports
+    `total` / `successful` / `failed`. A client that checks only the outer
+    status will silently miss failures.
+  example: |
+    {
+      "total": 1, "successful": 0, "failed": 1,
+      "responses": [
+        {"code": 422, "body": {"message": "The given data was invalid.",
+         "errors": {"requests.0.method": ["The name field is required."]}}}
+      ]
+    }
+
+summary:
+  problem_count: 14
+  rfc9457: false
+  machine_readable_codes: false
+  error_registry_published: false
+  gap: >-
+    No stable error codes and no per-error documentation URIs. An agent can
+    branch on HTTP status and on the presence of `errors`, but cannot
+    distinguish two different 422s or two different 403s programmatically.
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

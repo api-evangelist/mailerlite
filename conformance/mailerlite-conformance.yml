@@ -1,0 +1,210 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://developers.mailerlite.com/getting-started,
+  https://developers.mailerlite.com/mcp,
+  https://mcp.mailerlite.com/.well-known/oauth-authorization-server,
+  https://mcp.mailerlite.com/.well-known/oauth-protected-resource/mcp,
+  https://www.mailerlite.com/trust-page,
+  https://www.mailerlite.com/robots.txt,
+  openapi/*.yml
+notes: >-
+  Cross-cutting standards conformance for MailerLite. Every `conforms: true`
+  below is backed by a document or a live probe recorded in `evidence`. The
+  striking split is that MailerLite's AGENT surface (MCP) is standards-heavy —
+  RFC 8414, RFC 9728, RFC 7591, PKCE — while its REST surface is
+  standards-light: bearer keys, a bespoke error envelope, and no OpenAPI
+  published by the vendor.
+
+standards:
+  - id: openapi
+    conforms: false
+    evidence: >-
+      MailerLite publishes no OpenAPI/Swagger document. Probed
+      connect.mailerlite.com and api.mailerlite.com for /openapi.json,
+      /openapi.yaml, /swagger.json, /api-docs (all 404 or 403) and the docs host
+      for /openapi.json, /docs.json, /mint.json (all 404), 2026-08-13. The
+      specs in openapi/ are API Evangelist derivations from the published
+      reference, not vendor artifacts.
+
+  - id: oauth2
+    conforms: true
+    scope: mcp
+    evidence: >-
+      https://mcp.mailerlite.com/.well-known/oauth-authorization-server (200)
+      declares authorization_code + refresh_token grants with authorize/token/
+      register/revoke endpoints. The CLI also documents `mailerlite auth login`
+      over OAuth. The REST API itself is NOT OAuth — it is bearer API keys.
+
+  - id: rfc8414-oauth-authorization-server-metadata
+    conforms: true
+    scope: mcp
+    evidence: "GET https://mcp.mailerlite.com/.well-known/oauth-authorization-server -> 200 application/json"
+
+  - id: rfc9728-oauth-protected-resource-metadata
+    conforms: true
+    scope: mcp
+    evidence: >-
+      GET https://mcp.mailerlite.com/.well-known/oauth-protected-resource/mcp ->
+      200; and the 401 challenge on POST /mcp carries
+      WWW-Authenticate: Bearer realm="OAuth", resource_metadata="...".
+      This is the correct, spec-shaped discovery chain.
+
+  - id: rfc7591-dynamic-client-registration
+    conforms: true
+    scope: mcp
+    evidence: >-
+      registration_endpoint https://mcp.mailerlite.com/register is advertised,
+      and token_endpoint_auth_methods_supported includes "none" (public
+      clients). This is what lets Claude/ChatGPT/Cursor connect without a
+      pre-registered client id.
+
+  - id: rfc7636-pkce
+    conforms: true
+    scope: mcp
+    evidence: 'code_challenge_methods_supported: ["plain","S256"]'
+    note: >-
+      Advertising `plain` alongside `S256` is weaker than the MCP authorization
+      spec's recommendation; clients should insist on S256.
+
+  - id: mcp
+    conforms: true
+    version_observed: streamable-http
+    evidence: >-
+      https://mcp.mailerlite.com/mcp answers a JSON-RPC POST with a spec-shaped
+      401 + WWW-Authenticate challenge (probed 2026-08-13); the docs describe it
+      as "a streamable HTTP endpoint up to the latest MCP server
+      specifications". Labelled beta by the provider.
+
+  - id: oidc
+    conforms: false
+    evidence: "/.well-known/openid-configuration returns 404 on mcp.mailerlite.com and 403/404 elsewhere."
+
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      Errors are a Laravel validation envelope
+      ({"message": ..., "errors": {field: [msg]}}) served as application/json.
+      No application/problem+json, no type URIs. See
+      errors/mailerlite-problem-types.yml.
+
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: >-
+      No /.well-known/security.txt on any of the five hosts probed
+      (429/403/403/404/404). A Responsible Disclosure Program DOES exist at
+      www.mailerlite.com/legal/responsible-disclosure-program — it is simply not
+      machine-discoverable.
+
+  - id: rfc6750-bearer-token
+    conforms: true
+    evidence: "Authorization: Bearer <token> on every REST request; 401 on invalid token."
+
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: >-
+      No Sunset or Deprecation header support and no deprecation policy is
+      documented. See lifecycle/mailerlite-lifecycle.yml.
+
+  - id: idempotency-key
+    conforms: false
+    evidence: >-
+      No Idempotency-Key header is documented on any endpoint. Subscriber writes
+      are idempotent by natural key (email upsert), but that is resource
+      semantics, not a replay contract. See conventions/mailerlite-conventions.yml.
+
+  - id: cursor-pagination
+    conforms: true
+    evidence: >-
+      limit + opaque `cursor` request params; links{first,last,prev,next} and
+      meta{path,per_page,next_cursor,prev_cursor} in every collection response.
+
+  - id: json-api
+    conforms: false
+    evidence: >-
+      Responses use a `data` envelope but not the JSON:API media type,
+      resource-object shape, or `included` compound documents.
+
+  - id: webhook-hmac-signature
+    conforms: true
+    evidence: >-
+      Every webhook delivery carries a `Signature` header holding the HMAC-SHA256
+      of the raw JSON payload keyed on the webhook secret; MailerLite publishes a
+      PHP verification example.
+    note: >-
+      Bespoke, not RFC 9421 HTTP Message Signatures and not the Standard
+      Webhooks convention — no timestamp in the signed material and no
+      replay-window guidance, so receivers must add their own replay defence.
+
+  - id: rfc9421-http-message-signatures
+    conforms: false
+    evidence: The webhook signature is a bare HMAC header, not an RFC 9421 Signature-Input/Signature pair.
+
+  - id: asyncapi
+    conforms: false
+    evidence: >-
+      MailerLite publishes no AsyncAPI document. The AsyncAPI 2.6 file in
+      asyncapi/ is an API Evangelist derivation from the published webhook
+      reference.
+
+  - id: iso-27001
+    conforms: true
+    kind: certification
+    version: '2022'
+    evidence: "https://www.mailerlite.com/trust-page names ISO/IEC 27001:2022 (ISMS)."
+
+  - id: gdpr
+    conforms: true
+    kind: regulation
+    evidence: >-
+      https://www.mailerlite.com/gdpr-compliance (200), a Data Processing
+      Addendum at /legal/data-processing-agreement, and a GDPR erasure operation
+      on the API (POST /api/subscribers/{id}/forget, `mailerlite subscriber
+      forget`).
+
+  - id: eu-us-data-privacy-framework
+    conforms: true
+    kind: transfer-mechanism
+    evidence: "Named on https://www.mailerlite.com/trust-page, with Swiss-U.S. and UK Extension."
+
+  - id: pci-dss
+    conforms: partial
+    kind: compliance
+    evidence: >-
+      Named on the trust page but attributed to the payment processors in
+      MailerLite's payment path, not asserted as a MailerLite-held AoC.
+
+  - id: soc2
+    conforms: false
+    evidence: Not named anywhere on the trust page or the legal index.
+
+  - id: content-signals-policy
+    conforms: true
+    kind: ai-consent
+    evidence: >-
+      https://www.mailerlite.com/robots.txt carries
+      "Content-Signal: search=yes, ai-input=yes, ai-train=no" (probed 200,
+      2026-08-13) — search indexing and inference-time grounding permitted,
+      training withheld.
+
+  - id: can-spam-anti-spam-policy
+    conforms: true
+    kind: policy
+    evidence: >-
+      https://www.mailerlite.com/legal/anti-spam-policy, and the Terms make the
+      API-key holder responsible for abuse prevention when collecting
+      subscribers outside MailerLite forms.
+
+summary:
+  asserted: 22
+  conforming: 12
+  partial: 1
+  non_conforming: 9
+  strongest_area: MCP/OAuth discovery chain (RFC 8414 + 9728 + 7591 + PKCE)
+  weakest_area: >-
+    No vendor OpenAPI, no RFC 9457 errors, no security.txt, no Sunset header,
+    no idempotency key.
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

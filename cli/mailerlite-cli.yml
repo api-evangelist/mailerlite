@@ -1,0 +1,151 @@
+generated: '2026-08-13'
+method: searched
+source: https://developers.mailerlite.com/cli
+repository: https://github.com/mailerlite/mailerlite-cli
+notes: >-
+  MailerLite ships a first-party CLI written in Go, documented on its own
+  developer-portal page and released on GitHub. It is notable for two reasons:
+  it authenticates over OAUTH by default — the only place MailerLite offers
+  OAuth to a human developer — and it ships a full TUI dashboard, which is rare
+  in an email-marketing CLI. The binary itself is catalogued in
+  packages/mailerlite-packages.yml.
+
+binary: mailerlite
+language: go
+minimum_go: '1.25'
+version: v1.0.2
+released: '2026-02-19'
+releases: https://github.com/mailerlite/mailerlite-cli/releases
+
+install:
+  - {method: homebrew, command: "brew install --cask mailerlite/tap/mailerlite", platform: macOS, tap: https://github.com/mailerlite/homebrew-tap}
+  - {method: github-release, command: "download a prebuilt binary", platform: [linux, macos, windows], url: https://github.com/mailerlite/mailerlite-cli/releases}
+  - {method: go-install, command: "go install github.com/mailerlite/mailerlite-cli@latest"}
+  - {method: source, command: "git clone https://github.com/mailerlite/mailerlite-cli.git && go build -o mailerlite ."}
+  - {method: nix-run, command: "nix run git+ssh://git@github.com/mailerlite/mailerlite-cli.git"}
+  - {method: nix-profile, command: "nix profile install git+ssh://git@github.com/mailerlite/mailerlite-cli.git"}
+
+authentication:
+  methods:
+    - {name: oauth, command: "mailerlite auth login", default: true, note: "Opens a browser to authorize the CLI; tokens auto-refresh on expiry."}
+    - {name: api-token, command: "mailerlite auth login --method token", note: "Prompts for a token from https://dashboard.mailerlite.com/integrations/api"}
+    - {name: environment, command: "export MAILERLITE_API_TOKEN=\"...\"", note: "Non-interactive/CI path."}
+  profiles:
+    commands: ["mailerlite profile add <name>", "mailerlite profile list", "mailerlite profile switch <name>", "--profile <name>"]
+    purpose: Multiple accounts or environments (staging/production).
+  accounts:
+    commands: ["mailerlite account list", "mailerlite account switch <account_id>"]
+    purpose: Switching between MailerLite accounts an OAuth credential can reach.
+  session:
+    commands: ["mailerlite auth status", "mailerlite auth logout"]
+
+global_flags:
+  - {flag: "--json", description: "Output raw JSON instead of formatted tables"}
+  - {flag: "--verbose, -v", description: "Print HTTP request and response details"}
+  - {flag: "--profile <name>", description: "Use a specific auth profile"}
+  - {flag: "--yes, -y", description: "Skip confirmation prompts"}
+  - {flag: "--help, -h", description: "Show help for any command"}
+
+environment:
+  - {name: MAILERLITE_API_TOKEN, description: API token used when not logged in via OAuth}
+  - {name: NO_COLOR, description: Disables colored output (honoured by the CLI)}
+
+command_groups:
+  - group: subscriber
+    commands: [list, count, get, upsert, update, delete, forget]
+    note: "`forget` is the GDPR hard delete; `delete` is the softer removal that keeps re-subscription info."
+  - group: group
+    commands: [list, create, update, delete, subscribers, assign, unassign]
+  - group: campaign
+    commands: [list, get, create, update, schedule, cancel, subscribers, languages, delete]
+    note: "`schedule` is the only send-triggering, irreversible command."
+  - group: automation
+    commands: [list, get, subscribers]
+  - group: form
+    commands: [list, get, update, delete, subscribers]
+  - group: field
+    commands: [list, create, update, delete]
+  - group: segment
+    commands: [list, update, delete, subscribers]
+  - group: webhook
+    commands: [list, create, get, update, delete]
+    note: "`--events` takes the documented event names, e.g. subscriber.created,campaign.sent"
+  - group: timezone
+    commands: [list]
+  - group: shop
+    commands: [list, get, create, update, delete, count]
+    surface: ecommerce
+  - group: product
+    commands: [list, get, create, update, delete, count]
+    surface: ecommerce
+    requires: "--shop"
+  - group: category
+    commands: [list, get, create, update, delete, count, products, assign-product, unassign-product]
+    surface: ecommerce
+    requires: "--shop"
+  - group: customer
+    commands: [list, get, create, update, delete, count]
+    surface: ecommerce
+    requires: "--shop"
+  - group: order
+    commands: [list, get, create, update, delete, count]
+    surface: ecommerce
+    requires: "--shop"
+  - group: cart
+    commands: [list, get, update, count]
+    surface: ecommerce
+    requires: "--shop"
+  - group: cart-item
+    commands: [list, get, create, update, delete, count]
+    surface: ecommerce
+    requires: ["--shop", "--cart"]
+  - group: import
+    commands: [categories, products, orders]
+    surface: ecommerce
+    note: "Bulk import from a JSON file: mailerlite import products --shop <id> --file products.json"
+  - group: profile
+    commands: [add, list, switch]
+  - group: account
+    commands: [list, switch]
+  - group: auth
+    commands: [login, status, logout]
+  - group: dashboard
+    commands: []
+    note: "Launches the interactive TUI."
+  - group: completion
+    commands: [bash, zsh, fish, powershell]
+
+key_flows:
+  - name: Interactive TUI dashboard
+    command: mailerlite dashboard
+    description: >-
+      lazygit-style interface with sidebar navigation across subscribers,
+      campaigns, automations, groups and forms; vim keybindings (j/k, Enter,
+      ? for help, q to quit).
+  - name: Scriptable JSON output
+    command: "mailerlite subscriber list --json | jq '.[].email'"
+    description: "--json on any command emits raw JSON for piping."
+  - name: Shell completion
+    command: "source <(mailerlite completion bash)"
+    description: Completions for bash, zsh, fish and PowerShell.
+
+agent_skill:
+  published: true
+  repository: https://github.com/mailerlite/mailerlite-skills
+  note: >-
+    MailerLite publishes an Agent Skill that teaches an agent to drive this CLI.
+    See skills/_index.yml.
+
+summary:
+  command_groups: 22
+  ecommerce_groups: 8
+  install_methods: 6
+  auth_methods: 3
+  oauth: true
+  tui: true
+  json_output: true
+  shell_completion: true
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

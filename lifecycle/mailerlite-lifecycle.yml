@@ -1,0 +1,127 @@
+generated: '2026-08-13'
+method: searched
+source: https://developers.mailerlite.com/getting-started
+also:
+  - https://status.mailerlite.com/
+  - https://developers-classic.mailerlite.com/
+  - https://www.mailerlite.com/mailerlite-vs-mailerlite-classic
+notes: >-
+  Probed and read 2026-08-13. MailerLite runs two API generations in parallel:
+  the current API on connect.mailerlite.com and the Classic v2 API on
+  api.mailerlite.com, whose documentation now lives at
+  developers-classic.mailerlite.com (the previous apis.yml humanURL,
+  classic.developers.mailerlite.com, does not resolve — corrected in this pass).
+
+versioning:
+  scheme: date-header
+  header: X-Version
+  example: '2038-01-19'
+  current: latest
+  default_behaviour: >-
+    Requests run against the latest version unless X-Version pins a date.
+  path_versioning: false
+  docs: https://developers.mailerlite.com/getting-started
+  gap: >-
+    MailerLite publishes no version index and no changelog of what any given
+    X-Version date changes, so pinning is possible but diffing is not.
+
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  documented_policy: false
+  note: >-
+    No formal deprecation policy, no RFC 8594 Sunset/Deprecation header support,
+    and no published removal timeline are documented anywhere on the developer
+    surface. The Classic API is described as legacy in prose and the new API is
+    positioned as the target for new integrations, but that is product framing,
+    not a deprecation contract with dates. No `Deprecation` pointer is emitted
+    for this provider because none of the machinery a deprecation check reads
+    actually exists.
+
+generations:
+  - name: MailerLite API (current)
+    base: https://connect.mailerlite.com/api
+    docs: https://developers.mailerlite.com/
+    status: current
+  - name: MailerLite Classic API v2
+    base: https://api.mailerlite.com/api/v2
+    docs: https://developers-classic.mailerlite.com/
+    status: legacy
+    note: >-
+      Serves legacy MailerLite Classic accounts only. The official PHP wrapper
+      for it (mailerlite/mailerlite-api-v2-php-sdk) last shipped in 2021. New
+      integrations are directed to connect.mailerlite.com.
+
+status_page:
+  url: https://status.mailerlite.com/
+  http_status: 200
+  probed: '2026-08-13'
+  components:
+    - MailerLite website
+    - MailerLite App
+    - MailerLite Email sending
+    - MailerLite Landing pages & websites
+    - MailerLite Links & tracking
+    - MailerLite API & integrations
+    - MailerLite Subscriber management
+    - MailerLite Automations
+    - "Classic (6 components)"
+  features:
+    - per-component uptime history (90-day window)
+    - incident calendar
+    - subscribe-to-updates
+    - report-a-problem
+  observed_state: "We're fully operational (100% uptime across all components, May–Aug 2026)"
+  note: >-
+    "MailerLite API & integrations" is a first-class component, so API health is
+    separately observable from app health.
+
+sla:
+  url: null
+  uptime_target: null
+  note: >-
+    No SLA document is published. www.mailerlite.com/legal lists 22 legal
+    documents and none of them is an SLA or uptime commitment. Enterprise plans
+    advertise a dedicated success manager and deliverability support but no
+    published availability target.
+
+changelog:
+  url: null
+  note: >-
+    No dated API changelog was found. The docs site has no /changelog route
+    (404), llms.txt lists no changelog page, and neither the release-notes nor
+    what's-new patterns resolve on the developer host. This is the single
+    largest operational-transparency gap on an otherwise well-documented API,
+    and it compounds the X-Version gap above.
+
+roadmap:
+  url: null
+  note: >-
+    roadmap.mailerlite.com returns HTTP 200 but serves the same 20,689-byte
+    app shell as trust.mailerlite.com, security.mailerlite.com and a control
+    hostname that does not exist — it is a wildcard SPA catch-all, not a
+    roadmap. Rejected as a false positive; no Roadmap pointer emitted.
+
+deprecated_operations: []
+deprecated_operations_note: >-
+  No operation in openapi/*.yml carries `deprecated: true`.
+
+support:
+  help_center: https://www.mailerlite.com/help
+  developer_contact: https://developers.mailerlite.com/
+  mcp_feedback: mcp@mailerlite.com
+  security: security@mailerlite.com
+
+summary:
+  status_page: true
+  deprecation_policy: false
+  sunset_header: false
+  sla: false
+  changelog: false
+  versioning: date-header
+  parallel_generations: 2
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

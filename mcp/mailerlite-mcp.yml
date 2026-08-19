@@ -1,0 +1,200 @@
+generated: '2026-08-13'
+method: searched
+status: published
+source: https://developers.mailerlite.com/mcp
+notes: >-
+  MailerLite ships a FIRST-PARTY REMOTE MCP server at https://mcp.mailerlite.com/mcp,
+  documented at https://developers.mailerlite.com/mcp and listed in the docs
+  llms.txt. It is streamable HTTP, OAuth-protected, and reachable by an agent
+  today with no local install. This supersedes the previous apis.yml MCPServer
+  pointer, which pointed at github.com/mailerlite/canny-mcp-server — that repo
+  is a server for Canny.io (MailerLite's feedback vendor), not for the
+  MailerLite API, and was a mis-attribution.
+  The provider labels the server "beta".
+
+deployment:
+  mode: remote
+  endpoint: https://mcp.mailerlite.com/mcp
+  transport: streamable-http
+  auth: oauth
+  verified: probed
+  evidence:
+    - probe: POST https://mcp.mailerlite.com/mcp {"jsonrpc":"2.0","id":1,"method":"tools/list"}
+      date: '2026-08-13'
+      http_status: 401
+      www_authenticate: >-
+        Bearer realm="OAuth",
+        resource_metadata="https://mcp.mailerlite.com/.well-known/oauth-protected-resource/mcp",
+        error="invalid_token", error_description="Missing or invalid access token"
+      body: '{"error":"invalid_token","error_description":"Missing or invalid access token"}'
+      interpretation: >-
+        The endpoint is live and speaks MCP over HTTP, but tools/list requires an
+        OAuth access token. The tool list below therefore comes from the
+        provider's own published documentation (names + descriptions), NOT from
+        a live tools/list response — input schemas require authenticated
+        introspection and are not recorded here.
+    - probe: GET https://mcp.mailerlite.com/.well-known/oauth-protected-resource/mcp
+      date: '2026-08-13'
+      http_status: 200
+    - probe: GET https://mcp.mailerlite.com/.well-known/oauth-authorization-server
+      date: '2026-08-13'
+      http_status: 200
+
+server:
+  name: mailerlite
+  vendor: MailerLite
+  url: https://mcp.mailerlite.com/mcp
+  transport: http
+  maturity: beta
+  docs: https://developers.mailerlite.com/mcp
+  examples: https://developers.mailerlite.com/mcp/examples
+  feedback: mcp@mailerlite.com
+
+authorization:
+  model: oauth2
+  protected_resource_metadata: https://mcp.mailerlite.com/.well-known/oauth-protected-resource/mcp
+  authorization_server_metadata: https://mcp.mailerlite.com/.well-known/oauth-authorization-server
+  issuer: https://mcp.mailerlite.com
+  authorization_endpoint: https://mcp.mailerlite.com/authorize
+  token_endpoint: https://mcp.mailerlite.com/token
+  registration_endpoint: https://mcp.mailerlite.com/register
+  revocation_endpoint: https://mcp.mailerlite.com/token
+  grant_types: [authorization_code, refresh_token]
+  code_challenge_methods: [plain, S256]
+  token_endpoint_auth_methods: [client_secret_basic, client_secret_post, none]
+  bearer_methods_supported: [header]
+  dynamic_client_registration: true
+  scopes_supported: null
+  note: >-
+    The authorization-server metadata declares no `scopes_supported`, so the
+    server exposes no scope surface to record — see the absence of scopes/ in
+    this repo. Dynamic Client Registration (RFC 7591) is open, which is what
+    lets Claude, ChatGPT, Cursor and VS Code connect without a pre-registered
+    client id.
+
+clients_documented:
+  - {client: Claude Desktop/Web, method: Settings > Connectors > Add Custom Connector}
+  - {client: Claude Code, method: "claude mcp add --transport http mailerlite https://mcp.mailerlite.com/mcp"}
+  - {client: Gemini CLI, method: "httpUrl entry in ~/.gemini/settings.json"}
+  - {client: VS Code, method: one-click vscode:mcp/install deeplink}
+  - {client: Cursor, method: cursor:// deeplink}
+  - {client: ChatGPT, method: "Settings > Connectors > Create (developer mode, OAuth); Pro/Plus beta"}
+
+tools_source: https://developers.mailerlite.com/mcp
+tools_source_note: >-
+  Names and descriptions transcribed verbatim from the provider's Available
+  Tools section. inputSchema is NOT recorded — tools/list is OAuth-gated.
+
+tools:
+  # --- Subscriber management ---
+  - {name: add_subscriber, category: subscribers, description: "Add a new subscriber or update an existing one (supports email, name, fields, groups)"}
+  - {name: get_subscriber, category: subscribers, description: Get subscriber info by ID or email}
+  - {name: update_subscriber, category: subscribers, description: Update subscriber information (non-destructive)}
+  - {name: list_subscribers, category: subscribers, description: "List subscribers with filtering by status (active, unsubscribed, unconfirmed, bounced, junk)"}
+  - {name: get_subscriber_activity, category: subscribers, description: Get activity history for a subscriber}
+  - {name: get_subscriber_count, category: subscribers, description: Get the total count of subscribers}
+  - {name: delete_subscriber, category: subscribers, description: Delete a subscriber (keeps info for re-subscription)}
+  # --- Campaign management ---
+  - {name: create_campaign, category: campaigns, description: "Create a new email campaign (regular, ab, resend types)"}
+  - {name: get_campaign, category: campaigns, description: Get specific campaign details}
+  - {name: list_campaigns, category: campaigns, description: List campaigns with filtering by status and type}
+  - {name: update_campaign, category: campaigns, description: "Update campaign details (name, subject, from, content)"}
+  - {name: delete_campaign, category: campaigns, description: Delete a campaign}
+  - {name: schedule_campaign, category: campaigns, description: Schedule a campaign to be sent}
+  - {name: cancel_campaign, category: campaigns, description: Cancel a scheduled campaign}
+  - {name: get_campaign_subscribers, category: campaigns, description: Get subscribers who received a campaign, with filters}
+  - {name: get_campaign_links, category: campaigns, description: List the links in a sent campaign with their click stats}
+  - {name: get_campaign_link_recipients, category: campaigns, description: Get the subscribers who clicked a specific link}
+  # --- Group management ---
+  - {name: create_group, category: groups, description: Create a new subscriber group}
+  - {name: update_group, category: groups, description: Update a group name}
+  - {name: delete_group, category: groups, description: Delete a group}
+  - {name: get_group_subscribers, category: groups, description: Get subscribers in a group}
+  - {name: assign_subscriber_to_group, category: groups, description: Add a subscriber to a group}
+  - {name: unassign_subscriber_from_group, category: groups, description: Remove a subscriber from a group}
+  - {name: import_subscribers_to_group, category: groups, description: Bulk import subscribers into a group}
+  # --- Segment management ---
+  - {name: list_segments, category: segments, description: List all segments}
+  - {name: create_segment, category: segments, description: Create a new segment}
+  - {name: get_segment, category: segments, description: "Get a single segment's details"}
+  - {name: update_segment, category: segments, description: Update a segment name}
+  - {name: delete_segment, category: segments, description: Delete a segment}
+  - {name: get_segment_subscribers, category: segments, description: Get subscribers in a segment, with status filtering}
+  # --- Field management ---
+  - {name: list_fields, category: fields, description: List custom subscriber fields}
+  - {name: create_field, category: fields, description: "Create a custom field (text, number, or date)"}
+  - {name: update_field, category: fields, description: Rename a custom field}
+  - {name: delete_field, category: fields, description: Delete a custom field}
+  # --- Form management ---
+  - {name: list_forms, category: forms, description: "List forms by type (popup, embedded, promotion)"}
+  - {name: create_form, category: forms, description: Create a new form}
+  - {name: get_form, category: forms, description: "Get a single form's details"}
+  - {name: update_form, category: forms, description: Update a form name}
+  - {name: delete_form, category: forms, description: Delete a form}
+  - {name: get_form_subscribers, category: forms, description: Get subscribers who signed up through a form}
+  # --- Automation management ---
+  - {name: list_automations, category: automations, description: List automations with filtering by name, group, and enabled status}
+  - {name: get_automation_activity, category: automations, description: Get subscriber activity for an automation, with status filtering}
+  - {name: create_automation, category: automations, description: Create a draft automation}
+  - {name: build_custom_automation, category: automations, description: Plan and validate a custom automation before creating it}
+  - {name: start_automation_conversation, category: automations, description: Begin a guided, conversational automation build}
+  - {name: update_automation_email, category: automations, description: Update the content of an automation email step}
+  - {name: update_automation_delay, category: automations, description: Update the delay of an automation step}
+  - {name: dry_run_automation, category: automations, description: Validate an automation without sending anything}
+  - {name: send_test_automation, category: automations, description: Send test emails for an automation}
+  - {name: delete_automation, category: automations, description: Delete an automation}
+  # --- Templates ---
+  - {name: discover_automation_templates, category: templates, description: Browse available automation templates}
+  - {name: install_template, category: templates, description: Install an automation template into the account}
+  - {name: list_email_templates, category: templates, description: List available email templates}
+  - {name: list_form_templates, category: templates, description: List available form templates}
+  # --- Email content ---
+  - {name: generate_email_content, category: content, description: Generate and validate HTML email content}
+  - {name: suggest_subject_lines, category: content, description: Generate and validate subject line suggestions}
+  # --- E-commerce ---
+  - {name: manage_ecommerce_shops, category: ecommerce, description: "List, fetch, create, update, or delete shops"}
+  - {name: manage_ecommerce_products, category: ecommerce, description: "List, fetch, create, update, delete, or bulk-import products in a shop"}
+  - {name: manage_ecommerce_customers, category: ecommerce, description: "List, fetch, create, update, or delete customers in a shop"}
+  - {name: manage_ecommerce_orders, category: ecommerce, description: "List, fetch, create, update, delete, or bulk-import orders in a shop"}
+  - {name: manage_ecommerce_categories, category: ecommerce, description: "List, fetch, create, update, delete, or bulk-import product categories"}
+  - {name: manage_ecommerce_carts, category: ecommerce, description: "List, fetch, or update shopping carts"}
+  - {name: manage_ecommerce_cart_items, category: ecommerce, description: "List, fetch, create, update, or delete the line items of a cart"}
+  - {name: manage_ecommerce_category_products, category: ecommerce, description: "List products in a category, or attach/detach a product"}
+  # --- Webhooks ---
+  - {name: list_webhooks, category: webhooks, description: List all webhooks}
+  - {name: get_webhook, category: webhooks, description: "Get a specific webhook's details"}
+  - {name: create_webhook, category: webhooks, description: "Create a new webhook with a name, URL, and events"}
+  - {name: update_webhook, category: webhooks, description: "Update a webhook, including enabling/disabling it"}
+  - {name: delete_webhook, category: webhooks, description: Delete a webhook}
+  # --- Discovery & utility ---
+  - {name: search, category: discovery, description: Search across MailerLite resources}
+  - {name: fetch, category: discovery, description: Fetch a specific MailerLite resource by reference}
+  - {name: list_resources, category: discovery, description: List the resource types available to work with}
+  - {name: select_resource, category: discovery, description: Resolve a resource by name to its ID}
+  - {name: batch_requests, category: discovery, description: Run multiple API operations in a single batched request}
+  - {name: get_dashboard_link, category: discovery, description: Get a deep link to edit a resource in the MailerLite dashboard}
+  - {name: get_auth_status, category: auth, description: Get the current authentication status}
+
+design_notes:
+  - >-
+    The e-commerce surface is collapsed into eight `manage_ecommerce_*` tools
+    that take an `action` parameter (list/get/create/update/delete/import)
+    rather than one tool per operation — a deliberate tool-count reduction the
+    provider documents explicitly.
+  - >-
+    `search` and `fetch` are the OpenAI-connector convention pair, which is
+    consistent with the documented ChatGPT connector support.
+  - >-
+    Several tools have NO REST equivalent — the conversational automation
+    builders, the template installers and the AI content generators are
+    MCP-only capability. See mcp/mailerlite-tool-crosswalk.yml.
+
+summary:
+  tool_count: 76
+  categories: [subscribers, campaigns, groups, segments, fields, forms, automations, templates, content, ecommerce, webhooks, discovery, auth]
+  live_schema_available: false
+  live_schema_blocker: oauth
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

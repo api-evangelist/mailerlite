@@ -1,0 +1,35 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MailerLite Automations API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Automations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List automations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://connect.mailerlite.com/api/automations"
+          },
+          "docs": "List automations"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

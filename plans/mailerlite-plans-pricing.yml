@@ -4,140 +4,150 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: MailerLite
 providerId: mailerlite
 created: '2026-05-08'
-modified: '2026-05-08'
+modified: '2026-08-13'
+generated: '2026-08-13'
+method: searched
+source: https://www.mailerlite.com/pricing
 reconciled: true
-tags:
-- Email Marketing
-- Automation
-- Subscribers
-- Plans
-description: MailerLite subscription plans. API access is included with all tiers.
 notes: >-
-  Pricing scales with subscriber count; entry-tier prices shown. All plans include the
-  REST API. Free plan supports up to 500 subscribers and 12,000 emails/month.
+  Re-read from the live pricing page on 2026-08-13, replacing a 2026-05-08
+  bulk-sweep `generated` file whose tier names ("Growing Business", "Advanced")
+  and free-plan allowances (500 subscribers / 12,000 emails) no longer match
+  what MailerLite publishes. The current ladder is Free / Comfort / Power /
+  Enterprise, and the Free tier is materially smaller than recorded:
+  250 subscribers and 2,500 monthly emails.
+
+  THE FINDING THAT MATTERS FOR API CONSUMERS: API and MCP access is
+  PLAN-GATED. MailerLite states plainly that "Email sending via the API and MCP
+  server is available on paid plans. On Free, API and MCP access is limited and
+  doesn't include sending." The previous artifact asserted "API access is
+  included with all tiers", which was wrong. An agent authenticating against a
+  Free account can read and manage records but cannot send.
+tags:
+  - Email Marketing
+  - Automation
+  - Subscribers
+  - Plans
+  - Pricing
+description: >-
+  MailerLite subscription plans. Pricing scales with active subscriber count.
+  API and MCP send capability is restricted to paid plans.
 sources:
-- https://www.mailerlite.com/pricing
-- https://developers.mailerlite.com/docs/
+  - https://www.mailerlite.com/pricing
+  - https://developers.mailerlite.com/getting-started
+
+currency: USD
+billing_periods: [monthly, annual]
+annual_discount: '10%'
+pricing_axis: active subscriber count
+plan_count: 4
+
 plans:
-- id: mailerlite-free
-  name: Free
-  type: free
-  description: Free up to 500 subscribers and 12,000 emails/month.
-  entries:
-  - label: Subscribers
-    name: subscribers
-    type: tiered
-    metric: subscribers
-    limit: 500
-    timeFrame: monthly
-    geo: global
-    unit: 1
+  - id: mailerlite-free
+    name: Free
+    type: free
+    description: >-
+      Free tier for up to 250 subscribers and 2,500 monthly emails, with two
+      user seats. API and MCP access is limited and excludes sending.
     price: 0
-    userMultiplied: false
-  - label: Monthly Emails
-    name: monthly_emails
-    type: included
-    metric: emails
-    limit: 12000
-    timeFrame: monthly
-    geo: global
-    unit: 1
-    price: 0
-    userMultiplied: false
-  - label: API Access
-    name: api_access
-    type: included
-    metric: api_call
-    limit: -1
-    timeFrame: monthly
-    geo: global
-    unit: 1
-    price: 0
-    userMultiplied: false
-  elements:
-  - name: Drag and drop editor
-  - name: Automation
-  - name: 1 website, 10 landing pages
-- id: mailerlite-growing-business
-  name: Growing Business
-  type: paid
-  description: Entry paid tier with unlimited monthly emails.
-  entries:
-  - label: Plan Fee (entry tier)
-    name: plan_fee
-    type: tiered
-    metric: month
-    limit: 1
-    timeFrame: monthly
-    geo: global
-    unit: 1
-    price: 10
     currency: USD
-    userMultiplied: false
-  - label: API Access
-    name: api_access
-    type: included
-    metric: api_call
-    limit: -1
-    timeFrame: monthly
-    geo: global
-    unit: 1
-    price: 0
-    userMultiplied: false
-  elements:
-  - name: Unlimited monthly emails
-  - name: 3 user seats
-  - name: Unlimited templates, websites, landing pages
-- id: mailerlite-advanced
-  name: Advanced
-  type: paid
-  description: Mid-to-high tier with unlimited seats.
-  entries:
-  - label: Plan Fee (entry tier)
-    name: plan_fee
-    type: tiered
-    metric: month
-    limit: 1
-    timeFrame: monthly
-    geo: global
-    unit: 1
-    price: 20
+    billing_period: monthly
+    api_access: limited
+    api_access_note: "API and MCP access is limited and does not include sending."
+    entries:
+      - {label: Subscribers, name: subscribers, type: tiered, metric: subscribers, limit: 250, timeFrame: monthly, geo: global, unit: 1, price: 0, userMultiplied: false}
+      - {label: Monthly Emails, name: monthly_emails, type: included, metric: emails, limit: 2500, timeFrame: monthly, geo: global, unit: 1, price: 0, userMultiplied: false}
+      - {label: User Seats, name: seats, type: included, metric: seats, limit: 2, timeFrame: monthly, geo: global, unit: 1, price: 0, userMultiplied: false}
+      - {label: API / MCP Access, name: api_access, type: restricted, metric: api_call, limit: -1, timeFrame: monthly, geo: global, unit: 1, price: 0, userMultiplied: false}
+    elements:
+      - name: Campaigns
+      - name: Automations
+      - name: Website and landing page
+      - name: Signup forms
+      - name: "API and MCP access (read/manage only — no sending)"
+
+  - id: mailerlite-comfort
+    name: Comfort
+    type: paid
+    description: >-
+      Entry paid tier. Price scales with the subscriber tier; the monthly email
+      allowance is 10x the subscriber tier ceiling (e.g. 1,000 subscribers =
+      10,000 emails/month). Three user seats.
+    price: 12
+    price_qualifier: from
     currency: USD
-    userMultiplied: false
-  - label: API Access
-    name: api_access
-    type: included
-    metric: api_call
-    limit: -1
-    timeFrame: monthly
-    geo: global
-    unit: 1
-    price: 0
-    userMultiplied: false
-  elements:
-  - name: Unlimited user seats
-  - name: Custom HTML editor
-  - name: Smart sending
-  - name: Facebook integration, preference center
-- id: mailerlite-enterprise
-  name: Enterprise
-  type: enterprise
-  description: Custom pricing for 100K+ subscribers; dedicated success manager.
-  entries:
-  - label: Plan Fee
-    name: plan_fee
-    type: custom
-    metric: month
-    limit: -1
-    timeFrame: monthly
-    geo: global
-    unit: 1
-    price: contact sales
-    userMultiplied: false
-  elements:
-  - name: 24/7 live chat and email support
-  - name: Dedicated IP and deliverability consultation
-  - name: Dedicated success manager
+    billing_period: monthly
+    api_access: full
+    entries:
+      - {label: Plan Fee (entry tier), name: plan_fee, type: tiered, metric: month, limit: 1, timeFrame: monthly, geo: global, unit: 1, price: 12, currency: USD, userMultiplied: false}
+      - {label: Monthly Emails, name: monthly_emails, type: tiered, metric: emails, limit: null, timeFrame: monthly, geo: global, unit: 1, price: 0, userMultiplied: false, note: "10x the subscriber tier ceiling"}
+      - {label: User Seats, name: seats, type: included, metric: seats, limit: 3, timeFrame: monthly, geo: global, unit: 1, price: 0, userMultiplied: false}
+      - {label: API / MCP Access, name: api_access, type: included, metric: api_call, limit: -1, timeFrame: monthly, geo: global, unit: 1, price: 0, userMultiplied: false}
+    elements:
+      - name: Unlimited templates
+      - name: Dynamic emails
+      - name: AI writing assistant
+      - name: Smart sending
+      - name: Multivariate testing
+      - name: Full API and MCP access, including sending
+
+  - id: mailerlite-power
+    name: Power
+    type: paid
+    description: >-
+      Upper paid tier with unlimited monthly emails (fair-use), unlimited user
+      seats and unlimited automations, forms, digital products and bookings.
+    price: 25
+    price_qualifier: from
+    currency: USD
+    billing_period: monthly
+    api_access: full
+    entries:
+      - {label: Plan Fee (entry tier), name: plan_fee, type: tiered, metric: month, limit: 1, timeFrame: monthly, geo: global, unit: 1, price: 25, currency: USD, userMultiplied: false}
+      - {label: Monthly Emails, name: monthly_emails, type: included, metric: emails, limit: -1, timeFrame: monthly, geo: global, unit: 1, price: 0, userMultiplied: false, note: "Unlimited, subject to fair use"}
+      - {label: User Seats, name: seats, type: included, metric: seats, limit: -1, timeFrame: monthly, geo: global, unit: 1, price: 0, userMultiplied: false}
+      - {label: API / MCP Access, name: api_access, type: included, metric: api_call, limit: -1, timeFrame: monthly, geo: global, unit: 1, price: 0, userMultiplied: false}
+    elements:
+      - name: Everything in Comfort
+      - name: Unlimited automations
+      - name: Unlimited forms
+      - name: Unlimited digital products
+      - name: Unlimited bookings
+      - name: 24/7 live chat support
+
+  - id: mailerlite-enterprise
+    name: Enterprise
+    type: enterprise
+    description: >-
+      Custom pricing for businesses with over 200,000 active subscribers.
+    price: null
+    price_label: contact sales
+    currency: USD
+    billing_period: custom
+    api_access: full
+    threshold: 200000 active subscribers
+    entries:
+      - {label: Plan Fee, name: plan_fee, type: custom, metric: month, limit: -1, timeFrame: monthly, geo: global, unit: 1, price: contact sales, userMultiplied: false}
+    elements:
+      - name: Dedicated success manager
+      - name: Dedicated IP
+      - name: Account audits
+      - name: Deliverability support
+      - name: Onboarding and training
+
+api_gating:
+  free: "limited; no sending"
+  comfort: full
+  power: full
+  enterprise: full
+  quote: >-
+    "Email sending via the API and MCP server is available on paid plans. On
+    Free, API and MCP access is limited and doesn't include sending."
+  note: >-
+    MailerLite names the MCP SERVER in its pricing copy alongside the API — the
+    agent surface is an explicitly monetized product line, not an unpriced
+    add-on. That is still unusual as of this pass.
+
 maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
+  - FN: Kin Lane
+    email: kin@apievangelist.com

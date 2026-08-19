@@ -1,0 +1,92 @@
+generated: '2026-08-13'
+method: searched
+probe: true
+url: https://www.mailerlite.com/trust-page
+source: https://www.mailerlite.com/trust-page
+notes: >-
+  MailerLite publishes a security & compliance page at
+  https://www.mailerlite.com/trust-page (HTTP 200, fetched 2026-08-13), found
+  through the sitemap rather than through any conventional trust-center
+  hostname. It is a narrative page, not a document portal — there is no
+  self-serve audit-report download, no live control status, and no
+  subprocessor list on the page itself.
+
+  IMPORTANT NEGATIVE: trust.mailerlite.com and security.mailerlite.com BOTH
+  return HTTP 200, but they serve the identical 20,689-byte application shell
+  that a deliberately non-existent control hostname also returns. They are a
+  wildcard SPA catch-all, not trust centers, and were rejected as false
+  positives. Only the /trust-page path is real.
+
+certifications:
+  - ISO/IEC 27001:2022
+  - PCI DSS
+  - GDPR
+  - EU-U.S. Data Privacy Framework
+  - Swiss-U.S. Data Privacy Framework
+  - UK Extension to the EU-U.S. Data Privacy Framework
+
+certification_detail:
+  - {name: "ISO/IEC 27001:2022", kind: certification, scope: Information Security Management System (ISMS)}
+  - {name: "PCI DSS", kind: compliance, scope: "Attributed to payment processors in MailerLite's payment path rather than to a MailerLite-held certification — read the page wording before treating this as MailerLite's own attestation."}
+  - {name: "EU-U.S. Data Privacy Framework", kind: transfer-mechanism}
+  - {name: "Swiss-U.S. Data Privacy Framework", kind: transfer-mechanism}
+  - {name: "UK Extension to EU-U.S. DPF", kind: transfer-mechanism}
+  - {name: "GDPR", kind: regulation, scope: "Dedicated compliance page at https://www.mailerlite.com/gdpr-compliance (HTTP 200)."}
+
+not_published:
+  items:
+    - SOC 2 Type I or Type II
+    - ISO 27017
+    - ISO 27018
+    - ISO 27701
+    - HIPAA
+    - FedRAMP
+    - CSA STAR
+  note: >-
+    None of these appears on the trust page. SOC 2 in particular is absent —
+    notable for a platform at MailerLite's scale, and the most likely question a
+    procurement reviewer will ask.
+
+sections:
+  - We have a strong Information Security Policy
+  - We continually develop tools to be GDPR compliant
+  - We're certified to global security and privacy standards
+  - We prioritize infrastructure and network security
+  - We encrypt data communications and minimize retention
+  - We take application and product security seriously
+  - We monitor everything and have a clear plan for response
+  - We have strong corporate and organizational security
+  - We design reliable systems
+
+related_documents:
+  privacy_policy: https://www.mailerlite.com/legal/privacy-policy
+  data_processing_addendum: https://www.mailerlite.com/legal/data-processing-agreement
+  gdpr: https://www.mailerlite.com/gdpr-compliance
+  anti_spam_policy: https://www.mailerlite.com/legal/anti-spam-policy
+  ai_policy: https://www.mailerlite.com/legal/ai-policy
+  responsible_disclosure: https://www.mailerlite.com/legal/responsible-disclosure-program
+  security_incident_notice: https://www.mailerlite.com/newsroom/securityincidentnotice
+
+evidence:
+  - source: https://www.mailerlite.com/trust-page
+    status: 200
+    fetched: '2026-08-13'
+    keywords: [iso/iec 27001:2022, pci-dss, gdpr, data privacy framework, information security policy]
+  - source: https://www.mailerlite.com/legal
+    status: 200
+    fetched: '2026-08-13'
+    keywords: [data processing addendum, privacy policy, responsible disclosure program]
+  - source: https://trust.mailerlite.com/
+    status: 200
+    fetched: '2026-08-13'
+    verdict: rejected
+    reason: "Wildcard SPA shell — byte-identical in size to a probe of a non-existent subdomain."
+  - source: https://security.mailerlite.com/
+    status: 200
+    fetched: '2026-08-13'
+    verdict: rejected
+    reason: "Wildcard SPA shell — same false positive as trust.mailerlite.com."
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

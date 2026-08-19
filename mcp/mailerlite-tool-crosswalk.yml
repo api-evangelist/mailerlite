@@ -1,0 +1,158 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  mcp/mailerlite-mcp.yml (76 documented MCP tools) bound against the 21
+  operationIds present in openapi/*.yml, with the wider REST surface read from
+  https://developers.mailerlite.com/api/* and /ecommerce/*.
+notes: >-
+  MailerLite's REST and MCP surfaces are NOT the same product. The MCP server
+  exposes 76 tools; the OpenAPI in this repo carries 21 operations, and even the
+  full documented REST reference (~70 endpoints) does not cover the automation
+  builder, the template installers, or the AI content generators that MCP
+  exposes. Confidence is capped at `medium` for every row because the live
+  tools/list is OAuth-gated (HTTP 401) — mappings below are by name and
+  documented semantics, not by observed inputSchema. Where a tool binds to an
+  endpoint that is documented but NOT yet captured in openapi/, the row records
+  the documented HTTP method+path in `rest_documented` and leaves `rest` empty
+  rather than inventing an operationId.
+
+surfaces:
+  openapi:
+    files:
+      - openapi/mailerlite-subscribers-api-openapi.yml
+      - openapi/mailerlite-groups-api-openapi.yml
+      - openapi/mailerlite-segments-api-openapi.yml
+      - openapi/mailerlite-fields-api-openapi.yml
+      - openapi/mailerlite-campaigns-api-openapi.yml
+      - openapi/mailerlite-automations-api-openapi.yml
+      - openapi/mailerlite-forms-api-openapi.yml
+      - openapi/mailerlite-webhooks-api-openapi.yml
+    base: https://connect.mailerlite.com
+    operations: 21
+    gated: false
+    note: >-
+      Coverage gap: the e-commerce API (shops, products, categories, customers,
+      orders, carts, cart items, import), the batch endpoint, timezones and
+      campaign-languages are documented by MailerLite but are not yet captured
+      as OpenAPI in this repo.
+  graphql:
+    endpoint: null
+    note: MailerLite publishes no GraphQL surface.
+  mcp:
+    url: https://mcp.mailerlite.com/mcp
+    transport: streamable-http
+    gated: true
+    gate: oauth
+    gate_evidence: "POST tools/list -> 401 invalid_token (2026-08-13)"
+    tools: 76
+
+crosswalk:
+  # --- subscribers ---
+  - {tool: add_subscriber, category: subscribers, rest: [upsertSubscriber], binding: rest, confidence: medium, note: "POST /api/subscribers is an upsert — create-or-update keyed on email."}
+  - {tool: get_subscriber, category: subscribers, rest: [getSubscriber], binding: rest, confidence: medium}
+  - {tool: update_subscriber, category: subscribers, rest: [updateSubscriber], binding: rest, confidence: medium}
+  - {tool: list_subscribers, category: subscribers, rest: [listSubscribers], binding: rest, confidence: medium}
+  - {tool: get_subscriber_activity, category: subscribers, rest: [getSubscriberActivity], binding: rest, confidence: medium}
+  - {tool: delete_subscriber, category: subscribers, rest: [deleteSubscriber], binding: rest, confidence: medium, note: "The docs also expose POST /api/subscribers/{id}/forget (GDPR hard delete) as forgetSubscriber — a distinct, stronger operation with no MCP tool."}
+  - {tool: get_subscriber_count, category: subscribers, rest: [], rest_documented: ["GET /api/subscribers?limit=0"], binding: rest, confidence: low, note: "Count is derived from the list response meta; no dedicated operation in the spec."}
+  # --- groups ---
+  - {tool: create_group, category: groups, rest: [createGroup], binding: rest, confidence: medium}
+  - {tool: delete_group, category: groups, rest: [deleteGroup], binding: rest, confidence: medium}
+  - {tool: update_group, category: groups, rest: [], rest_documented: ["PUT /api/groups/{group_id}"], binding: rest, confidence: medium}
+  - {tool: get_group_subscribers, category: groups, rest: [], rest_documented: ["GET /api/groups/{group_id}/subscribers"], binding: rest, confidence: medium}
+  - {tool: assign_subscriber_to_group, category: groups, rest: [], rest_documented: ["POST /api/subscribers/{subscriber_id}/groups/{group_id}"], binding: rest, confidence: medium}
+  - {tool: unassign_subscriber_from_group, category: groups, rest: [], rest_documented: ["DELETE /api/subscribers/{subscriber_id}/groups/{group_id}"], binding: rest, confidence: medium}
+  - {tool: import_subscribers_to_group, category: groups, rest: [], rest_documented: ["POST /api/groups/{group_id}/import-subscribers"], binding: rest, confidence: medium, note: "Subject to the separate 5 req/min import rate limit."}
+  # --- segments ---
+  - {tool: list_segments, category: segments, rest: [listSegments], binding: rest, confidence: medium}
+  - {tool: update_segment, category: segments, rest: [], rest_documented: ["PUT /api/segments/{segment_id}"], binding: rest, confidence: medium}
+  - {tool: delete_segment, category: segments, rest: [], rest_documented: ["DELETE /api/segments/{segment_id}"], binding: rest, confidence: medium}
+  - {tool: get_segment_subscribers, category: segments, rest: [], rest_documented: ["GET /api/segments/{segment_id}/subscribers"], binding: rest, confidence: medium}
+  # --- fields ---
+  - {tool: list_fields, category: fields, rest: [listFields], binding: rest, confidence: medium}
+  - {tool: create_field, category: fields, rest: [createField], binding: rest, confidence: medium}
+  - {tool: update_field, category: fields, rest: [], rest_documented: ["PUT /api/fields/{field_id}"], binding: rest, confidence: medium}
+  - {tool: delete_field, category: fields, rest: [], rest_documented: ["DELETE /api/fields/{field_id}"], binding: rest, confidence: medium}
+  # --- campaigns ---
+  - {tool: list_campaigns, category: campaigns, rest: [listCampaigns], binding: rest, confidence: medium}
+  - {tool: create_campaign, category: campaigns, rest: [createCampaign], binding: rest, confidence: medium}
+  - {tool: get_campaign, category: campaigns, rest: [getCampaign], binding: rest, confidence: medium}
+  - {tool: update_campaign, category: campaigns, rest: [], rest_documented: ["PUT /api/campaigns/{campaign_id}"], binding: rest, confidence: medium}
+  - {tool: delete_campaign, category: campaigns, rest: [], rest_documented: ["DELETE /api/campaigns/{campaign_id}"], binding: rest, confidence: medium}
+  - {tool: schedule_campaign, category: campaigns, rest: [], rest_documented: ["POST /api/campaigns/{campaign_id}/schedule"], binding: rest, confidence: medium, note: "The only irreversible send-triggering operation on the surface."}
+  - {tool: cancel_campaign, category: campaigns, rest: [], rest_documented: ["POST /api/campaigns/{campaign_id}/cancel"], binding: rest, confidence: medium}
+  - {tool: get_campaign_subscribers, category: campaigns, rest: [], rest_documented: ["GET /api/campaigns/{campaign_id}/reports/subscriber-activity"], binding: rest, confidence: medium}
+  # --- forms ---
+  - {tool: list_forms, category: forms, rest: [listForms], binding: rest, confidence: medium}
+  - {tool: get_form, category: forms, rest: [], rest_documented: ["GET /api/forms/{form_id}"], binding: rest, confidence: medium}
+  - {tool: update_form, category: forms, rest: [], rest_documented: ["PUT /api/forms/{form_id}"], binding: rest, confidence: medium}
+  - {tool: delete_form, category: forms, rest: [], rest_documented: ["DELETE /api/forms/{form_id}"], binding: rest, confidence: medium}
+  - {tool: get_form_subscribers, category: forms, rest: [], rest_documented: ["GET /api/forms/{form_id}/subscribers"], binding: rest, confidence: medium}
+  # --- automations ---
+  - {tool: list_automations, category: automations, rest: [listAutomations], binding: rest, confidence: medium}
+  - {tool: get_automation_activity, category: automations, rest: [], rest_documented: ["GET /api/automations/{automation_id}/activity"], binding: rest, confidence: medium}
+  - {tool: create_automation, category: automations, rest: [], rest_documented: ["POST /api/automations"], binding: rest, confidence: medium}
+  - {tool: delete_automation, category: automations, rest: [], rest_documented: ["DELETE /api/automations/{automation_id}"], binding: rest, confidence: medium}
+  # --- webhooks ---
+  - {tool: list_webhooks, category: webhooks, rest: [listWebhooks], binding: rest, confidence: medium}
+  - {tool: create_webhook, category: webhooks, rest: [createWebhook], binding: rest, confidence: medium}
+  - {tool: delete_webhook, category: webhooks, rest: [deleteWebhook], binding: rest, confidence: medium}
+  - {tool: get_webhook, category: webhooks, rest: [], rest_documented: ["GET /api/webhooks/{webhook_id}"], binding: rest, confidence: medium}
+  - {tool: update_webhook, category: webhooks, rest: [], rest_documented: ["PUT /api/webhooks/{webhook_id}"], binding: rest, confidence: medium}
+  # --- e-commerce (documented REST, no OpenAPI in repo) ---
+  - {tool: manage_ecommerce_shops, category: ecommerce, rest: [], rest_documented: ["GET /api/ecommerce/shops", "POST /api/ecommerce/shops", "GET /api/ecommerce/shops/{shop_id}", "PUT /api/ecommerce/shops/{shop_id}", "DELETE /api/ecommerce/shops/{shop_id}"], binding: rest, confidence: medium, note: "One tool fans out to five REST operations via an `action` parameter."}
+  - {tool: manage_ecommerce_products, category: ecommerce, rest: [], rest_documented: ["GET/POST/PUT/DELETE /api/ecommerce/shops/{shop_id}/products", "POST /api/ecommerce/shops/{shop_id}/import"], binding: rest, confidence: medium}
+  - {tool: manage_ecommerce_customers, category: ecommerce, rest: [], rest_documented: ["GET/POST/PUT/DELETE /api/ecommerce/shops/{shop_id}/customers"], binding: rest, confidence: medium}
+  - {tool: manage_ecommerce_orders, category: ecommerce, rest: [], rest_documented: ["GET/POST/PUT/DELETE /api/ecommerce/shops/{shop_id}/orders", "POST /api/ecommerce/shops/{shop_id}/import"], binding: rest, confidence: medium}
+  - {tool: manage_ecommerce_categories, category: ecommerce, rest: [], rest_documented: ["GET/POST/PUT/DELETE /api/ecommerce/shops/{shop_id}/categories"], binding: rest, confidence: medium}
+  - {tool: manage_ecommerce_carts, category: ecommerce, rest: [], rest_documented: ["GET/PUT /api/ecommerce/shops/{shop_id}/carts"], binding: rest, confidence: medium}
+  - {tool: manage_ecommerce_cart_items, category: ecommerce, rest: [], rest_documented: ["GET/POST/PUT/DELETE /api/ecommerce/shops/{shop_id}/carts/{cart_id}/items"], binding: rest, confidence: medium}
+  - {tool: manage_ecommerce_category_products, category: ecommerce, rest: [], rest_documented: ["GET/POST/DELETE /api/ecommerce/shops/{shop_id}/categories/{category_id}/products"], binding: rest, confidence: medium}
+  # --- utility ---
+  - {tool: batch_requests, category: discovery, rest: [], rest_documented: ["POST /api/batch"], binding: rest, confidence: high, note: "Direct 1:1 with the documented batch endpoint; max 50 requests, webhooks unsupported in batch."}
+
+mcp_only:
+  - {tool: create_segment, reason: "The REST segments API is read/update/delete only — the docs publish no POST /api/segments. Segment creation is MCP-side (or dashboard) capability."}
+  - {tool: get_segment, reason: "No documented GET /api/segments/{segment_id}; REST exposes only the list and the segment's subscribers."}
+  - {tool: create_form, reason: "The REST forms API has no create operation — forms are created in the dashboard. MCP adds creation."}
+  - {tool: build_custom_automation, reason: "Server-side planner/validator with no REST analogue."}
+  - {tool: start_automation_conversation, reason: "Conversational, stateful automation-building session; MCP-native by construction."}
+  - {tool: update_automation_email, reason: "Step-level automation editing is not exposed by the REST API."}
+  - {tool: update_automation_delay, reason: "Step-level automation editing is not exposed by the REST API."}
+  - {tool: dry_run_automation, reason: "Validation-without-send has no REST endpoint."}
+  - {tool: send_test_automation, reason: "Test-send has no REST endpoint."}
+  - {tool: discover_automation_templates, reason: "Template catalog is not published over REST."}
+  - {tool: install_template, reason: "Template installation is not published over REST."}
+  - {tool: list_email_templates, reason: "Template catalog is not published over REST."}
+  - {tool: list_form_templates, reason: "Template catalog is not published over REST."}
+  - {tool: generate_email_content, reason: "AI HTML generation — a model-backed capability with no REST endpoint."}
+  - {tool: suggest_subject_lines, reason: "AI subject-line generation — a model-backed capability with no REST endpoint."}
+  - {tool: get_campaign_links, reason: "Campaign link click stats are surfaced in the app; no documented REST operation."}
+  - {tool: get_campaign_link_recipients, reason: "Per-link click recipients are surfaced in the app; no documented REST operation."}
+  - {tool: search, reason: "Cross-resource search composite; no REST equivalent."}
+  - {tool: fetch, reason: "Reference resolver paired with `search` for connector conventions; no REST equivalent."}
+  - {tool: list_resources, reason: "MCP self-description; not an API capability."}
+  - {tool: select_resource, reason: "Name-to-id resolver composite over several list endpoints."}
+  - {tool: get_dashboard_link, reason: "Returns an app deep link; not an API capability."}
+  - {tool: get_auth_status, reason: "MCP session introspection; not an API capability."}
+
+rest_only:
+  - {capability: GDPR erasure, operations: [forgetSubscriber], note: "POST /api/subscribers/{id}/forget hard-deletes a subscriber. No MCP tool exposes it — delete_subscriber maps to the softer DELETE. This is the sharpest REST-only edge on the surface, and arguably correct: irreversible erasure stays out of agent reach."}
+  - {capability: Reference data, operations: [], rest_documented: ["GET /api/timezones", "GET /api/campaigns/languages"], note: "Timezone and campaign-language lookups have no MCP tools."}
+  - {capability: Bulk subscriber import status, operations: [], rest_documented: ["POST /api/subscribers/import", "GET /api/subscribers/import/{import_id}"], note: "Import creation and status polling are REST-only; MCP exposes only import_subscribers_to_group."}
+
+coverage:
+  mcp_tools_documented: 76
+  mcp_tools_bound_to_rest: 53
+  mcp_only_tools: 23
+  rest_operations_in_openapi: 21
+  rest_operations_with_a_tool: 19
+  rest_only_capabilities: 3
+  binding_confidence: medium
+  binding_confidence_reason: >-
+    tools/list is OAuth-gated, so no tool inputSchema was observed. Every
+    binding is by documented name and semantics.
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
