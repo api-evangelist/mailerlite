@@ -34,6 +34,17 @@ tags:
   - Newsletters
   - Subscribers
   - Campaigns
+  - Webhook
+  - E-Commerce
+  - Segmentation
+  - Transactional Email
+  - MCP
+tags_raw:
+  - Email Marketing
+  - Automation
+  - Newsletters
+  - Subscribers
+  - Campaigns
   - Webhooks
   - E-commerce
   - Segmentation
@@ -169,6 +180,8 @@ apis:
   humanURL: https://developers.mailerlite.com/docs/
   baseURL: https://connect.mailerlite.com/api
   tags:
+  - Group
+  tags_raw:
   - Groups
   properties:
   - type: OpenAPI
@@ -247,6 +260,8 @@ apis:
   humanURL: https://developers.mailerlite.com/docs/
   baseURL: https://connect.mailerlite.com/api
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
