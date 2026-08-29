@@ -14,6 +14,18 @@ description: >-
   six official SDKs, a first-party Go CLI with an interactive TUI, a published Agent
   Skill, and a hosted OAuth-protected MCP server at mcp.mailerlite.com exposing roughly
   76 tools to AI assistants. A legacy Classic API v2 still serves older accounts.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
