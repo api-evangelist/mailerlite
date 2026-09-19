@@ -88,6 +88,8 @@ apis:
   humanURL: https://developers.mailerlite.com/docs/
   baseURL: https://connect.mailerlite.com/api
   tags:
+  - Automation
+  tags_raw:
   - Automations
   properties:
   - type: OpenAPI
