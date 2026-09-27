@@ -51,6 +51,7 @@ tags:
   - Segmentation
   - Transactional Email
   - MCP
+  - Email
 tags_raw:
   - Email Marketing
   - Automation
@@ -62,6 +63,7 @@ tags_raw:
   - Segmentation
   - Transactional Email
   - MCP
+  - Email
 created: '2026-05-08'
 modified: '2026-08-13'
 specificationVersion: '0.23'
