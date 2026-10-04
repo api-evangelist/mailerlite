@@ -1,0 +1,54 @@
+slug: mailerlite
+provider: MailerLite
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 4
+edges:
+- tag: Subscribers
+  spec_file: mailerlite-subscribers-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.85
+  evidence: POST /api/subscribers upsertSubscriber  Create or update a subscriber; POST /api/subscribers/{id}/forget  Forget
+    subscriber (GDPR delete); GET /api/subscribers/{id}/activity-log
+  reason: Full CRUD plus identity lookup by ID or email and GDPR erasure on the contact record is contact/customer
+    master data management.
+- tag: Automations
+  spec_file: mailerlite-automations-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.7
+  evidence: GET /api/automations listAutomations — vendor 'run behavioural automations' for email marketing
+  reason: Automations here are behavioural email-marketing automation workflows, which falls under digital
+    marketing / marketing automation. Only a single list operation, so confidence is moderate.
+- tag: Campaigns
+  spec_file: mailerlite-campaigns-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.7
+  evidence: 'POST /api/campaigns createCampaign; vendor: ''email marketing and automation platform used
+    by creators... to build lists, send campaigns'''
+  reason: Creating and listing email marketing campaigns is execution of digital/email marketing campaigns.
+    Ambiguity between digital marketing and demand generation keeps confidence at 0.7.
+- tag: Segments
+  spec_file: mailerlite-segments-api-openapi.yml
+  capability_id: BC-420.20
+  capability_id_l1: BC-420
+  capability_name: Customer Segmentation Management
+  confidence: 0.7
+  evidence: 'GET /api/segments listSegments; description: ''endpoints for managing subscribers, groups,
+    segments'''
+  reason: Segments of the subscriber base map to customer segmentation management. Single read operation
+    limits confidence.

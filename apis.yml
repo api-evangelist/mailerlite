@@ -299,6 +299,9 @@ apis:
   - type: SDKs
     url: https://github.com/mailerlite/mailerlite-ruby
 common:
+  - type: CapabilityMap
+    url: capabilities/mailerlite-capability-edges.yml
+    name: MailerLite Business Capability Map
   - type: AgenticAccess
     url: agentic-access/mailerlite-agentic-access.yml
   - type: DomainSecurity
