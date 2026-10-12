@@ -1,0 +1,945 @@
+generated: '2026-10-12'
+method: searched
+source:
+- https://zapier.com/apps/mailerlite/integrations
+- https://n8n.io/integrations/mailerlite/
+- https://composio.dev/toolkits/mailerlite
+checked:
+- https://composio.dev/toolkits/mailerlite
+- https://monid.ai/tools/mailerlite
+- https://n8n.io/integrations/mailerlite/
+- https://zapier.com/apps/mailerlite/integrations
+summary: null
+marketplace_apps:
+- marketplace: zapier
+  channel: ipaas-listing
+  app: mailerlite
+  url: https://zapier.com/apps/mailerlite/integrations
+  external_url: https://www.mailerlite.com/?utm_source=zapier&utm_medium=partner&utm_campaign=profile&utm_term=learn_more&utm_content=integrations
+  partner_tier: PLATINUM
+  triggers:
+  - key: campaign_click
+    label: Subscriber Clicked Campaign Link
+  - key: campaign_open
+    label: Subscriber Opened Campaign
+  - key: campaign_sent
+    label: Campaign Sent
+  - key: spam_complaint
+    label: Spam Complaint
+  - key: subscriber_added_to_group
+    label: Subscriber Added to Group
+  - key: subscriber_automation_complete
+    label: Subscriber Completed Automation
+  - key: subscriber_bounced
+    label: Subscriber Bounced
+  - key: subscriber_created
+    label: Subscriber Created
+  - key: subscriber_deleted
+    label: Subscriber Deleted
+  - key: subscriber_removed_from_group
+    label: Subscriber Removed From Group
+  - key: subscriber_triggered_automation
+    label: Subscriber Triggered Automation
+  - key: subscriber_unsubscribed
+    label: Subscriber Unsubscribed
+  - key: subscriber_updated
+    label: Subscriber Fields Updated
+  actions:
+  - key: add_subscriber_to_group
+    label: Add Subscriber to a Group
+  - key: change_subscriber_email
+    label: Change Subscriber Email
+  - key: create_a_draft_campaign
+    label: Create a Draft Campaign
+  - key: create_group
+    label: Create Subscribers Group
+  - key: create_update_subscriber
+    label: Create or Update Subscriber
+  - key: remove_subscriber_from_group
+    label: Remove Subscriber From a Group
+  - key: send_a_campaign
+    label: Send a Campaign
+  - key: unsubscribe_subscriber
+    label: Unsubscribe Subscriber
+  searches:
+  - key: find_group
+    label: Find a Group
+  - key: find_subscriber
+    label: Find a Subscriber
+- marketplace: n8n
+  channel: open-source-node
+  app: mailerlite
+  url: https://n8n.io/integrations/mailerlite/
+  identity: title
+  pair_pages: 370
+  pairs:
+  - mailersend
+  - mailgun
+  - mailify
+  - mailjet
+  - mailmodo
+  - malcore
+  - mandrill
+  - marcom-robot
+  - marketing-master-io
+  - marketplacer
+  - marketstack
+  - mastodon
+  - matrix
+  - mattermost
+  - mautic
+  - mav
+  - maverick
+  - medium
+  - mem
+  - messagebird
+  - metabase
+  - metatextai-inference-api
+  - mews
+  - microsoft-azure-monitor
+  - microsoft-dynamics-365-business-central-api
+  - microsoft-dynamics-crm
+  - microsoft-entra-id
+  - microsoft-entra-id-azure-active-directory
+  - microsoft-excel
+  - microsoft-graph-security
+  - microsoft-onedrive
+  - microsoft-outlook
+  - microsoft-sharepoint
+  - microsoft-sql
+  - microsoft-teams
+  - microsoft-teams-admin
+  - microsoft-to-do
+  - miestro
+  - mindee
+  - miro
+  - misp
+  - missive
+  - mist
+  - mistral-ai
+  - mixpanel
+  - mocean
+  - mondaycom
+  - mongodb
+  - monica-crm
+  - moonclerk
+  - moonmail
+  - morph
+  - mqtt
+  - msg91
+  - mux
+  - mx-toolbox
+  - my-askai
+  - myphoner
+  - mysql
+  - nanonets-ocr
+  - nasa
+  - ncscale
+  - netlify
+  - nextcloud
+  - nightfallai
+  - ninox
+  - nmkr
+  - nocodb
+  - notion
+  - nozbe-teams
+  - npm
+  - nuclia
+  - nusii-proposals
+  - nyckel
+  - nyota
+  - occasion
+  - ocrspace
+  - odoo
+  - offalerts
+  - okta
+  - omeda
+  - omniconvert
+  - omnimind
+  - on2air
+  - one-ai
+  - one-simple-api
+  - onfleet
+  - openai
+  - opencti
+  - openthesaurus
+  - openweathermap
+  - opn-formerly-omise
+  - oracle-database
+  - orbit
+  - order-desk
+  - ortto
+  - oura
+  - paddle
+  - pagerduty
+  - paperform
+  - papyrs
+  - parsehub
+  - parseprompt
+  - passcreator
+  - passslot
+  - patreon
+  - paymo
+  - paypal
+  - peekalink
+  - perplexity
+  - persio
+  - personal-ai
+  - phantombuster
+  - philips-hue
+  - phrase
+  - pinata
+  - pinboard
+  - pinterest
+  - pipedrive
+  - pipefy
+  - pirate-weather
+  - pitchly
+  - pivotal-tracker
+  - planview-leankit
+  - planyo-online-booking
+  - platformly
+  - plecto
+  - plivo
+  - postbin
+  - postgres
+  - posthog
+  - practitest
+  - predisai
+  - prodia
+  - product-hunt
+  - profitwell
+  - project-bubble-proprofs-project
+  - prompthub
+  - prospe-ai
+  - pushbullet
+  - pushcut
+  - pusher
+  - pushover
+  - qradar
+  - qualaroo
+  - qualys
+  - quentn
+  - questdb
+  - quick-base
+  - quickbooks-online
+  - quickchart
+  - quintadb
+  - rabbitmq
+  - radar
+  - raindrop
+  - rapid7-insightvm
+  - raven-tools
+  - rawg-video-games-database
+  - read-ai
+  - realphonevalidation
+  - recharge
+  - recorded-future
+  - redash
+  - reddit
+  - redis
+  - relevance-ai
+  - relink-url-shortener
+  - relysia
+  - replyio
+  - retable
+  - reverse-contact
+  - rewardful
+  - ritekit
+  - roboflow
+  - robolytix
+  - roboresponseai
+  - rocketchat
+  - rollbar
+  - rootly
+  - route4me
+  - rundeck
+  - s3
+  - sales-simplify
+  - salesforce
+  - salesmaa
+  - salesmate
+  - salesmsg
+  - salesrocks
+  - samsung-smartthings
+  - scrape-itcloud
+  - scrapeninja
+  - seamless-ai
+  - search-and-save
+  - seatable
+  - securityscorecard
+  - segment
+  - sekoia
+  - sellix
+  - sembly-ai
+  - sendgrid
+  - sendy
+  - sentryio
+  - servicenow
+  - sharly-ai
+  - shiphero
+  - shipstation
+  - shopify
+  - shortio
+  - shuffler
+  - sierra-interactive
+  - sifter
+  - signaturit
+  - signl4
+  - signrequest
+  - simpleem
+  - simplehash
+  - simplekpi
+  - simplelocalize
+  - simplero
+  - simpletexting
+  - sitecreatorio
+  - sitespeakai
+  - slack
+  - smaily
+  - smartreach
+  - smartsuite
+  - sms-it
+  - sms-magic
+  - sms77
+  - snapdocs
+  - snatchbot
+  - snipcart
+  - snowflake
+  - solve-data
+  - specter
+  - splunk
+  - spondyr
+  - spontit
+  - sportsdata
+  - spotify
+  - spydra
+  - sslmate-cert-spotter-api
+  - stackby
+  - stammerai
+  - starton
+  - statuscake
+  - storyblok
+  - strapi
+  - strava
+  - stripe
+  - studio-by-ai21-labs
+  - suitedash
+  - supabase
+  - supernormal
+  - superpowered
+  - supportivekoala
+  - survicate
+  - swagup
+  - switchboard
+  - syncly
+  - syncromsp
+  - synthesia
+  - taiga
+  - talentlms
+  - talknotes
+  - tapfiliate
+  - td-ameritrade
+  - teachable
+  - team-up
+  - teamdeck
+  - teamgate
+  - teknoir
+  - telegram
+  - testmonitor
+  - textcortex-ai
+  - textgain
+  - textkit
+  - textmagic
+  - thankster
+  - the-customer-factor
+  - the-leap
+  - thehive
+  - thehive-5
+  - thoughtfulgpt
+  - thrivecart
+  - tidb-cloud
+  - tierion
+  - tilda
+  - timescaledb
+  - timetonic
+  - tinyurl
+  - tisane-labs
+  - todoist
+  - token-metrics
+  - toket
+  - totango
+  - trackvia
+  - transifex
+  - travisci
+  - trellix-epo
+  - trello
+  - trengo
+  - trevorio
+  - turbohire
+  - tuskr
+  - tuulio
+  - twake
+  - twilio
+  - twist
+  - twitter
+  - unbounce
+  - unisender
+  - unleashed-software
+  - upkeep
+  - uplead
+  - uproc
+  - uptimerobot
+  - uptimetoolbox
+  - urlscanio
+  - uservoice
+  - venafi-tls-protect-cloud
+  - venafi-tls-protect-datacenter
+  - venly
+  - verifalia
+  - vero
+  - vimeo
+  - virustotal
+  - vivifyscrum
+  - voicit
+  - vonage
+  - vowel
+  - watchsignals
+  - waveline-extract
+  - webex-by-cisco
+  - webflow
+  - webscraperio
+  - wekan
+  - whal3s
+  - whatconverts
+  - whatsapp-business-cloud
+  - wise
+  - wizychat
+  - wonderchat
+  - wondercraft
+  - woocommerce
+  - woodpeckerco
+  - wordpress
+  - workast
+  - workboard
+  - woxo
+  - writesonic
+  - wubook-ratechecker
+  - xero
+  - xtractly
+  - ybug
+  - ycode
+  - yodiz
+  - yourls
+  - youtube
+  - zabbix
+  - zammad
+  - zendesk
+  - zenrows
+  - zoho-books
+  - zoho-crm
+  - zoho-desk
+  - zonka-feedback
+  - zoom
+  - zscaler-zia
+  - zulip
+- marketplace: composio
+  channel: agent-gateway
+  app: mailerlite
+  url: https://composio.dev/toolkits/mailerlite
+  identity: action-prefix
+  actions:
+  - key: MAILERLITE_ADD_PRODUCT_TO_CATEGORY
+  - key: MAILERLITE_ADD_SUBSCRIBER_TO_GROUP
+  - key: MAILERLITE_CREATE_AUTOMATION
+  - key: MAILERLITE_CREATE_CAMPAIGN
+  - key: MAILERLITE_CREATE_ECOMMERCE_CART_ITEM
+  - key: MAILERLITE_CREATE_ECOMMERCE_CATEGORY
+  - key: MAILERLITE_CREATE_ECOMMERCE_CUSTOMER
+  - key: MAILERLITE_CREATE_ECOMMERCE_ORDER
+  - key: MAILERLITE_CREATE_ECOMMERCE_PRODUCT
+  - key: MAILERLITE_CREATE_ECOMMERCE_SHOP
+  - key: MAILERLITE_CREATE_FIELD
+  - key: MAILERLITE_CREATE_GROUP
+  - key: MAILERLITE_CREATE_SEGMENT
+  - key: MAILERLITE_CREATE_SUBSCRIBER
+  - key: MAILERLITE_CREATE_WEBHOOK
+  - key: MAILERLITE_DELETE_AUTOMATION
+  - key: MAILERLITE_DELETE_ECOMMERCE_CART_ITEM
+  - key: MAILERLITE_DELETE_ECOMMERCE_CATEGORY
+  - key: MAILERLITE_DELETE_ECOMMERCE_CUSTOMER
+  - key: MAILERLITE_DELETE_ECOMMERCE_ORDER
+  - key: MAILERLITE_DELETE_ECOMMERCE_PRODUCT
+  - key: MAILERLITE_DELETE_ECOMMERCE_SHOP
+  - key: MAILERLITE_DELETE_FIELD
+  - key: MAILERLITE_DELETE_GROUP
+  - key: MAILERLITE_DELETE_SEGMENT
+  - key: MAILERLITE_DELETE_SUBSCRIBER
+  - key: MAILERLITE_DELETE_WEBHOOK
+  - key: MAILERLITE_EXECUTE_BATCH_REQUEST
+  - key: MAILERLITE_FORGET_SUBSCRIBER
+  - key: MAILERLITE_GET_ACCOUNT_INFO
+  - key: MAILERLITE_GET_ACCOUNT_STATS
+  - key: MAILERLITE_GET_AUTOMATION
+  - key: MAILERLITE_GET_AUTOMATION_ACTIVITY
+  - key: MAILERLITE_GET_CAMPAIGNS
+  - key: MAILERLITE_GET_CAMPAIGN_LANGUAGES
+  - key: MAILERLITE_GET_ECOMMERCE_CART
+  - key: MAILERLITE_GET_ECOMMERCE_CART_ITEM
+  - key: MAILERLITE_GET_ECOMMERCE_CATEGORY
+  - key: MAILERLITE_GET_ECOMMERCE_CUSTOMER
+  - key: MAILERLITE_GET_ECOMMERCE_CUSTOMERS
+  - key: MAILERLITE_GET_ECOMMERCE_ORDER
+  - key: MAILERLITE_GET_ECOMMERCE_PRODUCT
+  - key: MAILERLITE_GET_ECOMMERCE_SHOP
+  - key: MAILERLITE_GET_ECOMMERCE_SHOPS
+  - key: MAILERLITE_GET_FIELDS
+  - key: MAILERLITE_GET_GROUP
+  - key: MAILERLITE_GET_GROUPS
+  - key: MAILERLITE_GET_GROUP_SUBSCRIBERS
+  - key: MAILERLITE_GET_IMPORT_STATUS
+  - key: MAILERLITE_GET_SEGMENT
+  - key: MAILERLITE_GET_SEGMENTS
+  - key: MAILERLITE_GET_SEGMENT_SUBSCRIBERS
+  - key: MAILERLITE_GET_SUBSCRIBER
+  - key: MAILERLITE_GET_SUBSCRIBERS
+  - key: MAILERLITE_GET_SUBSCRIBERS_STATS
+  - key: MAILERLITE_GET_SUBSCRIBER_ACTIVITY
+  - key: MAILERLITE_GET_WEBHOOK
+  - key: MAILERLITE_GET_WEBHOOKS
+  - key: MAILERLITE_IMPORT_ECOMMERCE_CATEGORIES
+  - key: MAILERLITE_IMPORT_ECOMMERCE_ORDERS
+  - key: MAILERLITE_IMPORT_ECOMMERCE_PRODUCTS
+  - key: MAILERLITE_IMPORT_SUBSCRIBERS_TO_GROUP
+  - key: MAILERLITE_LIST_AUTOMATIONS
+  - key: MAILERLITE_LIST_ECOMMERCE_CARTS
+  - key: MAILERLITE_LIST_ECOMMERCE_CART_ITEMS
+  - key: MAILERLITE_LIST_ECOMMERCE_CATEGORIES
+  - key: MAILERLITE_LIST_ECOMMERCE_CATEGORY_PRODUCTS
+  - key: MAILERLITE_LIST_ECOMMERCE_ORDERS
+  - key: MAILERLITE_LIST_ECOMMERCE_PRODUCTS
+  - key: MAILERLITE_LIST_FORMS
+  - key: MAILERLITE_LIST_TIMEZONES
+  - key: MAILERLITE_REMOVE_PRODUCT_FROM_CATEGORY
+  - key: MAILERLITE_REMOVE_SUBSCRIBER_FROM_GROUP
+  - key: MAILERLITE_SET_DOUBLE_OPTIN
+  - key: MAILERLITE_UPDATE_ECOMMERCE_CART
+  - key: MAILERLITE_UPDATE_ECOMMERCE_CART_ITEM
+  - key: MAILERLITE_UPDATE_ECOMMERCE_CATEGORY
+  - key: MAILERLITE_UPDATE_ECOMMERCE_CUSTOMER
+  - key: MAILERLITE_UPDATE_ECOMMERCE_ORDER
+  - key: MAILERLITE_UPDATE_ECOMMERCE_PRODUCT
+  - key: MAILERLITE_UPDATE_ECOMMERCE_SHOP
+  - key: MAILERLITE_UPDATE_FIELD
+  - key: MAILERLITE_UPDATE_GROUP
+  - key: MAILERLITE_UPDATE_SEGMENT
+  - key: MAILERLITE_UPDATE_SUBSCRIBER
+  - key: MAILERLITE_UPDATE_WEBHOOK
+edges:
+- partner_name: Typeform
+  partner: typeform
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/typeform
+  direction: third-party
+  category: Forms & Surveys
+  partner_url: https://www.typeform.com/signup?utm_medium=referral&utm_source=zapier&utm_campaign=zapier_integration&utm_content=marketplace
+- partner_name: Tally
+  partner: tally
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/tally
+  direction: third-party
+  category: Forms & Surveys
+  partner_url: https://try.tally.so/zapier
+- partner_name: Google Forms
+  partner: google-forms
+  partner_match: name-exact
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/google-forms
+  direction: third-party
+  category: Forms & Surveys
+  partner_url: http://google.com/
+- partner_name: Squarespace Forms
+  partner: squarespace
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/squarespace-forms
+  direction: third-party
+  category: Forms & Surveys
+  partner_url: https://www.squarespace.com/
+- partner_name: Facebook Lead Ads
+  partner: facebook-lead-ads
+  partner_match: name-exact
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/facebook-lead-ads
+  direction: third-party
+  category: Ads & Conversion
+  partner_url: https://www.facebook.com/business/ads/lead-ads
+- partner_name: Calendly
+  partner: calendly
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/calendly
+  direction: third-party
+  category: Scheduling & Booking
+  partner_url: https://calendly.com/?utm_medium=partner&utm_source=zapier&utm_campaign=main_partner_page&utm_content=main_inbound_link
+- partner_name: Stan
+  partner: stan
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/stan-creator
+  direction: third-party
+  category: App Builder
+  partner_url: https://stan.store/
+- partner_name: Wix
+  partner: wix
+  partner_match: name-exact
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/wix
+  direction: third-party
+  category: Website Builders
+  partner_url: https://www.wix.com/
+- partner_name: Airtable
+  partner: airtable
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/airtable
+  direction: third-party
+  category: Databases
+  partner_url: https://airtable.com/
+- partner_name: systeme.io
+  partner: null
+  partner_match: null
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/systemeio
+  direction: third-party
+  category: Marketing
+  partner_url: https://systeme.io/
+- partner_name: Manychat
+  partner: manychat
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/manychat
+  direction: third-party
+  category: Social Media Marketing
+  partner_url: https://manychat.com/
+- partner_name: HubSpot
+  partner: hubspot
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/hubspot
+  direction: third-party
+  category: Marketing Automation
+  partner_url: http://www.hubspot.com/
+- partner_name: Gumroad
+  partner: gumroad
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/gumroad
+  direction: third-party
+  category: eCommerce
+  partner_url: https://gumroad.com/
+- partner_name: ThriveCart
+  partner: thrivecart
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/thrivecart
+  direction: third-party
+  category: eCommerce
+  partner_url: https://thrivecart.com/
+- partner_name: WooCommerce
+  partner: woocommerce
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/woocommerce
+  direction: third-party
+  category: eCommerce
+  partner_url: https://woocommerce.com/products/woocommerce-zapier/?utm_source=zapier&utm_medium=website&utm_campaign=integration
+- partner_name: Acuity Scheduling
+  partner: acuity-scheduling
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/acuity-scheduling
+  direction: third-party
+  category: Scheduling & Booking
+  partner_url: https://acuityscheduling.com/?utm_source=zapier.com&utm_medium=referral&utm_campaign=integration-page
+- partner_name: Eventbrite
+  partner: eventbrite
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/eventbrite
+  direction: third-party
+  category: Event Management
+  partner_url: https://eventbrite.com/
+- partner_name: Hotmart
+  partner: hotmart
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/hotmart-7006
+  direction: third-party
+  category: Online Courses
+  partner_url: https://www.hotmart.com/
+- partner_name: Gmail
+  partner: gmail
+  partner_match: name-exact
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/gmail
+  direction: third-party
+  category: Email
+  partner_url: https://mail.google.com/
+- partner_name: Notion
+  partner: notion
+  partner_match: name-exact
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/notion
+  direction: third-party
+  category: Task Management
+  partner_url: https://www.notion.so/
+- partner_name: Pipedrive
+  partner: pipedrive
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/pipedrive
+  direction: third-party
+  category: CRM (Customer Relationship Management)
+  partner_url: https://pipedrive.com/
+- partner_name: Thinkific
+  partner: thinkific
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/thinkific
+  direction: third-party
+  category: Online Courses
+  partner_url: http://www.thinkific.com/
+- partner_name: Kajabi
+  partner: kajabi
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/kajabi
+  direction: third-party
+  category: eCommerce
+  partner_url: http://kajabi.com/
+- partner_name: ScoreApp
+  partner: null
+  partner_match: null
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/scoreapp
+  direction: third-party
+  category: Marketing
+  partner_url: https://www.scoreapp.com/
+- partner_name: Zoom
+  partner: zoom
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/zoom
+  direction: third-party
+  category: Video Conferencing
+  partner_url: https://www.zoom.us/
+- partner_name: Webflow
+  partner: webflow
+  partner_match: name-exact
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/webflow
+  direction: third-party
+  category: Website Builders
+  partner_url: https://webflow.com/
+- partner_name: Stripe
+  partner: stripe
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/stripe
+  direction: third-party
+  category: Payment Processing
+  partner_url: https://stripe.com/
+- partner_name: Google Sheets
+  partner: google-sheets
+  partner_match: name-exact
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/google-sheets
+  direction: third-party
+  category: Google
+  partner_url: http://sheets.google.com/
+- partner_name: monday.com
+  partner: null
+  partner_match: null
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/monday
+  direction: third-party
+  category: Project Management
+  partner_url: https://monday.com/
+- partner_name: TidyCal
+  partner: null
+  partner_match: null
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/tidycal
+  direction: third-party
+  category: Calendar
+  partner_url: https://tidycal.com/
+- partner_name: bonjoro
+  partner: bonjoro
+  partner_match: domain
+  type: contract
+  channel: partner-built
+  relationship: processor-connection
+  direction: partner-built
+  evidence: https://github.com/api-evangelist/bonjoro/blob/main/openapi/bonjoro-integrations-api-openapi.yml
+  contract_reference:
+    repo: bonjoro
+    spec_file: bonjoro-integrations-api-openapi.yml
+    value: mailerlite
+    property: schemas.integration.provider
+    detected_by: detect-payment-method-edges.py
+    detected: '2026-10-12'
+templates:
+- title: Create or update MailerLite subscribers with new rows in Google Sheets
+  url: https://zapier.com/apps/google-sheets/integrations/mailerlite/1103279/create-or-update-mailerlite-subscribers-with-new-rows-in-google-sheets
+  apps:
+  - google-sheets
+  - mailerlite
+- title: Add new Leadpages form submissions to a MailerLite group as subscribers
+  url: https://zapier.com/apps/leadpages/integrations/mailerlite/1244023/add-new-leadpages-form-submissions-to-a-mailerlite-group-as-subscribers
+  apps:
+  - leadpages
+  - mailerlite
+- title: Create MailerLite Subscribers from New Tally Submissions
+  url: https://zapier.com/apps/mailerlite/integrations/tally/1203884/create-mailerlite-subscribers-from-new-tally-submissions
+  apps:
+  - tally
+  - mailerlite
+- title: Add new Google Forms responses to MailerLite as subscribers.
+  url: https://zapier.com/apps/google-forms/integrations/mailerlite/1202348/add-new-google-forms-responses-to-mailerlite-as-subscribers
+  apps:
+  - google-forms
+  - mailerlite
+- title: Add new Calendly invitees to MailerLite as subscribers.
+  url: https://zapier.com/apps/calendly/integrations/mailerlite/1202340/add-new-calendly-invitees-to-mailerlite-as-subscribers
+  apps:
+  - calendly
+  - mailerlite
+- title: Add new Facebook Lead Ads subscribers to MailerLite group.
+  url: https://zapier.com/apps/facebook-lead-ads/integrations/mailerlite/1211174/add-new-facebook-lead-ads-subscribers-to-mailerlite-group
+  apps:
+  - facebook-lead-ads
+  - mailerlite
+- title: Add new Fillout Forms submissions to a group in MailerLite as subscribers
+  url: https://zapier.com/apps/fillout/integrations/mailerlite/1666927/add-new-fillout-forms-submissions-to-a-group-in-mailerlite-as-subscribers
+  apps:
+  - fillout
+  - mailerlite
+- title: Add new tagged Manychat users to a MailerLite group as subscribers
+  url: https://zapier.com/apps/mailerlite/integrations/manychat/1244908/add-new-tagged-manychat-users-to-a-mailerlite-group-as-subscribers
+  apps:
+  - manychat
+  - mailerlite
+- title: Create or update MailerLite subscribers from new Leadpages form submissions
+  url: https://zapier.com/apps/leadpages/integrations/mailerlite/1202382/create-or-update-mailerlite-subscribers-from-new-leadpages-form-submissions
+  apps:
+  - leadpages
+  - mailerlite
+- title: Add new MemberPress members as MailerLite subscribers
+  url: https://zapier.com/apps/mailerlite/integrations/memberpress/1086384/add-new-memberpress-members-as-mailerlite-subscribers
+  apps:
+  - memberpress
+  - mailerlite
+- title: Add new Tally submissions as group subscribers in MailerLite
+  url: https://zapier.com/apps/mailerlite/integrations/tally/1231779/add-new-tally-submissions-as-group-subscribers-in-mailerlite
+  apps:
+  - tally
+  - mailerlite
+- title: Create or update MailerLite subscribers when new invitees are created in Calendly
+  url: https://zapier.com/apps/calendly/integrations/mailerlite/1584127/create-or-update-mailerlite-subscribers-when-new-invitees-are-created-in-calendly
+  apps:
+  - calendly
+  - mailerlite
+template_total: 3214
