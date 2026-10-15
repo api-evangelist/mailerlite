@@ -442,7 +442,7 @@
     builder: unknown (not in the directory record)
     other_apps:
     - mailerlite-classic
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
 - slug: mailerlite-n8n
   label: n8n
@@ -470,7 +470,7 @@
     other_nodes:
     - MailerLite/v1
     - MailerLite/v2
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
 - slug: mailerlite-pipedream
   label: Pipedream
@@ -496,7 +496,7 @@
     actions: true
     sources: true
     builder: Pipedream repo (component)
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
 - slug: mailerlite-wordpress-own
   label: WordPress (own)
