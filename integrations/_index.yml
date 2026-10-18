@@ -539,7 +539,7 @@
     - alpha
     in_cloud: true
     builder: unknown (community connector; contributor not in the record)
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
 - slug: mailerlite-meltano
   label: Meltano
@@ -571,5 +571,5 @@
     - bronze
     - silver
     builder: 'community (Meltano Hub variant maintainers: airbyte, alvaroraul7)'
-  status: pending-partner-spec
+  status: not-a-workflow
   arazzo: null
