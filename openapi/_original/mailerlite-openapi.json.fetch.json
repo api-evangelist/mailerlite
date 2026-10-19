@@ -1,0 +1,12 @@
+{
+ "url": "https://api.mailerlite.com/swagger.json",
+ "final": "https://api.mailerlite.com/swagger.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 7286,
+ "sha256": "3127b180af0c5afd72b9edf4da3edcd49a3ced5f9778efcefef4c7087411de88",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "re-archived: the provider's current document replaced a stale archive (roadmap#793); the old files are in openapi/_superseded/2026-10-19-stale"
+}

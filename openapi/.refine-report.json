@@ -1,34 +1,19 @@
 {
   "provider": "mailerlite",
   "sources": [
-    "_original/mailerlite-openapi.yml"
+    "_original/mailerlite-openapi.json"
   ],
   "outputs": [
-    "mailerlite-automations-api-openapi.yml",
-    "mailerlite-campaigns-api-openapi.yml",
-    "mailerlite-fields-api-openapi.yml",
-    "mailerlite-forms-api-openapi.yml",
-    "mailerlite-groups-api-openapi.yml",
-    "mailerlite-segments-api-openapi.yml",
-    "mailerlite-subscribers-api-openapi.yml",
-    "mailerlite-webhooks-api-openapi.yml"
+    "mailerlite-webhook-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
     "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
-    "mailerlite-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "apis.yml register: already-registered"
+    "mailerlite-openapi.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "mailerlite-openapi.json: declared missing tag: webhook",
+    "apis.yml register: written (+1 apis, 2 total)"
   ],
-  "skipped": [
-    "mailerlite-automations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "mailerlite-campaigns-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "mailerlite-fields-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "mailerlite-forms-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "mailerlite-groups-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "mailerlite-segments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "mailerlite-subscribers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "mailerlite-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/"
-  ]
+  "skipped": []
 }

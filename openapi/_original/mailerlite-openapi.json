@@ -1,0 +1,237 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "MailerLite",
+        "version": "2.0"
+    },
+    "host": "api.mailerlite.com",
+    "basePath": "/api/v2",
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "paths": {
+        "/webhooks": {
+            "get": {
+                "tags": [
+                    "webhook"
+                ],
+                "summary": "Get the list of webhooks",
+                "operationId": "createWebhook",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "max records to return",
+                        "required": false,
+                        "type": "integer",
+                        "default": 100
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "number of items to skip",
+                        "required": false,
+                        "type": "integer",
+                        "default": 0
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "webhook"
+                ],
+                "summary": "Create a webhook",
+                "operationId": "createWebhook",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Created webhook object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Webhook"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid data provided"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/webhooks/{webhookId}": {
+            "get": {
+                "tags": [
+                    "webhook"
+                ],
+                "summary": "Info for a specific webhook",
+                "operationId": "showWebhookById",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "webhookId",
+                        "in": "path",
+                        "description": "The id of the webhook to retrieve",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Expected response to a valid request",
+                        "schema": {
+                            "$ref": "#/definitions/Webhook"
+                        }
+                    },
+                    "404": {
+                        "description": "A webhook is not found"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "webhook"
+                ],
+                "summary": "Update the specific webhook",
+                "operationId": "updateWebhook",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "webhookId",
+                        "in": "path",
+                        "description": "The id of the webhook to update",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid data provided"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "webhook"
+                ],
+                "summary": "Delete a webhook",
+                "operationId": "deleteWebhook",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "webhookId",
+                        "in": "path",
+                        "description": "The id of the webhook to delete",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "404": {
+                        "description": "Webhook not found"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/webhooks/count": {
+            "get": {
+                "tags": [
+                    "webhook"
+                ],
+                "summary": "Get the count of webhooks",
+                "operationId": "getCountOfWebhooks",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        }
+    },
+    "definitions": {
+        "Webhook": {
+            "properties": {
+                "event": {
+                    "description": "Event",
+                    "format": "string"
+                },
+                "url": {
+                    "description": "URL for a webhook",
+                    "format": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "api_key": {
+            "type": "apiKey",
+            "name": "x-mailerlite-apikey",
+            "in": "header"
+        }
+    },
+    "externalDocs": {
+        "description": "Find out more about Mailerlite",
+        "url": "http://developers.mailerlite.com"
+    }
+}
