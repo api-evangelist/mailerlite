@@ -573,3 +573,135 @@
     builder: 'community (Meltano Hub variant maintainers: airbyte, alvaroraul7)'
   status: not-a-workflow
   arazzo: null
+- slug: mailerlite-go-module-proxy
+  label: Go module proxy
+  partner_name: Go module proxy
+  category: official SDK (Go)
+  type: register
+  channel: package-registry
+  evidence: https://pkg.go.dev/github.com/mailerlite/mailerlite-cli
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: Go module proxy (public registry JSON)
+    spec_file: null
+    language: Go
+    packages:
+    - name: github.com/mailerlite/mailerlite-cli
+      version: v1.0.2
+      released: '2026-02-19'
+      released_field: Time
+      lapsed: false
+      page: https://pkg.go.dev/github.com/mailerlite/mailerlite-cli
+      repo_leg: github-org:mailerlite
+      publisher_leg: org:mailerlite
+      matched_by: github-org
+    - name: github.com/mailerlite/mailerlite-go
+      version: v1.2.0
+      released: '2026-03-20'
+      released_field: Time
+      lapsed: false
+      page: https://pkg.go.dev/github.com/mailerlite/mailerlite-go
+      repo_leg: github-org:mailerlite
+      publisher_leg: org:mailerlite
+      matched_by: github-org
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
+- slug: mailerlite-maven-central
+  label: Maven Central
+  partner: maven-central
+  partner_name: Maven Central
+  category: official SDK (Java/JVM)
+  type: register
+  channel: package-registry
+  evidence: https://central.sonatype.com/artifact/com.mailerlite/mailerlite-java
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: Maven Central (public registry JSON)
+    spec_file: null
+    language: Java/JVM
+    packages:
+    - name: com.mailerlite:mailerlite-java
+      version: 0.0.4
+      released: '2026-09-30'
+      released_field: lastUpdated
+      lapsed: false
+      page: https://central.sonatype.com/artifact/com.mailerlite/mailerlite-java
+      repo_leg: github-org:mailerlite
+      publisher_leg: groupId:mailerlite.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
+- slug: mailerlite-npm-registry
+  label: npm registry
+  partner: npm
+  partner_name: npm registry
+  category: official SDK (JavaScript/TypeScript)
+  type: register
+  channel: package-registry
+  evidence: https://www.npmjs.com/package/@mailerlite/mailerlite-nodejs
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public registry JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: '@mailerlite/mailerlite-nodejs'
+      version: 1.8.0
+      released: '2026-10-13'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@mailerlite/mailerlite-nodejs
+      repo_leg: github-org:mailerlite
+      publisher_leg: email:mailerlite.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
+- slug: mailerlite-rubygems
+  label: RubyGems
+  partner: rubygems
+  partner_name: RubyGems
+  category: official SDK (Ruby)
+  type: register
+  channel: package-registry
+  evidence: https://rubygems.org/gems/mailerlite-ruby
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: RubyGems (public registry JSON)
+    spec_file: null
+    language: Ruby
+    packages:
+    - name: mailerlite-ruby
+      version: 2.0.0
+      released: '2024-12-11'
+      released_field: version_created_at
+      lapsed: false
+      page: https://rubygems.org/gems/mailerlite-ruby
+      repo_leg: domain:mailerlite.com
+      publisher_leg: org:mailerlite
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
