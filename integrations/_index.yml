@@ -15,6 +15,7 @@
   evidence: https://zapier.com/apps/google-sheets/integrations/mailerlite/1103279/create-or-update-mailerlite-subscribers-with-new-rows-in-google-sheets
   template: https://zapier.com/apps/google-sheets/integrations/mailerlite/1103279/create-or-update-mailerlite-subscribers-with-new-rows-in-google-sheets
   source: template
+  relationship: ipaas-bridge
   status: pending-generation
   arazzo: null
 - slug: mailerlite-create-mailerlite-subscribers-from-new-tally-submissions
@@ -29,6 +30,7 @@
   evidence: https://zapier.com/apps/mailerlite/integrations/tally/1203884/create-mailerlite-subscribers-from-new-tally-submissions
   template: https://zapier.com/apps/mailerlite/integrations/tally/1203884/create-mailerlite-subscribers-from-new-tally-submissions
   source: template
+  relationship: ipaas-bridge
   status: pending-generation
   arazzo: null
 - slug: mailerlite-add-new-google-forms-responses-to-mailerlite-as-subscribers
@@ -43,6 +45,7 @@
   evidence: https://zapier.com/apps/google-forms/integrations/mailerlite/1202348/add-new-google-forms-responses-to-mailerlite-as-subscribers
   template: https://zapier.com/apps/google-forms/integrations/mailerlite/1202348/add-new-google-forms-responses-to-mailerlite-as-subscribers
   source: template
+  relationship: ipaas-bridge
   status: pending-generation
   arazzo: null
 - slug: mailerlite-add-new-calendly-invitees-to-mailerlite-as-subscribers
@@ -57,6 +60,7 @@
   evidence: https://zapier.com/apps/calendly/integrations/mailerlite/1202340/add-new-calendly-invitees-to-mailerlite-as-subscribers
   template: https://zapier.com/apps/calendly/integrations/mailerlite/1202340/add-new-calendly-invitees-to-mailerlite-as-subscribers
   source: template
+  relationship: ipaas-bridge
   status: pending-generation
   arazzo: null
 - slug: mailerlite-add-new-facebook-lead-ads-subscribers-to-mailerlite-group
@@ -71,6 +75,7 @@
   evidence: https://zapier.com/apps/facebook-lead-ads/integrations/mailerlite/1211174/add-new-facebook-lead-ads-subscribers-to-mailerlite-group
   template: https://zapier.com/apps/facebook-lead-ads/integrations/mailerlite/1211174/add-new-facebook-lead-ads-subscribers-to-mailerlite-group
   source: template
+  relationship: ipaas-bridge
   status: pending-generation
   arazzo: null
 - slug: mailerlite-add-new-tagged-manychat-users-to-a-mailerlite-group-as-subscribers
@@ -85,6 +90,7 @@
   evidence: https://zapier.com/apps/mailerlite/integrations/manychat/1244908/add-new-tagged-manychat-users-to-a-mailerlite-group-as-subscribers
   template: https://zapier.com/apps/mailerlite/integrations/manychat/1244908/add-new-tagged-manychat-users-to-a-mailerlite-group-as-subscribers
   source: template
+  relationship: ipaas-bridge
   status: pending-generation
   arazzo: null
 - slug: mailerlite-add-new-tally-submissions-as-group-subscribers-in-mailerlite
@@ -99,6 +105,7 @@
   evidence: https://zapier.com/apps/mailerlite/integrations/tally/1231779/add-new-tally-submissions-as-group-subscribers-in-mailerlite
   template: https://zapier.com/apps/mailerlite/integrations/tally/1231779/add-new-tally-submissions-as-group-subscribers-in-mailerlite
   source: template
+  relationship: ipaas-bridge
   status: pending-generation
   arazzo: null
 - slug: mailerlite-create-or-update-mailerlite-subscribers-when-new-invitees-are-created-in-calend
@@ -113,291 +120,8 @@
   evidence: https://zapier.com/apps/calendly/integrations/mailerlite/1584127/create-or-update-mailerlite-subscribers-when-new-invitees-are-created-in-calendly
   template: https://zapier.com/apps/calendly/integrations/mailerlite/1584127/create-or-update-mailerlite-subscribers-when-new-invitees-are-created-in-calendly
   source: template
+  relationship: ipaas-bridge
   status: pending-generation
-  arazzo: null
-- slug: mailerlite-typeform
-  label: Typeform
-  partner: typeform
-  partner_name: Typeform
-  category: Forms & Surveys
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/typeform
-  source: edge
-  status: pending-generation
-  arazzo: null
-- slug: mailerlite-squarespace-forms
-  label: Squarespace Forms
-  partner: squarespace
-  partner_name: Squarespace Forms
-  category: Forms & Surveys
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/squarespace-forms
-  source: edge
-  status: pending-generation
-  arazzo: null
-- slug: mailerlite-stan
-  label: Stan
-  partner: stan
-  partner_name: Stan
-  category: App Builder
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/stan-creator
-  source: edge
-  status: pending-partner-spec
-  arazzo: null
-- slug: mailerlite-wix
-  label: Wix
-  partner: wix
-  partner_name: Wix
-  category: Website Builders
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/wix
-  source: edge
-  status: pending-generation
-  arazzo: null
-- slug: mailerlite-airtable
-  label: Airtable
-  partner: airtable
-  partner_name: Airtable
-  category: Databases
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/airtable
-  source: edge
-  status: pending-generation
-  arazzo: null
-- slug: mailerlite-systeme-io
-  label: systeme.io
-  partner_name: systeme.io
-  category: Marketing
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/systemeio
-  source: edge
-  status: pending-partner-spec
-  arazzo: null
-- slug: mailerlite-hubspot
-  label: HubSpot
-  partner: hubspot
-  partner_name: HubSpot
-  category: Marketing Automation
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/hubspot
-  source: edge
-  status: pending-generation
-  arazzo: null
-- slug: mailerlite-gumroad
-  label: Gumroad
-  partner: gumroad
-  partner_name: Gumroad
-  category: eCommerce
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/gumroad
-  source: edge
-  status: pending-partner-spec
-  arazzo: null
-- slug: mailerlite-thrivecart
-  label: ThriveCart
-  partner: thrivecart
-  partner_name: ThriveCart
-  category: eCommerce
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/thrivecart
-  source: edge
-  status: pending-generation
-  arazzo: null
-- slug: mailerlite-woocommerce
-  label: WooCommerce
-  partner: woocommerce
-  partner_name: WooCommerce
-  category: eCommerce
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/woocommerce
-  source: edge
-  status: pending-generation
-  arazzo: null
-- slug: mailerlite-acuity-scheduling
-  label: Acuity Scheduling
-  partner: acuity-scheduling
-  partner_name: Acuity Scheduling
-  category: Scheduling & Booking
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/acuity-scheduling
-  source: edge
-  status: pending-generation
-  arazzo: null
-- slug: mailerlite-eventbrite
-  label: Eventbrite
-  partner: eventbrite
-  partner_name: Eventbrite
-  category: Event Management
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/eventbrite
-  source: edge
-  status: pending-generation
-  arazzo: null
-- slug: mailerlite-hotmart
-  label: Hotmart
-  partner: hotmart
-  partner_name: Hotmart
-  category: Online Courses
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/hotmart-7006
-  source: edge
-  status: pending-partner-spec
-  arazzo: null
-- slug: mailerlite-gmail
-  label: Gmail
-  partner: gmail
-  partner_name: Gmail
-  category: Email
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/gmail
-  source: edge
-  status: pending-partner-spec
-  arazzo: null
-- slug: mailerlite-notion
-  label: Notion
-  partner: notion
-  partner_name: Notion
-  category: Task Management
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/notion
-  source: edge
-  status: pending-generation
-  arazzo: null
-- slug: mailerlite-pipedrive
-  label: Pipedrive
-  partner: pipedrive
-  partner_name: Pipedrive
-  category: CRM (Customer Relationship Management)
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/pipedrive
-  source: edge
-  status: pending-generation
-  arazzo: null
-- slug: mailerlite-thinkific
-  label: Thinkific
-  partner: thinkific
-  partner_name: Thinkific
-  category: Online Courses
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/thinkific
-  source: edge
-  status: pending-generation
-  arazzo: null
-- slug: mailerlite-kajabi
-  label: Kajabi
-  partner: kajabi
-  partner_name: Kajabi
-  category: eCommerce
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/kajabi
-  source: edge
-  status: pending-generation
-  arazzo: null
-- slug: mailerlite-scoreapp
-  label: ScoreApp
-  partner_name: ScoreApp
-  category: Marketing
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/scoreapp
-  source: edge
-  status: pending-partner-spec
-  arazzo: null
-- slug: mailerlite-zoom
-  label: Zoom
-  partner: zoom
-  partner_name: Zoom
-  category: Video Conferencing
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/zoom
-  source: edge
-  status: pending-generation
-  arazzo: null
-- slug: mailerlite-webflow
-  label: Webflow
-  partner: webflow
-  partner_name: Webflow
-  category: Website Builders
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/webflow
-  source: edge
-  status: pending-generation
-  arazzo: null
-- slug: mailerlite-stripe
-  label: Stripe
-  partner: stripe
-  partner_name: Stripe
-  category: Payment Processing
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/stripe
-  source: edge
-  status: pending-generation
-  arazzo: null
-- slug: mailerlite-monday-com
-  label: monday.com
-  partner_name: monday.com
-  category: Project Management
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/monday
-  source: edge
-  status: pending-partner-spec
-  arazzo: null
-- slug: mailerlite-tidycal
-  label: TidyCal
-  partner_name: TidyCal
-  category: Calendar
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/mailerlite/integrations/tidycal
-  source: edge
-  status: pending-partner-spec
   arazzo: null
 - slug: mailerlite-bonjoro
   label: bonjoro
@@ -704,4 +428,313 @@
     sources: true
     builder: Pipedream repo (component)
   status: not-a-workflow
+  arazzo: null
+- slug: mailerlite-typeform
+  label: Typeform
+  partner: typeform
+  partner_name: Typeform
+  category: Forms & Surveys
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/typeform
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: mailerlite-squarespace-forms
+  label: Squarespace Forms
+  partner: squarespace
+  partner_name: Squarespace Forms
+  category: Forms & Surveys
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/squarespace-forms
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: mailerlite-stan
+  label: Stan
+  partner: stan
+  partner_name: Stan
+  category: App Builder
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/stan-creator
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-partner-spec
+  arazzo: null
+- slug: mailerlite-wix
+  label: Wix
+  partner: wix
+  partner_name: Wix
+  category: Website Builders
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/wix
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: mailerlite-airtable
+  label: Airtable
+  partner: airtable
+  partner_name: Airtable
+  category: Databases
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/airtable
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: mailerlite-hubspot
+  label: HubSpot
+  partner: hubspot
+  partner_name: HubSpot
+  category: Marketing Automation
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/hubspot
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: mailerlite-systeme-io
+  label: systeme.io
+  partner_name: systeme.io
+  category: Marketing
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/systemeio
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-partner-spec
+  arazzo: null
+- slug: mailerlite-gumroad
+  label: Gumroad
+  partner: gumroad
+  partner_name: Gumroad
+  category: eCommerce
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/gumroad
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-partner-spec
+  arazzo: null
+- slug: mailerlite-thrivecart
+  label: ThriveCart
+  partner: thrivecart
+  partner_name: ThriveCart
+  category: eCommerce
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/thrivecart
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: mailerlite-woocommerce
+  label: WooCommerce
+  partner: woocommerce
+  partner_name: WooCommerce
+  category: eCommerce
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/woocommerce
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: mailerlite-acuity-scheduling
+  label: Acuity Scheduling
+  partner: acuity-scheduling
+  partner_name: Acuity Scheduling
+  category: Scheduling & Booking
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/acuity-scheduling
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: mailerlite-eventbrite
+  label: Eventbrite
+  partner: eventbrite
+  partner_name: Eventbrite
+  category: Event Management
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/eventbrite
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: mailerlite-hotmart
+  label: Hotmart
+  partner: hotmart
+  partner_name: Hotmart
+  category: Online Courses
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/hotmart-7006
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-partner-spec
+  arazzo: null
+- slug: mailerlite-gmail
+  label: Gmail
+  partner: gmail
+  partner_name: Gmail
+  category: Email
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/gmail
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-partner-spec
+  arazzo: null
+- slug: mailerlite-notion
+  label: Notion
+  partner: notion
+  partner_name: Notion
+  category: Task Management
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/notion
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: mailerlite-thinkific
+  label: Thinkific
+  partner: thinkific
+  partner_name: Thinkific
+  category: Online Courses
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/thinkific
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: mailerlite-kajabi
+  label: Kajabi
+  partner: kajabi
+  partner_name: Kajabi
+  category: eCommerce
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/kajabi
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: mailerlite-scoreapp
+  label: ScoreApp
+  partner_name: ScoreApp
+  category: Marketing
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/scoreapp
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-partner-spec
+  arazzo: null
+- slug: mailerlite-webflow
+  label: Webflow
+  partner: webflow
+  partner_name: Webflow
+  category: Website Builders
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/webflow
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: mailerlite-zoom
+  label: Zoom
+  partner: zoom
+  partner_name: Zoom
+  category: Video Conferencing
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/zoom
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: mailerlite-stripe
+  label: Stripe
+  partner: stripe
+  partner_name: Stripe
+  category: Payment Processing
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/stripe
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: mailerlite-monday-com
+  label: monday.com
+  partner: monday-com
+  partner_name: monday.com
+  category: Project Management
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/monday
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: mailerlite-tidycal
+  label: TidyCal
+  partner_name: TidyCal
+  category: Calendar
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/tidycal
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-partner-spec
+  arazzo: null
+- slug: mailerlite-clickfunnels-classic
+  label: ClickFunnels Classic
+  partner: clickfunnels
+  partner_name: ClickFunnels Classic
+  category: Marketing Automation
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/mailerlite/integrations/clickfunnels-classic
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
   arazzo: null
