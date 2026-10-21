@@ -31,6 +31,7 @@ checked:
 - https://officialskills.sh/sitemap.xml
 - https://skillsmp.com/sitemap.xml
 - https://www.skills.sh/sitemap.xml
+- bigcommerce/integrations/bigcommerce-integration-edges.yml
 summary: null
 marketplace_apps:
 - marketplace: zapier
@@ -225,23 +226,6 @@ edges:
     property: schemas.integration.provider
     detected_by: detect-payment-method-edges.py
     detected: '2026-10-12'
-- partner_name: WordPress (own)
-  partner: wordpress
-  partner_match: mirror
-  mirror_match: domain
-  type: marketplace
-  relationship: platform-app
-  direction: third-party
-  channel: partner-built
-  marketplace: own
-  evidence: https://wordpress.org/plugins/official-mailerlite-sign-up-forms/
-  mirror_of: wordpress/integrations/wordpress-integration-edges.yml
-  apps:
-  - MailerLite – Signup forms (official)
-  listing_count: 1
-  detected: '2026-10-15'
-  detected_by: mirror-platform-listings.py
-  category: WordPress plugin
 - partner_name: Go module proxy
   partner: null
   partner_match: null
@@ -906,6 +890,40 @@ edges:
     detected: '2026-10-20'
   detected_by: sweep-agent-skills.py
   first_seen: '2026-10-20'
+- partner_name: WordPress (own)
+  partner: wordpress
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://wordpress.org/plugins/official-mailerlite-sign-up-forms/
+  mirror_of: wordpress/integrations/wordpress-integration-edges.yml
+  apps:
+  - MailerLite – Signup forms (official)
+  listing_count: 1
+  detected: '2026-10-15'
+  detected_by: mirror-platform-listings.py
+  category: WordPress plugin
+- partner_name: BigCommerce (own)
+  partner: bigcommerce
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.bigcommerce.com/apps/mailerlite-email-automation/
+  mirror_of: bigcommerce/integrations/bigcommerce-integration-edges.yml
+  apps:
+  - MailerLite Email Automation
+  listing_count: 1
+  detected: '2026-10-20'
+  detected_by: mirror-platform-listings.py
+  category: Marketing, Email Marketing
 templates:
 - title: Create or update MailerLite subscribers with new rows in Google Sheets
   url: https://zapier.com/apps/google-sheets/integrations/mailerlite/1103279/create-or-update-mailerlite-subscribers-with-new-rows-in-google-sheets
