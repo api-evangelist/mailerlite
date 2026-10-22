@@ -32,6 +32,7 @@ checked:
 - https://skillsmp.com/sitemap.xml
 - https://www.skills.sh/sitemap.xml
 - bigcommerce/integrations/bigcommerce-integration-edges.yml
+- wix/integrations/wix-integration-edges.yml
 summary: null
 marketplace_apps:
 - marketplace: zapier
@@ -924,6 +925,23 @@ edges:
   detected: '2026-10-20'
   detected_by: mirror-platform-listings.py
   category: Marketing, Email Marketing
+- partner_name: Wix (own)
+  partner: wix
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.wix.com/app-market/developer/mailerlite
+  mirror_of: wix/integrations/wix-integration-edges.yml
+  apps:
+  - MailerLite
+  listing_count: 1
+  detected: '2026-10-22'
+  detected_by: mirror-platform-listings.py
+  category: Email
 templates:
 - title: Create or update MailerLite subscribers with new rows in Google Sheets
   url: https://zapier.com/apps/google-sheets/integrations/mailerlite/1103279/create-or-update-mailerlite-subscribers-with-new-rows-in-google-sheets
