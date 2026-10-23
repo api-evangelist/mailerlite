@@ -146,3 +146,9 @@ components:
 externalDocs:
   description: Find out more about Mailerlite
   url: http://developers.mailerlite.com
+x-provenance:
+  method: harvested
+  publisher: MailerLite
+  source: https://api.mailerlite.com/swagger.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
